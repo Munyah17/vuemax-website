@@ -7,3 +7,9 @@ Desktop.ini
 .vscode/
 .idea/
 *.log
+
+# Secrets — never commit
+api/secrets.php
+
+# Uploaded site images (admin-managed, server-side)
+assets/img/uploads/

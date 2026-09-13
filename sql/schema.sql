@@ -478,4 +478,66 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================
 -- END OF SCHEMA
+-- ============================================================-- ============================================================
+-- ADMIN: image manager + back-office login
 -- ============================================================
+
+CREATE TABLE IF NOT EXISTS `admin_users` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(60) NOT NULL UNIQUE,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `site_images` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `img_key` VARCHAR(80) NOT NULL UNIQUE,
+  `label` VARCHAR(160) NOT NULL,
+  `page` VARCHAR(60) NOT NULL DEFAULT '',
+  `path` VARCHAR(255) NOT NULL DEFAULT '',
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Default login: admin / Vuemax2026!  (change after first login)
+INSERT INTO `admin_users` (`username`, `password_hash`) VALUES
+('admin', '$2y$10$L1U4ehgeqdGGX7fe.CSElumvYwBY/vkS1zxGVXxR7uoclHHU.krLq');
+INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
+('logo','Site logo (header, footer, drawer)','Global',''),
+('home-hero','Homepage hero background','index.php','https://images.unsplash.com/'),
+('cat-fencing','Category card: Fencing','index.php','https://images.unsplash.com/'),
+('cat-steel','Category card: Steel','index.php','https://images.unsplash.com/'),
+('cat-hardware','Category card: General Hardware','index.php','https://images.unsplash.com/'),
+('prod-diamond-mesh','Product: Diamond Mesh','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/'),
+('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/'),
+('prod-barbed-wire','Product: Barbed Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/'),
+('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/'),
+('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/'),
+('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/'),
+('prod-fence-posts','Product: Fence Posts','products.php, product-detail.php','https://images.unsplash.com/'),
+('prod-steel-tubing','Product: Steel Tubing','index.php, products.php','https://images.unsplash.com/'),
+('prod-gate-locks','Product: Gate Locks & Hinges','index.php, products.php','https://images.unsplash.com/'),
+('pd-gallery-2','Product gallery: image 2','product-detail.php','https://images.unsplash.com/'),
+('pd-gallery-3','Product gallery: image 3','product-detail.php','https://images.unsplash.com/'),
+('pd-gallery-4','Product gallery: image 4','product-detail.php','https://images.unsplash.com/'),
+('about-hero','About page hero background','about.php','https://images.unsplash.com/'),
+('about-story','About: story image','about.php','https://images.unsplash.com/'),
+('about-why','About: why-choose image','about.php','https://images.unsplash.com/'),
+('products-hero','Products page hero background','products.php','https://images.unsplash.com/'),
+('calc-hero','Calculator page hero background','calculator.php','https://images.unsplash.com/'),
+('est-hero','Estimator page hero background','estimator.php','https://images.unsplash.com/'),
+('est-why','Estimator: why-choose image','estimator.php','https://images.unsplash.com/'),
+('inst-hero','Installations page hero background','installations.php','https://images.unsplash.com/'),
+('faq-hero','FAQ page hero background','faq.php','https://images.unsplash.com/'),
+('contact-hero','Contact page hero background','contact.php','https://images.unsplash.com/'),
+('proj-1','Gallery project image 1','installations.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80'),
+('proj-2','Gallery project image 2','installations.php','https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80'),
+('proj-3','Gallery project image 3','installations.php','https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=800&q=80'),
+('proj-4','Gallery project image 4','installations.php','https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80'),
+('proj-5','Gallery project image 5','installations.php','https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80'),
+('proj-6','Gallery project image 6','installations.php','https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80'),
+('proj-7','Gallery project image 7','installations.php','https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=800&q=80'),
+('proj-8','Gallery project image 8','installations.php','https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=800&q=80'),
+('proj-9','Gallery project image 9','installations.php','https://images.unsplash.com/photo-1580129954963-a6d2dd1d6bdd?auto=format&fit=crop&w=800&q=80'),
+('proj-10','Gallery project image 10','installations.php','https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80'),
+('proj-11','Gallery project image 11','installations.php','https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=800&q=80'),
+('proj-12','Gallery project image 12','installations.php','https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80');

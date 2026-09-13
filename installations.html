@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0E2745">
-<title>Installations — Vuemax | Fencing Projects Across Zimbabwe</title>
-<meta name="description" content="See real Vuemax fencing installations across Zimbabwe — farms, residential, commercial and security projects.">
+<title>Installations Vuemax | Fencing Projects Across Zimbabwe</title>
+<meta name="description" content="See real Vuemax fencing installations across Zimbabwe farms, residential, commercial and security projects.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,35 +14,35 @@
 <style>
 /* ---------- STATS STRIP ---------- */
 .stats-strip{
-  background:var(--white);border-bottom:1px solid var(--border);
+ background:var(--white);border-bottom:1px solid var(--border);
 }
 .stats-strip .stats-grid{padding:30px 0;}
 .stats-strip .stat{background:none;border:none;box-shadow:none;padding:8px 4px;}
 .stats-strip .stat:hover{transform:none;box-shadow:none;}
 .stats-strip .stat .lbl{
-  letter-spacing:.03em;text-transform:uppercase;
+ letter-spacing:.03em;text-transform:uppercase;
 }
 
 /* ---------- GALLERY ---------- */
 .gallery-section{padding:56px 0 72px;}
 
 .filter-bar{
-  display:flex;flex-direction:column;align-items:flex-start;
-  gap:16px;margin-bottom:32px;
+ display:flex;flex-direction:column;align-items:flex-start;
+ gap:16px;margin-bottom:32px;
 }
 .filter-tabs{display:flex;gap:10px;flex-wrap:wrap;}
 .filter-tab{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 18px;border-radius:var(--radius-pill);
-  font-size:14px;font-weight:500;color:var(--text);
-  border:1px solid var(--border);background:var(--white);
-  white-space:nowrap;transition:all var(--dur) var(--ease);cursor:pointer;
+ display:inline-flex;align-items:center;gap:8px;
+ padding:10px 18px;border-radius:var(--radius-pill);
+ font-size:14px;font-weight:500;color:var(--text);
+ border:1px solid var(--border);background:var(--white);
+ white-space:nowrap;transition:all var(--dur) var(--ease);cursor:pointer;
 }
 .filter-tab:hover{border-color:var(--navy);color:var(--navy);}
 .filter-tab.active{background:var(--navy);color:var(--white);border-color:var(--navy);font-weight:600;}
 .filter-tab .count{
-  font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;
-  background:var(--bg);color:var(--muted);
+ font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;
+ background:var(--bg);color:var(--muted);
 }
 .filter-tab.active .count{background:rgba(245,183,49,.22);color:var(--amber);}
 
@@ -50,88 +50,88 @@
 .result-count strong{color:var(--navy);font-weight:600;}
 
 .gallery-grid{
-  display:grid;grid-template-columns:1fr;gap:18px;
+ display:grid;grid-template-columns:1fr;gap:18px;
 }
 .project-card{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:var(--radius-card);overflow:hidden;
-  transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-  box-shadow:var(--shadow-card);
-  cursor:pointer;display:flex;flex-direction:column;
+ background:var(--white);border:1px solid var(--border);
+ border-radius:var(--radius-card);overflow:hidden;
+ transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+ box-shadow:var(--shadow-card);
+ cursor:pointer;display:flex;flex-direction:column;
 }
 .project-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);}
 
 .project-thumb{
-  aspect-ratio:4/3;background:#F0EDE8 center/cover no-repeat;
-  position:relative;overflow:hidden;
+ aspect-ratio:4/3;background:#F0EDE8 center/cover no-repeat;
+ position:relative;overflow:hidden;
 }
 .project-thumb::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 45%,rgba(10,29,51,.75));
-  opacity:0;transition:opacity var(--dur) var(--ease);
+ content:"";position:absolute;inset:0;
+ background:linear-gradient(180deg,transparent 45%,rgba(10,29,51,.75));
+ opacity:0;transition:opacity var(--dur) var(--ease);
 }
 .project-card:hover .project-thumb::after{opacity:1;}
 
 .project-cat{
-  position:absolute;top:14px;left:14px;z-index:2;
-  background:rgba(255,255,255,.95);color:var(--navy);
-  font-size:10.5px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;padding:5px 10px;border-radius:6px;
+ position:absolute;top:14px;left:14px;z-index:2;
+ background:rgba(255,255,255,.95);color:var(--navy);
+ font-size:10.5px;font-weight:700;letter-spacing:.06em;
+ text-transform:uppercase;padding:5px 10px;border-radius:6px;
 }
 
 .view-overlay{
-  position:absolute;inset:0;z-index:2;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:opacity var(--dur) var(--ease);
+ position:absolute;inset:0;z-index:2;
+ display:flex;align-items:center;justify-content:center;
+ opacity:0;transition:opacity var(--dur) var(--ease);
 }
 .project-card:hover .view-overlay{opacity:1;}
 .view-overlay .btn-view{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:11px 20px;border-radius:var(--radius-pill);
-  background:var(--amber);color:var(--navy);
-  font-size:13.5px;font-weight:700;letter-spacing:.02em;
-  transform:translateY(8px);transition:transform var(--dur) var(--ease);
-  box-shadow:0 8px 20px rgba(0,0,0,.25);
+ display:inline-flex;align-items:center;gap:8px;
+ padding:11px 20px;border-radius:var(--radius-pill);
+ background:var(--amber);color:var(--navy);
+ font-size:13.5px;font-weight:700;letter-spacing:.02em;
+ transform:translateY(8px);transition:transform var(--dur) var(--ease);
+ box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
 .project-card:hover .view-overlay .btn-view{transform:translateY(0);}
 
 .project-body{padding:20px;flex:1;display:flex;flex-direction:column;}
 .project-body h3{
-  font-size:16px;font-weight:600;color:var(--navy);
-  margin-bottom:6px;line-height:1.35;
+ font-size:16px;font-weight:600;color:var(--navy);
+ margin-bottom:6px;line-height:1.35;
 }
 .project-meta{
-  display:flex;gap:14px;flex-wrap:wrap;
-  font-size:12.5px;color:var(--muted);
-  margin-bottom:14px;
+ display:flex;gap:14px;flex-wrap:wrap;
+ font-size:12.5px;color:var(--muted);
+ margin-bottom:14px;
 }
 .project-meta span{display:inline-flex;align-items:center;gap:5px;}
 .project-meta svg{color:var(--amber);flex-shrink:0;}
 .project-spec{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
 .spec-chip{
-  font-size:11px;font-weight:600;color:var(--navy);
-  background:var(--bg);border:1px solid var(--border);
-  padding:4px 9px;border-radius:6px;
-  letter-spacing:.02em;
+ font-size:11px;font-weight:600;color:var(--navy);
+ background:var(--bg);border:1px solid var(--border);
+ padding:4px 9px;border-radius:6px;
+ letter-spacing:.02em;
 }
 .project-body .footer-link{
-  margin-top:auto;padding-top:14px;
-  border-top:1px solid var(--border);
-  font-size:13px;font-weight:600;color:var(--navy);
-  display:inline-flex;align-items:center;gap:6px;
+ margin-top:auto;padding-top:14px;
+ border-top:1px solid var(--border);
+ font-size:13px;font-weight:600;color:var(--navy);
+ display:inline-flex;align-items:center;gap:6px;
 }
 .project-body .footer-link svg{transition:transform var(--dur) var(--ease);}
 .project-card:hover .footer-link svg{transform:translateX(4px);}
 
 .gallery-empty{
-  display:none;text-align:center;padding:80px 24px;
+ display:none;text-align:center;padding:80px 24px;
 }
 .gallery-empty.active{display:block;}
 .gallery-empty .icon{
-  width:64px;height:64px;border-radius:50%;
-  background:var(--bg);color:var(--muted);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 18px;
+ width:64px;height:64px;border-radius:50%;
+ background:var(--bg);color:var(--muted);
+ display:flex;align-items:center;justify-content:center;
+ margin:0 auto 18px;
 }
 .gallery-empty h3{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:6px;}
 .gallery-empty p{font-size:13.5px;color:var(--muted);}
@@ -140,28 +140,28 @@
 
 /* ---------- BEFORE / AFTER ---------- */
 .ba-section{
-  background:linear-gradient(150deg,var(--navy) 0%,var(--navy-deep) 100%);
-  color:var(--white);
-  padding:72px 0;position:relative;overflow:hidden;
+ background:linear-gradient(150deg,var(--navy) 0%,var(--navy-deep) 100%);
+ color:var(--white);
+ padding:72px 0;position:relative;overflow:hidden;
 }
 .ba-grid{
-  display:grid;grid-template-columns:1fr;gap:36px;
-  align-items:center;
+ display:grid;grid-template-columns:1fr;gap:36px;
+ align-items:center;
 }
 .ba-content .eyebrow{
-  font-size:12px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--amber);font-weight:700;margin-bottom:12px;
-  display:inline-block;
+ font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+ color:var(--amber);font-weight:700;margin-bottom:12px;
+ display:inline-block;
 }
 .ba-content h2{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(24px,2.8vw,36px);font-weight:700;
-  line-height:1.2;margin-bottom:16px;letter-spacing:-.01em;
+ font-family:'Playfair Display',serif;
+ font-size:clamp(24px,2.8vw,36px);font-weight:700;
+ line-height:1.2;margin-bottom:16px;letter-spacing:-.01em;
 }
 .ba-content h2 .accent{color:var(--amber);}
 .ba-content p{
-  color:rgba(255,255,255,.82);font-size:15.5px;
-  line-height:1.7;margin-bottom:24px;max-width:480px;
+ color:rgba(255,255,255,.82);font-size:15.5px;
+ line-height:1.7;margin-bottom:24px;max-width:480px;
 }
 .ba-content .ba-btn-row{display:flex;flex-direction:column;gap:10px;}
 
@@ -171,757 +171,754 @@
 
 /* ---------- RESPONSIVE ---------- */
 @media (min-width:640px){
-  .filter-bar{flex-direction:row;justify-content:space-between;align-items:center;}
-  .gallery-grid{grid-template-columns:repeat(2,1fr);gap:20px;}
-  .ba-content .ba-btn-row{flex-direction:row;flex-wrap:wrap;}
+ .filter-bar{flex-direction:row;justify-content:space-between;align-items:center;}
+ .gallery-grid{grid-template-columns:repeat(2,1fr);gap:20px;}
+ .ba-content .ba-btn-row{flex-direction:row;flex-wrap:wrap;}
 }
 @media (min-width:1024px){
-  .gallery-grid{grid-template-columns:repeat(3,1fr);}
+ .gallery-grid{grid-template-columns:repeat(3,1fr);}
 }</style>
 </head>
 <body>
 
 <!-- ===================== TOP BAR ===================== -->
 <div class="topbar">
-  <div class="container topbar-inner">
-    <span class="topbar-item">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      103 Willowvale Rd, Harare
-    </span>
-    <span class="topbar-item">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      0784 689 857
-    </span>
-    <span class="topbar-tagline">
-      Stronger Boundaries <span class="dash">—</span> Brighter Possibilities
-    </span>
-  </div>
+ <div class="container topbar-inner">
+ <span class="topbar-item">
+ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ 103 Willowvale Rd, Harare
+ </span>
+ <span class="topbar-item">
+ <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+ 0784 689 857
+ </span>
+ <span class="topbar-tagline">
+ Stronger Boundaries <span class="dash"> </span> Brighter Possibilities
+ </span>
+ </div>
 </div>
 
 <!-- ===================== HEADER ===================== -->
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-mark">V</div>
-      <div class="logo-text">
-        <strong>VUEMAX</strong>
-        <small>Fencing · Steel · Hardware</small>
-      </div>
-    </a>
+ <div class="container header-inner">
+ <a href="index.html" class="logo">
+ <div class="logo-mark">V</div> <div class="logo-text">
+ <strong>VUEMAX</strong>
+ <small>Fencing · Steel · Hardware</small>
+ </div>
+ </a>
 
-    <nav class="nav-desktop">
-      <a href="index.html">Home</a>
-      <a href="products.html?category=fencing">Fencing</a>
-      <a href="products.html?category=steel">Steel</a>
-      <a href="products.html?category=hardware">Hardware</a>
-      <a href="installations.html" class="active">Projects</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+ <nav class="nav-desktop">
+ <a href="index.html">Home</a>
+ <a href="products.html?category=fencing">Fencing</a>
+ <a href="products.html?category=steel">Steel</a>
+ <a href="products.html?category=hardware">Hardware</a>
+ <a href="installations.html" class="active">Projects</a>
+ <a href="about.html">About</a>
+ <a href="contact.html">Contact</a>
+ </nav>
 
-    <div class="header-actions">
-      <a href="calculator.html" class="btn btn-amber btn-pill btn-sm">
-        <span class="header-cta-text">Get Quote</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-      </button>
-    </div>
-  </div>
+ <div class="header-actions">
+ <a href="calculator.html" class="btn btn-amber btn-pill btn-sm">
+ <span class="header-cta-text">Get Quote</span>
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </a>
+ <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+ </button>
+ </div>
+ </div>
 </header>
 
 <!-- ===================== MOBILE DRAWER ===================== -->
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
-  <div class="drawer-head">
-    <a href="index.html" class="logo">
-      <div class="logo-mark">V</div>
-      <div class="logo-text">
-        <strong>VUEMAX</strong>
-        <small>Fencing · Steel · Hardware</small>
-      </div>
-    </a>
-    <button class="drawer-close" id="drawerClose" aria-label="Close menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
-    </button>
-  </div>
+ <div class="drawer-head">
+ <a href="index.html" class="logo">
+ <div class="logo-mark">V</div> <div class="logo-text">
+ <strong>VUEMAX</strong>
+ <small>Fencing · Steel · Hardware</small>
+ </div>
+ </a>
+ <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+ </button>
+ </div>
 
-  <nav class="drawer-nav">
-    <a href="index.html">Home</a>
-    <a href="products.html?category=fencing">Fencing</a>
-    <a href="products.html?category=steel">Steel</a>
-    <a href="products.html?category=hardware">General Hardware</a>
-    <a href="installations.html" class="active">Projects</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+ <nav class="drawer-nav">
+ <a href="index.html">Home</a>
+ <a href="products.html?category=fencing">Fencing</a>
+ <a href="products.html?category=steel">Steel</a>
+ <a href="products.html?category=hardware">General Hardware</a>
+ <a href="installations.html" class="active">Projects</a>
+ <a href="about.html">About</a>
+ <a href="contact.html">Contact</a>
+ </nav>
 
-  <div class="drawer-cta">
-    <a href="calculator.html" class="btn btn-amber btn-block">
-      Get Instant Quote
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-    </a>
-    <a href="estimator.html" class="btn btn-outline-navy btn-block">
-      AI Estimator
-    </a>
-  </div>
+ <div class="drawer-cta">
+ <a href="calculator.html" class="btn btn-amber btn-block">
+ Get Instant Quote
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </a>
+ <a href="estimator.html" class="btn btn-outline-navy btn-block">
+ AI Estimator
+ </a>
+ </div>
 
-  <div class="drawer-contact">
-    <strong style="color:var(--navy);font-weight:600;">Contact</strong><br>
-    <a href="tel:+263784689857">0784 689 857</a><br>
-    <a href="mailto:sales@vuemax.co.zw">sales@vuemax.co.zw</a>
-  </div>
+ <div class="drawer-contact">
+ <strong style="color:var(--navy);font-weight:600;">Contact</strong><br>
+ <a href="tel:+263784689857">0784 689 857</a><br>
+ <a href="mailto:sales@vuemax.co.zw">sales@vuemax.co.zw</a>
+ </div>
 </aside>
 
 <!-- ===================== PAGE HERO ===================== -->
-<section class="page-hero">
-  <div class="container">
-    <div class="breadcrumbs">
-      <a href="index.html">Home</a>
-      <span class="sep">›</span>
-      <span>Installations</span>
-    </div>
-    <h1>Our <span class="accent">Installations</span></h1>
-    <p>Real projects. Real results. Across Zimbabwe — from residential boundaries to farm perimeters, commercial sites and security installations.</p>
-  </div>
-  <div class="script-note">Building<br>a Safer<br>Zimbabwe</div>
+<section class="page-hero" style="--hero-img:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&amp;fit=crop&amp;w=1920&amp;q=80')">
+ <div class="container">
+ <div class="breadcrumbs">
+ <a href="index.html">Home</a>
+ <span class="sep">›</span>
+ <span>Installations</span>
+ </div>
+ <h1>Our <span class="accent">Installations</span></h1>
+ <p>Real projects. Real results. Across Zimbabwe from residential boundaries to farm perimeters, commercial sites and security installations.</p>
+ </div>
+ <div class="script-note">Building<br>a Safer<br>Zimbabwe</div>
 </section>
 
 <!-- ===================== STATS ===================== -->
 <section class="stats-strip">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat">
-        <div class="num">500<span class="plus">+</span></div>
-        <div class="lbl">Projects Completed</div>
-      </div>
-      <div class="stat">
-        <div class="num">15<span class="plus">+</span></div>
-        <div class="lbl">Years Experience</div>
-      </div>
-      <div class="stat">
-        <div class="num">10</div>
-        <div class="lbl">Provinces Covered</div>
-      </div>
-      <div class="stat">
-        <div class="num">98<span class="plus">%</span></div>
-        <div class="lbl">Customer Satisfaction</div>
-      </div>
-    </div>
-  </div>
+ <div class="container">
+ <div class="stats-grid">
+ <div class="stat">
+ <div class="num">500<span class="plus">+</span></div>
+ <div class="lbl">Projects Completed</div>
+ </div>
+ <div class="stat">
+ <div class="num">15<span class="plus">+</span></div>
+ <div class="lbl">Years Experience</div>
+ </div>
+ <div class="stat">
+ <div class="num">10</div>
+ <div class="lbl">Provinces Covered</div>
+ </div>
+ <div class="stat">
+ <div class="num">98<span class="plus">%</span></div>
+ <div class="lbl">Customer Satisfaction</div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <!-- ===================== GALLERY ===================== -->
 <section class="gallery-section">
-  <div class="container">
+ <div class="container">
 
-    <div class="filter-bar">
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-tab active" data-filter="all">
-          All Projects <span class="count">12</span>
-        </button>
-        <button class="filter-tab" data-filter="farms">
-          Farms <span class="count">4</span>
-        </button>
-        <button class="filter-tab" data-filter="residential">
-          Residential <span class="count">3</span>
-        </button>
-        <button class="filter-tab" data-filter="commercial">
-          Commercial <span class="count">3</span>
-        </button>
-        <button class="filter-tab" data-filter="security">
-          Security <span class="count">2</span>
-        </button>
-      </div>
+ <div class="filter-bar">
+ <div class="filter-tabs" id="filterTabs">
+ <button class="filter-tab active" data-filter="all">
+ All Projects <span class="count">12</span>
+ </button>
+ <button class="filter-tab" data-filter="farms">
+ Farms <span class="count">4</span>
+ </button>
+ <button class="filter-tab" data-filter="residential">
+ Residential <span class="count">3</span>
+ </button>
+ <button class="filter-tab" data-filter="commercial">
+ Commercial <span class="count">3</span>
+ </button>
+ <button class="filter-tab" data-filter="security">
+ Security <span class="count">2</span>
+ </button>
+ </div>
 
-      <div class="result-count">
-        Showing <strong id="visibleCount">12</strong> of <strong>12</strong> projects
-      </div>
-    </div>
+ <div class="result-count">
+ Showing <strong id="visibleCount">12</strong> of <strong>12</strong> projects
+ </div>
+ </div>
 
-    <div class="gallery-grid" id="galleryGrid">
+ <div class="gallery-grid" id="galleryGrid">
 
-      <article class="project-card reveal" data-category="farms">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Farm</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Game Reserve Perimeter — Masvingo</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Masvingo
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">5km perimeter</span>
-            <span class="spec-chip">1.8m game fence</span>
-            <span class="spec-chip">Steel posts</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal" data-category="farms">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Farm</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Game Reserve Perimeter Masvingo</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Masvingo
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">5km perimeter</span>
+ <span class="spec-chip">1.8m game fence</span>
+ <span class="spec-chip">Steel posts</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d1" data-category="residential">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Residential</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Residential Boundary — Borrowdale, Harare</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Harare
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">180m perimeter</span>
-            <span class="spec-chip">1.8m diamond mesh</span>
-            <span class="spec-chip">Double gate</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d1" data-category="residential">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Residential</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Residential Boundary Borrowdale, Harare</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Harare
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">180m perimeter</span>
+ <span class="spec-chip">1.8m diamond mesh</span>
+ <span class="spec-chip">Double gate</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d2" data-category="commercial">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Commercial</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Warehouse Site — Graniteside, Harare</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Harare
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2023
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">450m perimeter</span>
-            <span class="spec-chip">2.1m mesh</span>
-            <span class="spec-chip">Razor top</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d2" data-category="commercial">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Commercial</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Warehouse Site Graniteside, Harare</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Harare
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2023
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">450m perimeter</span>
+ <span class="spec-chip">2.1m mesh</span>
+ <span class="spec-chip">Razor top</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal" data-category="farms">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Farm</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Farm Perimeter — Marondera</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Marondera
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">1.2km perimeter</span>
-            <span class="spec-chip">1.5m field fence</span>
-            <span class="spec-chip">Timber posts</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal" data-category="farms">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Farm</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Farm Perimeter Marondera</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Marondera
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">1.2km perimeter</span>
+ <span class="spec-chip">1.5m field fence</span>
+ <span class="spec-chip">Timber posts</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d1" data-category="security">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Security</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Prison Facility Upgrade — Harare</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Harare
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2023
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">1.5km perimeter</span>
-            <span class="spec-chip">Razor wire</span>
-            <span class="spec-chip">High-security</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d1" data-category="security">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Security</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Prison Facility Upgrade Harare</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Harare
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2023
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">1.5km perimeter</span>
+ <span class="spec-chip">Razor wire</span>
+ <span class="spec-chip">High-security</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d2" data-category="residential">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Residential</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Townhouse Complex — Mt Pleasant, Harare</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Harare
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">320m perimeter</span>
-            <span class="spec-chip">1.8m mesh</span>
-            <span class="spec-chip">Concrete posts</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d2" data-category="residential">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Residential</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Townhouse Complex Mt Pleasant, Harare</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Harare
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">320m perimeter</span>
+ <span class="spec-chip">1.8m mesh</span>
+ <span class="spec-chip">Concrete posts</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal" data-category="commercial">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Commercial</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>School Perimeter — Chitungwiza</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Chitungwiza
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2023
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">800m perimeter</span>
-            <span class="spec-chip">1.8m diamond mesh</span>
-            <span class="spec-chip">Top wire</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal" data-category="commercial">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Commercial</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>School Perimeter Chitungwiza</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Chitungwiza
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2023
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">800m perimeter</span>
+ <span class="spec-chip">1.8m diamond mesh</span>
+ <span class="spec-chip">Top wire</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d1" data-category="farms">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Farm</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Cattle Ranch — Chinhoyi</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Chinhoyi
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">3.5km perimeter</span>
-            <span class="spec-chip">Field fence</span>
-            <span class="spec-chip">Steel posts</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d1" data-category="farms">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Farm</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Cattle Ranch Chinhoyi</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Chinhoyi
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">3.5km perimeter</span>
+ <span class="spec-chip">Field fence</span>
+ <span class="spec-chip">Steel posts</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d2" data-category="security">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1580129954963-a6d2dd1d6bdd?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Security</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Bank Branch Perimeter — Bulawayo</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Bulawayo
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">120m perimeter</span>
-            <span class="spec-chip">2.1m razor</span>
-            <span class="spec-chip">Reinforced posts</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d2" data-category="security">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1580129954963-a6d2dd1d6bdd?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Security</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Bank Branch Perimeter Bulawayo</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Bulawayo
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">120m perimeter</span>
+ <span class="spec-chip">2.1m razor</span>
+ <span class="spec-chip">Reinforced posts</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal" data-category="residential">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Residential</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Estate Boundary — Victoria Falls</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Victoria Falls
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">650m perimeter</span>
-            <span class="spec-chip">1.8m diamond mesh</span>
-            <span class="spec-chip">2 gates</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal" data-category="residential">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Residential</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Estate Boundary Victoria Falls</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Victoria Falls
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">650m perimeter</span>
+ <span class="spec-chip">1.8m diamond mesh</span>
+ <span class="spec-chip">2 gates</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d1" data-category="farms">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Farm</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Poultry Operation — Norton</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Norton
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2024
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">400m perimeter</span>
-            <span class="spec-chip">1.2m chicken mesh</span>
-            <span class="spec-chip">Light posts</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d1" data-category="farms">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Farm</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Poultry Operation Norton</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Norton
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2024
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">400m perimeter</span>
+ <span class="spec-chip">1.2m chicken mesh</span>
+ <span class="spec-chip">Light posts</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-      <article class="project-card reveal reveal-d2" data-category="commercial">
-        <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80')">
-          <span class="project-cat">Commercial</span>
-          <div class="view-overlay">
-            <span class="btn-view">
-              View Project
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="project-body">
-          <h3>Mining Camp — Zvishavane</h3>
-          <div class="project-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Zvishavane
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              2023
-            </span>
-          </div>
-          <div class="project-spec">
-            <span class="spec-chip">2.5km perimeter</span>
-            <span class="spec-chip">Game fence</span>
-            <span class="spec-chip">Razor top</span>
-          </div>
-          <span class="footer-link">
-            View Project
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </span>
-        </div>
-      </article>
+ <article class="project-card reveal reveal-d2" data-category="commercial">
+ <div class="project-thumb" style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=800&amp;q=80')">
+ <span class="project-cat">Commercial</span>
+ <div class="view-overlay">
+ <span class="btn-view">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </div>
+ <div class="project-body">
+ <h3>Mining Camp Zvishavane</h3>
+ <div class="project-meta">
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ Zvishavane
+ </span>
+ <span>
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ 2023
+ </span>
+ </div>
+ <div class="project-spec">
+ <span class="spec-chip">2.5km perimeter</span>
+ <span class="spec-chip">Game fence</span>
+ <span class="spec-chip">Razor top</span>
+ </div>
+ <span class="footer-link">
+ View Project
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </article>
 
-    </div>
+ </div>
 
-    <!-- Empty state -->
-    <div class="gallery-empty" id="galleryEmpty">
-      <div class="icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-      </div>
-      <h3>No projects in this category yet</h3>
-      <p>Check back soon — we're always adding new installations.</p>
-    </div>
+ <!-- Empty state -->
+ <div class="gallery-empty" id="galleryEmpty">
+ <div class="icon">
+ <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+ </div>
+ <h3>No projects in this category yet</h3>
+ <p>Check back soon we're always adding new installations.</p>
+ </div>
 
-    <!-- Load more -->
-    <div class="load-more-wrap">
-      <button class="btn btn-outline-navy" onclick="loadMore()">
-        Load More Projects
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/><line x1="19" y1="12" x2="19" y2="12"/></svg>
-      </button>
-    </div>
+ <!-- Load more -->
+ <div class="load-more-wrap">
+ <button class="btn btn-outline-navy" onclick="loadMore()">
+ Load More Projects
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/><line x1="19" y1="12" x2="19" y2="12"/></svg>
+ </button>
+ </div>
 
-  </div>
+ </div>
 </section>
 
 <!-- ===================== BEFORE / AFTER TEASER ===================== -->
 <section class="ba-section">
-  <div class="container">
-    <div class="ba-grid">
-      <div class="ba-content reveal">
-        <span class="eyebrow">Before &amp; After</span>
-        <h2>See the <span class="accent">Transformation.</span></h2>
-        <p>Every project tells a story. From overgrown, insecure boundaries to clean, protected perimeters — see how a Vuemax installation changes a property.</p>
-        <div class="ba-btn-row">
-          <a href="contact.html" class="btn btn-amber">
-            Start Your Project
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-          <a href="calculator.html" class="btn btn-ghost">
-            Try the Calculator
-          </a>
-        </div>
-      </div>
+ <div class="container">
+ <div class="ba-grid">
+ <div class="ba-content reveal">
+ <span class="eyebrow">Before &amp; After</span>
+ <h2>See the <span class="accent">Transformation.</span></h2>
+ <p>Every project tells a story. From overgrown, insecure boundaries to clean, protected perimeters see how a Vuemax installation changes a property.</p>
+ <div class="ba-btn-row">
+ <a href="contact.html" class="btn btn-amber">
+ Start Your Project
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </a>
+ <a href="calculator.html" class="btn btn-ghost">
+ Try the Calculator
+ </a>
+ </div>
+ </div>
 
-    </div>
-  </div>
+ </div>
+ </div>
 </section>
 
 <!-- ===================== CTA BAND ===================== -->
 <section class="section">
-  <div class="container">
-    <div class="cta-band reveal">
-      <h2>Ready to Be Our Next Project?</h2>
-      <p>Whether it's a home boundary or a large commercial perimeter, we'll design and install the right fencing for your site.</p>
-      <div class="btns">
-        <a href="calculator.html" class="btn btn-amber">
-          Get Instant Quote
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="contact.html" class="btn btn-ghost">
-          Talk to Our Team
-        </a>
-      </div>
-    </div>
-  </div>
+ <div class="container">
+ <div class="cta-band reveal">
+ <h2>Ready to Be Our Next Project?</h2>
+ <p>Whether it's a home boundary or a large commercial perimeter, we'll design and install the right fencing for your site.</p>
+ <div class="btns">
+ <a href="calculator.html" class="btn btn-amber">
+ Get Instant Quote
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </a>
+ <a href="contact.html" class="btn btn-ghost">
+ Talk to Our Team
+ </a>
+ </div>
+ </div>
+ </div>
 </section>
 
 <!-- ===================== FOOTER ===================== -->
 <footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <div class="logo-mark">V</div>
-          <div class="logo-text">
-            <strong>VUEMAX</strong>
-            <small>Fencing · Steel · Hardware</small>
-          </div>
-        </a>
-        <p>Zimbabwe's trusted supplier of quality fencing, steel and hardware products. Nationwide delivery, expert support, quality you can trust.</p>
-      </div>
+ <div class="container">
+ <div class="footer-grid">
+ <div class="footer-brand">
+ <a href="index.html" class="logo">
+ <div class="logo-mark">V</div> <div class="logo-text">
+ <strong>VUEMAX</strong>
+ <small>Fencing · Steel · Hardware</small>
+ </div>
+ </a>
+ <p>Zimbabwe's trusted supplier of quality fencing, steel and hardware products. Nationwide delivery, expert support, quality you can trust.</p>
+ </div>
 
-      <div class="footer-col">
-        <h4>Shop</h4>
-        <ul>
-          <li><a href="products.html?category=fencing">Fencing</a></li>
-          <li><a href="products.html?category=steel">Steel</a></li>
-          <li><a href="products.html?category=hardware">General Hardware</a></li>
-          <li><a href="products.html">All Products</a></li>
-        </ul>
-      </div>
+ <div class="footer-col">
+ <h4>Shop</h4>
+ <ul>
+ <li><a href="products.html?category=fencing">Fencing</a></li>
+ <li><a href="products.html?category=steel">Steel</a></li>
+ <li><a href="products.html?category=hardware">General Hardware</a></li>
+ <li><a href="products.html">All Products</a></li>
+ </ul>
+ </div>
 
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="installations.html">Projects</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
+ <div class="footer-col">
+ <h4>Company</h4>
+ <ul>
+ <li><a href="about.html">About Us</a></li>
+ <li><a href="installations.html">Projects</a></li>
+ <li><a href="faq.html">FAQ</a></li>
+ <li><a href="contact.html">Contact</a></li>
+ </ul>
+ </div>
 
-      <div class="footer-col">
-        <h4>Get in Touch</h4>
-        <ul class="footer-contact">
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>103 Willowvale Rd, Harare, Zimbabwe</span>
-          </li>
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <a href="tel:+263784689857">0784 689 857</a>
-          </li>
-          <li>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <a href="mailto:sales@vuemax.co.zw">sales@vuemax.co.zw</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+ <div class="footer-col">
+ <h4>Get in Touch</h4>
+ <ul class="footer-contact">
+ <li>
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ <span>103 Willowvale Rd, Harare, Zimbabwe</span>
+ </li>
+ <li>
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+ <a href="tel:+263784689857">0784 689 857</a>
+ </li>
+ <li>
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+ <a href="mailto:sales@vuemax.co.zw">sales@vuemax.co.zw</a>
+ </li>
+ </ul>
+ </div>
+ </div>
 
-    <div class="footer-bottom">
-      <div>&copy; <span id="footerYear">2026</span> Vuemax Investments. All rights reserved. Developed and Powered By Global Space Web +263 773 909 307</div>
-      <div class="footer-socials">
-        <a href="#" aria-label="Facebook">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
-        </a>
-        <a href="https://wa.me/263784689857" target="_blank" rel="noopener" aria-label="WhatsApp">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
-        <a href="#" aria-label="LinkedIn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
+ <div class="footer-bottom">
+ <div>&copy; <span id="footerYear">2026</span> Vuemax Investments. All rights reserved. Developed and Powered By Global Space Web +263 773 909 307</div>
+ <div class="footer-socials">
+ <a href="#" aria-label="Facebook">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+ </a>
+ <a href="https://wa.me/263784689857" target="_blank" rel="noopener" aria-label="WhatsApp">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+ </a>
+ <a href="#" aria-label="LinkedIn">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+ </a>
+ </div>
+ </div>
+ </div>
 </footer>
 
 <script src="assets/js/main.js" defer></script>
 <script>
 /* ============================================================
-   INSTALLATIONS — FILTER + UI
-   ============================================================ */
+ INSTALLATIONS FILTER + UI
+ ============================================================ */
 (function(){
-  const tabs = document.querySelectorAll('.filter-tab');
-  const cards = document.querySelectorAll('.project-card');
-  const empty = document.getElementById('galleryEmpty');
-  const countEl = document.getElementById('visibleCount');
+ const tabs = document.querySelectorAll('.filter-tab');
+ const cards = document.querySelectorAll('.project-card');
+ const empty = document.getElementById('galleryEmpty');
+ const countEl = document.getElementById('visibleCount');
 
-  function setFilter(filter){
-    tabs.forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+ function setFilter(filter){
+ tabs.forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
 
-    let visible = 0;
-    cards.forEach(card => {
-      const cat = card.dataset.category || '';
-      const show = (filter === 'all') || (cat === filter);
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
+ let visible = 0;
+ cards.forEach(card => {
+ const cat = card.dataset.category || '';
+ const show = (filter === 'all') || (cat === filter);
+ card.style.display = show ? '' : 'none';
+ if (show) visible++;
+ });
 
-    countEl.textContent = visible;
-    empty.classList.toggle('active', visible === 0);
-  }
+ countEl.textContent = visible;
+ empty.classList.toggle('active', visible === 0);
+ }
 
-  tabs.forEach(t => t.addEventListener('click', () => setFilter(t.dataset.filter)));
+ tabs.forEach(t => t.addEventListener('click', () => setFilter(t.dataset.filter)));
 
-  const params = new URLSearchParams(window.location.search);
-  const initial = params.get('filter');
-  if (initial) setFilter(initial);
+ const params = new URLSearchParams(window.location.search);
+ const initial = params.get('filter');
+ if (initial) setFilter(initial);
 })();
 
 /* ---- Load more ---- */
 function loadMore(){
-  // Phase 2: fetch('api/projects.php?offset=12') and append
-  alert('More projects coming soon. Follow us on social media or contact us for the full portfolio.');
+ // Phase 2: fetch('api/projects.php?offset=12') and append
+ alert('More projects coming soon. Follow us on social media or contact us for the full portfolio.');
 }</script>
 </body>
 </html>

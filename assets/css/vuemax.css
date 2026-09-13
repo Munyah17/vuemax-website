@@ -160,6 +160,7 @@ h1,h2,h3,h4,h5,h6,p{margin:0;overflow-wrap:break-word;word-wrap:break-word;}
   box-shadow:0 3px 10px rgba(14,39,69,.22);
 }
 .logo-text{line-height:1.05;}
+.logo-img{object-fit:contain;padding:3px;}
 .logo-text strong{
   display:block;font-size:15px;font-weight:700;color:var(--navy);
   letter-spacing:.04em;
@@ -280,7 +281,7 @@ body.drawer-open{overflow:hidden;}
 .page-hero{
   background:
     linear-gradient(90deg,rgba(10,29,51,.94) 0%,rgba(10,29,51,.82) 55%,rgba(10,29,51,.65) 100%),
-    url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    var(--hero-img, url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80')) center/cover no-repeat;
   color:var(--white);padding:56px 0 64px;position:relative;
 }
 .breadcrumbs{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:14px;}
@@ -391,6 +392,12 @@ body.drawer-open{overflow:hidden;}
 .cat-card .more svg{transition:transform var(--dur) var(--ease);}
 .cat-card:active .more svg{transform:translateX(3px);}
 
+/* Whole-card link overlay — lets inner buttons stay clickable */
+.card-cover::after{
+  content:"";position:absolute;inset:0;z-index:1;
+}
+.cat-card .fencing-tools{position:relative;z-index:2;}
+
 .fencing-tools{
   margin-top:12px;
   display:flex;flex-direction:column;gap:8px;
@@ -403,6 +410,7 @@ body.drawer-open{overflow:hidden;}
 /* ---------- PRODUCT GRID ---------- */
 .product-grid{display:grid;grid-template-columns:1fr;gap:16px;}
 .product-card{
+  position:relative;
   background:var(--white);border:1px solid var(--border);
   border-radius:var(--radius-card);overflow:hidden;
   transition:transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
