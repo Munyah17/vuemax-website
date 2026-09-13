@@ -620,6 +620,12 @@ body.drawer-open{overflow:hidden;}
   }
 }
 
+/* ---------- MOBILE HEADER (clean: emblem + hamburger only) ---------- */
+@media (max-width:1023px){
+  .logo-text{display:none;}
+  .header-actions .btn{display:none;}
+}
+
 /* ============================================================
    DESKTOP — min-width: 1024px
    ============================================================ */

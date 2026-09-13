@@ -12,6 +12,9 @@
 AddDefaultCharset UTF-8
 ErrorDocument 404 /404.php
 
+# Prefer .php pages over the generated .html twins
+DirectoryIndex index.php index.html
+
 # ============================================================
 # 2. FORCE HTTPS
 # ============================================================
