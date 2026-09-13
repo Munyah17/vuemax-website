@@ -27,7 +27,7 @@ _archive/              — original static .html files (pre-conversion)
 
 ## Admin portal
 
-- `/admin/login.php` — default `admin` / `Vuemax2026!` (change on deploy).
+- `/admin/login.php` — seeded account: `munyah` or `munyamuzvidziwa19@gmail.com`
 - `/admin/` lists every `site_images` slot grouped by page; upload replaces it.
 - Pages call `site_image('key', 'fallback-url')` from `includes/config.php`;
   hero backgrounds use the `--hero-img` CSS var override.

@@ -12,16 +12,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $row = null;
     if ($pdo) {
         try {
-            $st = $pdo->prepare('SELECT id, password_hash FROM admin_users WHERE username = ? LIMIT 1');
-            $st->execute([$user]);
+            $st = $pdo->prepare('SELECT id, username, password_hash, is_active FROM admin_users WHERE (username = ? OR email = ?) LIMIT 1');
+            $st->execute([$user, $user]);
             $row = $st->fetch();
         } catch (Throwable $e) { /* table missing */ }
     }
 
-    if ($row && password_verify($pass, $row['password_hash'])) {
+    if ($row && (int)$row['is_active'] === 1 && password_verify($pass, $row['password_hash'])) {
         session_regenerate_id(true);
         $_SESSION['admin_id']   = (int)$row['id'];
-        $_SESSION['admin_user'] = $user;
+        $_SESSION['admin_user'] = $row['username'];
+        try { $pdo->prepare('UPDATE admin_users SET last_login = NOW() WHERE id = ?')->execute([$row['id']]); } catch (Throwable $e) {}
         header('Location: index.php');
         exit;
     }
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p class="sub">Sign in to manage site images</p>
     <?php if ($error): ?><div class="err"><?= e($error) ?></div><?php endif; ?>
     <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
-    <label for="u">Username</label>
+    <label for="u">Username or Email</label>
     <input id="u" name="username" autocomplete="username" required>
     <label for="p">Password</label>
     <input id="p" type="password" name="password" autocomplete="current-password" required>
