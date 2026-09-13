@@ -619,6 +619,7 @@ body.drawer-open{overflow:hidden;}
    ============================================================ */
 @media (min-width:900px){
   .feature-tiles{grid-template-columns:repeat(3,1fr);}
+  .trust-grid{grid-template-columns:repeat(4,1fr);gap:20px;}
   .cat-grid{grid-template-columns:repeat(3,1fr);}
   .cat-grid .cat-card:first-child{grid-column:auto;}
   .product-grid{grid-template-columns:repeat(3,1fr);}
@@ -643,7 +644,7 @@ body.drawer-open{overflow:hidden;}
   .topbar{font-size:13px;padding:8px 0;}
 
   .nav-desktop{
-    display:flex;gap:26px;margin-left:26px;
+    display:flex;gap:26px;margin-left:auto;margin-right:26px;
   }
   .nav-desktop a{
     font-size:14px;font-weight:500;color:var(--text);

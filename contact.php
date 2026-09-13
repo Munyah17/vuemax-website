@@ -146,7 +146,7 @@ $extraCss = <<<'CSS'
  font-size:14px;pointer-events:none;font-weight:500;
  color:var(--muted);
 }
-.input-wrap.with-flag input{padding-left:56px;}
+.input-wrap.with-flag input{padding-left:52px;}
 
 /* Checkbox */
 .checkbox-wrap{
@@ -548,7 +548,7 @@ require __DIR__ . '/includes/header.php';
  <div class="field">
  <label>Phone Number <span class="req">*</span></label>
  <div class="input-wrap with-flag">
- <span class="flag">🇿🇼 +263</span>
+ <span class="flag">+263</span>
  <input type="tel" id="phone" name="phone" placeholder="784 000 000" required>
  </div>
  </div>
