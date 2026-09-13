@@ -119,12 +119,16 @@ $extraJs = <<<'JS'
  var c = bySlug[slug];
  if (!c) return;
  var badge = (slug === 'fencing') ? '<span class="badge">Most Popular</span>' : '';
+ var toolMap = {
+ fencing: [['calculator.php','Instant Quote Calculator'],['estimator.php','AI Project Estimator']],
+ steel: [['products.php?category=steel','Browse Steel Products'],['contact.php','Request Bulk Pricing']],
+ hardware: [['products.php?category=hardware','Browse Hardware'],['contact.php','Request a Quote']]
+ };
  var tools = '';
- if (slug === 'fencing') {
- tools = '<div class="fencing-tools">'
- + '<a href="calculator.php" class="btn btn-outline-navy btn-sm" onclick="event.stopPropagation();">Instant Quote Calculator</a>'
- + '<a href="estimator.php" class="btn btn-outline-navy btn-sm" onclick="event.stopPropagation();">AI Project Estimator</a>'
- + '</div>';
+ if (toolMap[slug]) {
+ tools = '<div class="fencing-tools">' + toolMap[slug].map(function(t){
+ return '<a href="' + t[0] + '" class="btn btn-outline-navy btn-sm">' + t[1] + '</a>';
+ }).join('') + '</div>';
  }
  html += '<div class="cat-card">'
  + '<div class="thumb" style="background-image:url(\'' + esc(c.image || '') + '\')">' + badge + '</div>'
@@ -300,6 +304,14 @@ require __DIR__ . '/includes/header.php';
  <div class="body">
  <h3>Steel Products</h3>
  <p>Steel sheets, tubing, rebar and structural sections for construction, fabrication and industrial projects.</p>
+ <div class="fencing-tools">
+ <a href="products.php?category=steel" class="btn btn-outline-navy btn-sm">
+ Browse Steel Products
+ </a>
+ <a href="contact.php" class="btn btn-outline-navy btn-sm">
+ Request Bulk Pricing
+ </a>
+ </div>
  <a class="more card-cover" style="margin-top:14px;" href="products.php?category=steel">
  Explore Steel
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -312,6 +324,14 @@ require __DIR__ . '/includes/header.php';
  <div class="body">
  <h3>General Hardware</h3>
  <p>Tools, fixings, gate hardware and everyday essentials for tradesmen, farms and DIY.</p>
+ <div class="fencing-tools">
+ <a href="products.php?category=hardware" class="btn btn-outline-navy btn-sm">
+ Browse Hardware
+ </a>
+ <a href="contact.php" class="btn btn-outline-navy btn-sm">
+ Request a Quote
+ </a>
+ </div>
  <a class="more card-cover" style="margin-top:14px;" href="products.php?category=hardware">
  Explore Hardware
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
