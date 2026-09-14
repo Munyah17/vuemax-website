@@ -220,13 +220,13 @@ require __DIR__ . '/includes/header.php';
  <div class="container">
  <div class="cat-tabs-inner" id="catTabs">
  <button class="cat-tab active" data-cat="all">
- All Products <span class="count">26</span>
+ All Products <span class="count">27</span>
  </button>
  <button class="cat-tab" data-cat="fencing">
  Fencing Solutions <span class="count">12</span>
  </button>
  <button class="cat-tab" data-cat="steel">
- Steel Products <span class="count">8</span>
+ Steel Products <span class="count">9</span>
  </button>
  <button class="cat-tab" data-cat="hardware">
  General Hardware <span class="count">6</span>
@@ -244,9 +244,9 @@ require __DIR__ . '/includes/header.php';
  <div class="filter-block">
  <h4>Categories</h4>
  <ul class="filter-list" id="sidebarCats">
- <li><a href="#" data-cat="all" class="active">All Products <span class="count">26</span></a></li>
+ <li><a href="#" data-cat="all" class="active">All Products <span class="count">27</span></a></li>
  <li><a href="#" data-cat="fencing">Fencing Solutions <span class="count">12</span></a></li>
- <li><a href="#" data-cat="steel">Steel Products <span class="count">8</span></a></li>
+ <li><a href="#" data-cat="steel">Steel Products <span class="count">9</span></a></li>
  <li><a href="#" data-cat="hardware">General Hardware <span class="count">6</span></a></li>
  </ul>
  </div>
@@ -431,6 +431,20 @@ require __DIR__ . '/includes/header.php';
  <h3>Galvanised Round Pole 75mm</h3>
  <p>Heavy-duty galvanised steel round pole for fencing, structural supports and agricultural applications.</p>
  <div class="price">$36 <span>/ length (6m)</span></div>
+ <span class="more">View Details
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </a>
+
+ <!-- 9c -->
+ <a class="product-card" href="product-detail.php?slug=galvanised-round-pole-32mm">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-round-pole-32', 'assets/img/products/round-pole-32mm.jpg')) ?>')"></div>
+ <div class="body">
+ <span class="cat">Steel</span>
+ <h3>Galvanised Round Pole 32mm</h3>
+ <p>Galvanised steel round pole, 32mm x 2mm x 6m. For fencing, supports and general fabrication.</p>
+ <div class="price">$25 <span>/ length (6m)</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
