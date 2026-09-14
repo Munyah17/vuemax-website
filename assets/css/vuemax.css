@@ -160,7 +160,12 @@ h1,h2,h3,h4,h5,h6,p{margin:0;overflow-wrap:break-word;word-wrap:break-word;}
   box-shadow:0 3px 10px rgba(14,39,69,.22);
 }
 .logo-text{line-height:1.05;}
-.logo-img{object-fit:contain;padding:3px;}
+.logo-img{
+  width:auto;max-width:180px;height:40px;
+  object-fit:contain;padding:5px 10px;
+  background:#fff;border-radius:9px;
+}
+.logo:has(.logo-img) .logo-text{display:none;}
 .logo-text strong{
   display:block;font-size:15px;font-weight:700;color:var(--navy);
   letter-spacing:.04em;

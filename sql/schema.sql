@@ -538,7 +538,7 @@ CREATE TABLE `site_images` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
-('logo','Site logo (header, footer, drawer)','Global',''),
+('logo','Site logo (header, footer, drawer)','Global','assets/img/logo.png'),
 ('home-hero','Homepage hero background','index.php','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80'),
 ('cat-fencing','Category card: Fencing','index.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80'),
 ('cat-steel','Category card: Steel','index.php','https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=800&q=80'),
