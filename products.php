@@ -493,6 +493,20 @@ require __DIR__ . '/includes/header.php';
  </div>
  </a>
 
+ <!-- 9g -->
+ <a class="product-card" href="product-detail.php?slug=deformed-bars">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-deformed-bars', 'assets/img/products/deformed-bars.jpg')) ?>')"></div>
+ <div class="body">
+ <span class="cat">Steel</span>
+ <h3>Deformed Bars</h3>
+ <p>High-strength ribbed reinforcement bars for concrete slabs, columns, beams and foundations.</p>
+ <div class="price">Price on <span>request</span></div>
+ <span class="more">View Details
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </a>
+
  <!-- 9 -->
  <a class="product-card" href="product-detail.php?slug=gate-locks">
  <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
