@@ -417,7 +417,21 @@ INSERT INTO `products`
  'Heavy-duty galvanised steel round pole, 32mm diameter, 2mm thickness and 6m length. Corrosion-resistant and suitable for fencing, structural supports, agricultural applications and general fabrication.',
  'length', 25.00,
  'assets/img/products/round-pole-32mm.jpg',
- 1, 16);
+ 1, 16),
+
+(9, 'galvanised-round-pole-38mm', 'Galvanised Round Pole 38mm x 2mm x 6000mm',
+ 'Galvanised steel round pole, 38mm diameter, 2mm thickness, 6m length.',
+ 'Heavy-duty galvanised steel round pole, 38mm diameter, 2mm thickness and 6m length. Corrosion-resistant and suitable for fencing, structural supports, agricultural applications and general fabrication.',
+ 'length', 28.00,
+ 'assets/img/products/round-pole-38mm.jpg',
+ 1, 17),
+
+(9, 'square-tubes', 'Square Tubes',
+ 'High-quality steel square tubes for structural work, fabrication, fencing, gates and frames.',
+ 'High-quality steel square tubes designed for strength, durability and versatility. Ideal for structural work, fabrication, fencing, gates, frames, roofing supports and general construction applications. Available in various sizes and thicknesses to suit different project requirements.',
+ 'length', NULL,
+ 'assets/img/products/square-tubes.jpg',
+ 1, 18);
 
 -- Hardware products (category_id = 3)
 INSERT INTO `products`
@@ -534,6 +548,8 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-checkered-plate','Product: Checkered Plate 3mm','products.php','assets/img/products/checkered-plate-3mm.jpg'),
 ('prod-round-pole-75','Product: Galvanised Round Pole 75mm','products.php','assets/img/products/round-pole-75mm.jpg'),
 ('prod-round-pole-32','Product: Galvanised Round Pole 32mm','products.php','assets/img/products/round-pole-32mm.jpg'),
+('prod-round-pole-38','Product: Galvanised Round Pole 38mm','products.php','assets/img/products/round-pole-38mm.jpg'),
+('prod-square-tubes','Product: Square Tubes','products.php','assets/img/products/square-tubes.jpg'),
 ('pd-gallery-2','Product gallery: image 2','product-detail.php','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-3','Product gallery: image 3','product-detail.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-4','Product gallery: image 4','product-detail.php','https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=400&q=80'),
