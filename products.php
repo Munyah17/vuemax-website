@@ -220,13 +220,13 @@ require __DIR__ . '/includes/header.php';
  <div class="container">
  <div class="cat-tabs-inner" id="catTabs">
  <button class="cat-tab active" data-cat="all">
- All Products <span class="count">24</span>
+ All Products <span class="count">25</span>
  </button>
  <button class="cat-tab" data-cat="fencing">
  Fencing Solutions <span class="count">12</span>
  </button>
  <button class="cat-tab" data-cat="steel">
- Steel Products <span class="count">6</span>
+ Steel Products <span class="count">7</span>
  </button>
  <button class="cat-tab" data-cat="hardware">
  General Hardware <span class="count">6</span>
@@ -244,9 +244,9 @@ require __DIR__ . '/includes/header.php';
  <div class="filter-block">
  <h4>Categories</h4>
  <ul class="filter-list" id="sidebarCats">
- <li><a href="#" data-cat="all" class="active">All Products <span class="count">24</span></a></li>
+ <li><a href="#" data-cat="all" class="active">All Products <span class="count">25</span></a></li>
  <li><a href="#" data-cat="fencing">Fencing Solutions <span class="count">12</span></a></li>
- <li><a href="#" data-cat="steel">Steel Products <span class="count">6</span></a></li>
+ <li><a href="#" data-cat="steel">Steel Products <span class="count">7</span></a></li>
  <li><a href="#" data-cat="hardware">General Hardware <span class="count">6</span></a></li>
  </ul>
  </div>
@@ -403,6 +403,20 @@ require __DIR__ . '/includes/header.php';
  <h3>Steel Tubing</h3>
  <p>Square and rectangular steel tubing for fabrication, gates and frames.</p>
  <div class="price">From $12 <span>/ meter</span></div>
+ <span class="more">View Details
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </a>
+
+ <!-- 9a -->
+ <a class="product-card" href="product-detail.php?slug=checkered-plate-3mm">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-checkered-plate', 'assets/img/products/checkered-plate-3mm.jpg')) ?>')"></div>
+ <div class="body">
+ <span class="cat">Steel</span>
+ <h3>Checkered Plate Galvanised 3mm</h3>
+ <p>Durable galvanised steel plate with raised checkered pattern for enhanced grip and slip resistance.</p>
+ <div class="price">$122 <span>/ sheet (2.4m x 1.2m)</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
