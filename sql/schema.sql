@@ -431,7 +431,14 @@ INSERT INTO `products`
  'High-quality steel square tubes designed for strength, durability and versatility. Ideal for structural work, fabrication, fencing, gates, frames, roofing supports and general construction applications. Available in various sizes and thicknesses to suit different project requirements.',
  'length', NULL,
  'assets/img/products/square-tubes.jpg',
- 1, 18);
+ 1, 18),
+
+(12, 'angle-irons', 'Angle Irons',
+ 'Strong, versatile steel angle sections for structural support and general fabrication.',
+ 'Strong and versatile steel angle sections designed for structural support and general fabrication. Ideal for frames, brackets, supports, fencing, construction and engineering applications. Available in various sizes and thicknesses to meet different project requirements.',
+ 'length', NULL,
+ 'assets/img/products/angle-irons.jpg',
+ 1, 19);
 
 -- Hardware products (category_id = 3)
 INSERT INTO `products`
@@ -550,6 +557,7 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-round-pole-32','Product: Galvanised Round Pole 32mm','products.php','assets/img/products/round-pole-32mm.jpg'),
 ('prod-round-pole-38','Product: Galvanised Round Pole 38mm','products.php','assets/img/products/round-pole-38mm.jpg'),
 ('prod-square-tubes','Product: Square Tubes','products.php','assets/img/products/square-tubes.jpg'),
+('prod-angle-irons','Product: Angle Irons','products.php','assets/img/products/angle-irons.jpg'),
 ('pd-gallery-2','Product gallery: image 2','product-detail.php','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-3','Product gallery: image 3','product-detail.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-4','Product gallery: image 4','product-detail.php','https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=400&q=80'),
