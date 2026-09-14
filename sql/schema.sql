@@ -403,7 +403,14 @@ INSERT INTO `products`
  'Durable galvanised steel plate featuring a raised checkered pattern for enhanced grip and slip resistance. Ideal for flooring, walkways, platforms, steps, ramps, trailers and general fabrication applications. The galvanised coating provides excellent resistance to corrosion and weathering, making it suitable for both indoor and outdoor use.',
  'sheet', 122.00,
  'assets/img/products/checkered-plate-3mm.jpg',
- 1, 14);
+ 1, 14),
+
+(9, 'galvanised-round-pole-75mm', 'Galvanised Round Pole 75mm x 2mm x 6000mm',
+ 'Heavy-duty galvanised steel round pole, 75mm diameter, 2mm thickness, 6m length.',
+ 'Heavy-duty galvanised steel round pole, 75mm diameter, 2mm thickness and 6m length. Corrosion-resistant and suitable for fencing, structural supports, agricultural applications and general fabrication.',
+ 'length', 36.00,
+ 'assets/img/products/round-pole-75mm.jpg',
+ 1, 15);
 
 -- Hardware products (category_id = 3)
 INSERT INTO `products`
@@ -518,6 +525,7 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-steel-tubing','Product: Steel Tubing','index.php, products.php','https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=600&q=80'),
 ('prod-gate-locks','Product: Gate Locks & Hinges','index.php, products.php','https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80'),
 ('prod-checkered-plate','Product: Checkered Plate 3mm','products.php','assets/img/products/checkered-plate-3mm.jpg'),
+('prod-round-pole-75','Product: Galvanised Round Pole 75mm','products.php','assets/img/products/round-pole-75mm.jpg'),
 ('pd-gallery-2','Product gallery: image 2','product-detail.php','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-3','Product gallery: image 3','product-detail.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-4','Product gallery: image 4','product-detail.php','https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=400&q=80'),
