@@ -310,10 +310,10 @@ INSERT INTO `products`
  `price_usd`, `roll_metres`, `post_price`, `top_wire_rate`, `gate_price`, `install_rate`,
  `image`, `badge`, `rating`, `reviews_count`, `is_featured`, `sort_order`) VALUES
 
-(1, 'diamond-mesh', 'Diamond Mesh',
- 'Versatile, durable and cost-effective fencing for homes, farms and businesses.',
- 'Our diamond mesh fencing is designed for maximum strength and durability. Manufactured to SABS standards, hot-dip galvanised to resist rust and corrosion. Available in four standard heights and three roll lengths.',
- 'roll', 120.00, 30, 8.00, 0.80, 180.00, 3.50,
+(1, 'diamond-mesh', 'Diamond Mesh 50x50 (2mm)',
+ 'Versatile, durable and cost-effective fencing. 50x50mm aperture, 2mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Our diamond mesh fencing is designed for maximum strength and durability. 50x50mm aperture, 2mm wire gauge, hot-dip galvanised to resist rust and corrosion. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm and 3.15mm gauges and 30x30mm aperture.',
+ 'roll', 65.00, 30, 8.00, 0.80, 180.00, 3.50,
  'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
  'Best Seller', 4.8, 120, 1, 1),
 
@@ -484,16 +484,96 @@ INSERT INTO `products`
  'assets/img/products/barbed-wire-50kg.jpg',
  NULL, 4.6, 74, 1, 24);
 
--- ---------- PRODUCT SPECS (for diamond mesh as example) ----------
+-- Diamond mesh variants (fencing catalog column set) — ids 24, 25, 26
+INSERT INTO `products`
+(`subcategory_id`, `slug`, `name`, `short_desc`, `long_desc`, `unit`,
+ `price_usd`, `roll_metres`, `post_price`, `top_wire_rate`, `gate_price`, `install_rate`,
+ `image`, `badge`, `rating`, `reviews_count`, `is_featured`, `sort_order`) VALUES
+(1, 'diamond-mesh-50x50-2-5mm', 'Diamond Mesh 50x50 (2.5mm)',
+ 'Versatile, durable fencing. 50x50mm aperture, 2.5mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Diamond mesh fencing, 50x50mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 3.15mm gauges and 30x30mm aperture.',
+ 'roll', 85.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ 'Best Seller', 4.8, 120, 1, 25),
+(1, 'diamond-mesh-50x50-3-15mm', 'Diamond Mesh 50x50 (3.15mm)',
+ 'Heavy-duty diamond mesh. 50x50mm aperture, 3.15mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Heavy-duty diamond mesh fencing, 50x50mm aperture, 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 2.5mm gauges and 30x30mm aperture.',
+ 'roll', 150.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ NULL, 4.8, 110, 1, 26),
+(1, 'diamond-mesh-30x30-2-5mm', 'Diamond Mesh 30x30 (2.5mm)',
+ 'Tighter-mesh diamond fence. 30x30mm aperture, 2.5mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Diamond mesh fencing with a tighter 30x30mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 50x50mm aperture in 2mm, 2.5mm and 3.15mm gauges.',
+ 'roll', 110.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ NULL, 4.8, 95, 1, 27);
+
+-- ---------- PRODUCT SPECS ----------
 INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUES
 (1, 'Material',           'Hot-dip galvanised steel wire', 1),
 (1, 'Mesh Aperture',      '50 mm × 50 mm',                 2),
-(1, 'Wire Diameter',      '2.5 mm',                        3),
-(1, 'Roll Length',        '30 m / 50 m / 100 m',           4),
-(1, 'Available Heights',  '1.2 m · 1.5 m · 1.8 m · 2.1 m', 5),
-(1, 'Finish',             'Hot-dip galvanised',            6),
-(1, 'Standard',           'SABS 1587',                     7),
-(1, 'Warranty',           '10 years against manufacturing defects', 8),
+(1, 'Wire Gauge',         '2.0 mm',                        3),
+(1, 'Roll Length',        '30 m',                          4),
+(1, 'Height 1.0 m',       '$65',                           10),
+(1, 'Height 1.2 m',       '$75',                           11),
+(1, 'Height 1.5 m',       '$90',                           12),
+(1, 'Height 1.8 m',       '$110',                          13),
+(1, 'Height 2.0 m',       '$130',                          14),
+(1, 'Height 2.1 m',       '$200',                          15),
+(1, 'Height 2.4 m',       '$220',                          16),
+(1, 'Height 2.5 m',       '$235',                          17),
+(1, 'Height 3.0 m',       '$270',                          18),
+(1, 'Finish',             'Hot-dip galvanised',            20),
+(1, 'Standard',           'SABS 1587',                     21),
+(1, 'Warranty',           '10 years against manufacturing defects', 22),
+
+-- Diamond mesh 50x50 2.5mm (product_id = 24)
+(24, 'Material',          'Hot-dip galvanised steel wire', 1),
+(24, 'Mesh Aperture',     '50 mm × 50 mm',                 2),
+(24, 'Wire Gauge',        '2.5 mm',                        3),
+(24, 'Roll Length',       '30 m',                          4),
+(24, 'Height 1.0 m',      '$85',                           10),
+(24, 'Height 1.2 m',      '$105',                          11),
+(24, 'Height 1.5 m',      '$130',                          12),
+(24, 'Height 1.8 m',      '$150',                          13),
+(24, 'Height 2.0 m',      '$168',                          14),
+(24, 'Height 2.1 m',      '$225',                          15),
+(24, 'Height 2.4 m',      '$250',                          16),
+(24, 'Height 2.5 m',      '$265',                          17),
+(24, 'Height 3.0 m',      '$300',                          18),
+(24, 'Finish',            'Hot-dip galvanised',            20),
+
+-- Diamond mesh 50x50 3.15mm (product_id = 25)
+(25, 'Material',          'Hot-dip galvanised steel wire', 1),
+(25, 'Mesh Aperture',     '50 mm × 50 mm',                 2),
+(25, 'Wire Gauge',        '3.15 mm',                       3),
+(25, 'Roll Length',       '30 m',                          4),
+(25, 'Height 1.0 m',      '$150',                          10),
+(25, 'Height 1.2 m',      '$180',                          11),
+(25, 'Height 1.5 m',      '$230',                          12),
+(25, 'Height 1.8 m',      '$270',                          13),
+(25, 'Height 2.0 m',      '$300',                          14),
+(25, 'Height 2.1 m',      '$375',                          15),
+(25, 'Height 2.4 m',      '$420',                          16),
+(25, 'Height 2.5 m',      '$440',                          17),
+(25, 'Height 3.0 m',      '$505',                          18),
+(25, 'Finish',            'Hot-dip galvanised',            20),
+
+-- Diamond mesh 30x30 2.5mm (product_id = 26)
+(26, 'Material',          'Hot-dip galvanised steel wire', 1),
+(26, 'Mesh Aperture',     '30 mm × 30 mm',                 2),
+(26, 'Wire Gauge',        '2.5 mm',                        3),
+(26, 'Roll Length',       '30 m',                          4),
+(26, 'Height 1.0 m',      '$110',                          10),
+(26, 'Height 1.2 m',      '$133',                          11),
+(26, 'Height 1.5 m',      '$165',                          12),
+(26, 'Height 1.8 m',      '$185',                          13),
+(26, 'Height 2.0 m',      '$205',                          14),
+(26, 'Height 2.1 m',      '$223',                          15),
+(26, 'Height 2.4 m',      '$250',                          16),
+(26, 'Height 2.5 m',      '$270',                          17),
+(26, 'Height 3.0 m',      '$350',                          18),
+(26, 'Finish',            'Hot-dip galvanised',            20),
 
 -- Barbed wire specs (product_id = 3 → 25 kg, product_id = 23 → 50 kg)
 (3, 'Material',           'Hot-dip galvanised steel wire', 1),

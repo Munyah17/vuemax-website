@@ -220,10 +220,10 @@ require __DIR__ . '/includes/header.php';
  <div class="container">
  <div class="cat-tabs-inner" id="catTabs">
  <button class="cat-tab active" data-cat="all">
- All Products <span class="count">31</span>
+ All Products <span class="count">34</span>
  </button>
  <button class="cat-tab" data-cat="fencing">
- Fencing Solutions <span class="count">13</span>
+ Fencing Solutions <span class="count">16</span>
  </button>
  <button class="cat-tab" data-cat="steel">
  Steel Products <span class="count">12</span>
@@ -244,8 +244,8 @@ require __DIR__ . '/includes/header.php';
  <div class="filter-block">
  <h4>Categories</h4>
  <ul class="filter-list" id="sidebarCats">
- <li><a href="#" data-cat="all" class="active">All Products <span class="count">31</span></a></li>
- <li><a href="#" data-cat="fencing">Fencing Solutions <span class="count">13</span></a></li>
+ <li><a href="#" data-cat="all" class="active">All Products <span class="count">34</span></a></li>
+ <li><a href="#" data-cat="fencing">Fencing Solutions <span class="count">16</span></a></li>
  <li><a href="#" data-cat="steel">Steel Products <span class="count">12</span></a></li>
  <li><a href="#" data-cat="hardware">General Hardware <span class="count">6</span></a></li>
  </ul>
@@ -254,7 +254,7 @@ require __DIR__ . '/includes/header.php';
  <div class="filter-block">
  <h4>Fencing Types</h4>
  <ul class="filter-list">
- <li><a href="#">Diamond Mesh <span class="count">3</span></a></li>
+ <li><a href="#">Diamond Mesh <span class="count">6</span></a></li>
  <li><a href="#">Game Fence <span class="count">2</span></a></li>
  <li><a href="#">Barbed Wire <span class="count">3</span></a></li>
  <li><a href="#">Chicken Mesh <span class="count">2</span></a></li>
@@ -302,9 +302,51 @@ require __DIR__ . '/includes/header.php';
  </div>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Diamond Mesh</h3>
- <p>Versatile, durable and cost-effective fencing for homes, farms and businesses.</p>
- <div class="price">From $120 <span>/ roll</span></div>
+ <h3>Diamond Mesh 50x50 (2mm)</h3>
+ <p>50x50mm aperture, 2mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
+ <div class="price">From $65 <span>/ 30m roll</span></div>
+ <span class="more">View Details
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </a>
+
+ <!-- 1b -->
+ <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-2-5mm">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-25', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="body">
+ <span class="cat">Fencing</span>
+ <h3>Diamond Mesh 50x50 (2.5mm)</h3>
+ <p>50x50mm aperture, 2.5mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
+ <div class="price">From $85 <span>/ 30m roll</span></div>
+ <span class="more">View Details
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </a>
+
+ <!-- 1c -->
+ <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-3-15mm">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-315', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="body">
+ <span class="cat">Fencing</span>
+ <h3>Diamond Mesh 50x50 (3.15mm)</h3>
+ <p>50x50mm aperture, heavy 3.15mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
+ <div class="price">From $150 <span>/ 30m roll</span></div>
+ <span class="more">View Details
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+ </span>
+ </div>
+ </a>
+
+ <!-- 1d -->
+ <a class="product-card" href="product-detail.php?slug=diamond-mesh-30x30-2-5mm">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-30x30', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="body">
+ <span class="cat">Fencing</span>
+ <h3>Diamond Mesh 30x30 (2.5mm)</h3>
+ <p>Tighter 30x30mm aperture, 2.5mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
+ <div class="price">From $110 <span>/ 30m roll</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
