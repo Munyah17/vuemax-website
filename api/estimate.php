@@ -312,30 +312,49 @@ if ($rolls > 0) {
  ];
 }
 
-/* Posts */
-$posts = (int) ceil($perimeter / $spacing) + $corners;
-$post_price = (float) ($best_product['post_price'] ?? 0);
-$post_cost = $posts * $post_price;
-if ($post_cost > 0) {
+/* Posts — client model: each fence height maps to a post set;
+   standard posts every 5 m, corner posts per corner, 2 supporter
+   (stay) posts per corner post. */
+$POST_SETS = [
+ ['h'=>1.2,'len'=>1.8,'corner'=>16,'standard'=>8, 'supporter'=>12],
+ ['h'=>1.5,'len'=>2.0,'corner'=>13,'standard'=>9, 'supporter'=>13],
+ ['h'=>2.1,'len'=>2.6,'corner'=>26,'standard'=>16,'supporter'=>13],
+ ['h'=>2.4,'len'=>3.0,'corner'=>33,'standard'=>18,'supporter'=>15],
+ ['h'=>2.5,'len'=>3.0,'corner'=>33,'standard'=>18,'supporter'=>15],
+ ['h'=>3.0,'len'=>3.6,'corner'=>40,'standard'=>20,'supporter'=>16],
+];
+$ps = $POST_SETS[count($POST_SETS) - 1];
+foreach ($POST_SETS as $s) { if ($s['h'] >= $height - 0.001) { $ps = $s; break; } }
+
+$standards  = (int) ceil($perimeter / 5.0);
+$supporters = $corners * 2;
+$posts      = $standards + $corners + $supporters;
+
+if ($standards > 0) {
  $items[] = [
- 'name' => 'Steel Posts (' . number_format($height, 1) . 'm)',
- 'spec' => 'Standard gauge · 2.5m spacing',
- 'qty' => $posts . ' pcs',
- 'unit' => $post_price,
- 'total' => round($post_cost, 2),
+ 'name' => 'Standard Posts (' . number_format($ps['len'], 1) . 'm)',
+ 'spec' => 'Every 5 m along fence line',
+ 'qty' => $standards . ' pcs',
+ 'unit' => $ps['standard'],
+ 'total' => round($standards * $ps['standard'], 2),
  ];
 }
-
-/* Corner posts (heavier, 1.5× price) */
-if ($corners > 0 && $post_price > 0) {
- $cp_price = round($post_price * 1.5, 2);
- $cp_total = $cp_price * $corners;
+if ($corners > 0) {
  $items[] = [
- 'name' => 'Corner Posts',
- 'spec' => 'Heavier gauge · reinforced',
+ 'name' => 'Corner Posts (' . number_format($ps['len'], 1) . 'm)',
+ 'spec' => 'Reinforced · one per corner',
  'qty' => $corners . ' pcs',
- 'unit' => $cp_price,
- 'total' => round($cp_total, 2),
+ 'unit' => $ps['corner'],
+ 'total' => round($corners * $ps['corner'], 2),
+ ];
+}
+if ($supporters > 0) {
+ $items[] = [
+ 'name' => 'Supporter Posts (' . number_format($ps['len'], 1) . 'm)',
+ 'spec' => 'Stay posts · 2 per corner',
+ 'qty' => $supporters . ' pcs',
+ 'unit' => $ps['supporter'],
+ 'total' => round($supporters * $ps['supporter'], 2),
  ];
 }
 

@@ -359,13 +359,30 @@ $extraJs = <<<'JS'
 
 /* --- Product catalogue (Phase 2 will replace with fetch('/api/products.php')) --- */
 const CATALOG = {
- 'diamond-mesh': { name:'Diamond Mesh', roll:120, rollMetres:30, postPrice:8, topWirePerM:0.8, gatePrice:180, installPerM:3.5, concretePerPost:4 },
- 'game-fence': { name:'Game Fence', roll:280, rollMetres:50, postPrice:12, topWirePerM:1.1, gatePrice:220, installPerM:4.0, concretePerPost:5 },
- 'barbed-wire': { name:'Barbed Wire', roll:45, rollMetres:100,postPrice:8, topWirePerM:0.6, gatePrice:160, installPerM:2.5, concretePerPost:4 },
- 'chicken-mesh': { name:'Chicken Mesh', roll:32, rollMetres:30, postPrice:6, topWirePerM:0.5, gatePrice:140, installPerM:2.0, concretePerPost:3 },
- 'field-fence': { name:'Field Fence', roll:180, rollMetres:50, postPrice:10, topWirePerM:0.9, gatePrice:200, installPerM:3.0, concretePerPost:4 },
- 'razor-wire': { name:'Razor Wire', roll:95, rollMetres:50, postPrice:14, topWirePerM:1.4, gatePrice:260, installPerM:4.5, concretePerPost:5 }
+ 'diamond-mesh': { name:'Diamond Mesh', roll:65, rollMetres:30, topWirePerM:0.8, gatePrice:180, installPerM:3.5, concretePerPost:4 },
+ 'game-fence': { name:'Game Fence', roll:280, rollMetres:50, topWirePerM:1.1, gatePrice:220, installPerM:4.0, concretePerPost:5 },
+ 'barbed-wire': { name:'Barbed Wire (25kg)', roll:38, rollMetres:100,topWirePerM:0.6, gatePrice:160, installPerM:2.5, concretePerPost:4 },
+ 'chicken-mesh': { name:'Chicken Mesh', roll:32, rollMetres:30, topWirePerM:0.5, gatePrice:140, installPerM:2.0, concretePerPost:3 },
+ 'field-fence': { name:'Field Fence', roll:180, rollMetres:50, topWirePerM:0.9, gatePrice:200, installPerM:3.0, concretePerPost:4 },
+ 'razor-wire': { name:'Razor Wire', roll:95, rollMetres:50, topWirePerM:1.4, gatePrice:260, installPerM:4.5, concretePerPost:5 }
 };
+
+/* --- Post system (client pricing model) ---
+   Each fence height uses a post set: corner posts at each corner,
+   standard posts spaced along the line, and 2 supporter (stay)
+   posts per corner post. */
+const POST_SETS = [
+ { h:1.2, len:1.8, corner:16, standard:8, supporter:12 },
+ { h:1.5, len:2.0, corner:13, standard:9, supporter:13 },
+ { h:2.1, len:2.6, corner:26, standard:16, supporter:13 },
+ { h:2.4, len:3.0, corner:33, standard:18, supporter:15 },
+ { h:2.5, len:3.0, corner:33, standard:18, supporter:15 },
+ { h:3.0, len:3.6, corner:40, standard:20, supporter:16 }
+];
+function postSet(height){
+ const s = POST_SETS.filter(x => x.h >= height - 0.001).sort((a,b) => a.h - b.h);
+ return s.length ? s[0] : POST_SETS[POST_SETS.length - 1];
+}
 
 let currentStep = 1;
 const TOTAL_STEPS = 4;
@@ -432,22 +449,32 @@ function computeBOQ(){
  price: rollCost
  });
 
- // Posts
- const posts = Math.ceil(v.perimeter / v.spacing) + v.corners;
- const postCost = posts * p.postPrice;
- items.push({
- name: 'Fence Posts (' + v.height.toFixed(1) + 'm)',
- qty: posts + ' pcs',
- price: postCost
- });
+ // Posts — client model: standards every X m, corner posts at
+ // each corner, 2 supporter posts per corner post.
+ const ps = postSet(v.height);
+ const standards = Math.ceil(v.perimeter / v.spacing);
+ const supporters = v.corners * 2;
+ const posts = standards + v.corners + supporters;
 
- // Corner posts (heavier)
- if (v.corners > 0){
- const cpCost = v.corners * (p.postPrice * 1.5);
+ if (standards > 0){
  items.push({
- name: 'Corner Posts',
- qty: v.corners + ' pcs',
- price: cpCost
+ name: `Standard Posts (${ps.len}m) — every ${v.spacing}m`,
+ qty: standards + ' pcs @ $' + ps.standard,
+ price: standards * ps.standard
+ });
+ }
+ if (v.corners > 0){
+ items.push({
+ name: `Corner Posts (${ps.len}m)`,
+ qty: v.corners + ' pcs @ $' + ps.corner,
+ price: v.corners * ps.corner
+ });
+ }
+ if (supporters > 0){
+ items.push({
+ name: `Supporter Posts (${ps.len}m) — 2 per corner`,
+ qty: supporters + ' pcs @ $' + ps.supporter,
+ price: supporters * ps.supporter
  });
  }
 
@@ -497,7 +524,7 @@ function render(){
  // Summary mini-grid
  document.getElementById('sumPerimeter').textContent = (v.perimeter || 0) + ' m';
  document.getElementById('sumCorners').textContent = v.corners || '0';
- document.getElementById('sumType').textContent = p · p.name : ' ';
+ document.getElementById('sumType').textContent = p ? p.name : '—';
  document.getElementById('sumHeight').textContent = (v.height || 0).toFixed(1) + ' m';
 
  // BOQ list
@@ -780,19 +807,26 @@ require __DIR__ . '/includes/header.php';
  <div class="field">
  <label>Fence height <span class="req">*</span></label>
  <div class="input-wrap has-suffix">
- <input type="number" id="height" value="1.8" min="0.5" step="0.1" placeholder="e.g. 1.8">
+ <select id="height">
+ <option value="1.2">1.2 m</option>
+ <option value="1.5">1.5 m</option>
+ <option value="2.1" selected>2.1 m</option>
+ <option value="2.4">2.4 m</option>
+ <option value="2.5">2.5 m</option>
+ <option value="3.0">3.0 m</option>
+ </select>
  <span class="suffix">m</span>
  </div>
- <span class="hint">Common heights: 1.2m, 1.5m, 1.8m, 2.1m.</span>
+ <span class="hint">Post size is matched automatically.</span>
  </div>
 
  <div class="field">
- <label>Post spacing <span class="req">*</span></label>
+ <label>Standard post spacing <span class="req">*</span></label>
  <div class="input-wrap has-suffix">
- <input type="number" id="spacing" value="2.5" min="1" step="0.1" placeholder="e.g. 2.5">
+ <input type="number" id="spacing" value="5" min="1" step="0.5" placeholder="e.g. 5">
  <span class="suffix">m</span>
  </div>
- <span class="hint">Standard spacing: 2.5m.</span>
+ <span class="hint">Standard posts are placed every 5m.</span>
  </div>
  </div>
 

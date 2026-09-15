@@ -336,6 +336,33 @@ CREATE TABLE `order_events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
+-- 10b. POST SETS — client pricing model
+-- Each fence height uses a specific post length. Three post types:
+--   corner posts (one per corner), standard posts (every 5 m),
+--   supporter/stay posts (2 per corner post).
+-- ============================================================
+DROP TABLE IF EXISTS `post_sets`;
+CREATE TABLE `post_sets` (
+  `id`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fence_height`    DECIMAL(3,1) NOT NULL,   -- fence height in m
+  `post_length`     DECIMAL(3,1) NOT NULL,   -- post length in m
+  `corner_price`    DECIMAL(10,2) NOT NULL,  -- USD per corner post
+  `standard_price`  DECIMAL(10,2) NOT NULL,  -- USD per standard post (every 5 m)
+  `supporter_price` DECIMAL(10,2) NOT NULL,  -- USD per supporter post (2 per corner)
+  `sort_order`      INT          NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_post_height` (`fence_height`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `post_sets` (`fence_height`, `post_length`, `corner_price`, `standard_price`, `supporter_price`, `sort_order`) VALUES
+(1.2, 1.8, 16.00,  8.00, 12.00, 1),
+(1.5, 2.0, 13.00,  9.00, 13.00, 2),
+(2.1, 2.6, 26.00, 16.00, 13.00, 3),
+(2.4, 3.0, 33.00, 18.00, 15.00, 4),
+(2.5, 3.0, 33.00, 18.00, 15.00, 5),
+(3.0, 3.6, 40.00, 20.00, 16.00, 6);
+
+-- ============================================================
 -- 11. ADMIN USERS  (for Phase 3 admin panel)
 -- ============================================================
 DROP TABLE IF EXISTS `admin_users`;
@@ -446,8 +473,8 @@ INSERT INTO `products`
  NULL, 4.9, 40, 1, 6),
 
 (7, 'fence-posts', 'Fence Posts',
- 'Wooden, steel and concrete posts available in multiple heights.',
- 'A complete range of fence posts — steel, timber and pre-cast concrete — in heights to suit every fence type. Steel and concrete options available with pre-drilled holes for easy wire fixing.',
+ 'Galvanised steel posts — corner, standard and supporter posts matched to fence height.',
+ 'Galvanised fencing posts in three types: corner posts (one per corner), standard posts (placed every 5 m along the fence line) and supporter/stay posts (two per corner post). Post length is matched to fence height — e.g. a 2.1 m fence uses 2.6 m posts. Available heights: 1.8 m, 2.0 m, 2.6 m, 3.0 m and 3.6 m.',
  'piece', 8.00, NULL, NULL, NULL, NULL, NULL,
  'assets/img/products/round-pole-75mm.jpg',
  NULL, 4.5, 38, 0, 7),
@@ -682,7 +709,17 @@ INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUE
 (23, 'Roll Weight',       '50 kg',                         2),
 (23, 'Also Available',    '25 kg roll',                    3),
 (23, 'Strand Twist',      '3-strand',                      4),
-(23, 'Finish',            'Hot-dip galvanised',            5);
+(23, 'Finish',            'Hot-dip galvanised',            5),
+
+-- Fence posts (product_id = 7) — corner / standard / supporter tiers per post set
+(7, 'For 1.2 m fence — 1.8 m posts', 'Corner $16 · Standard $8 · Supporter $12', 1),
+(7, 'For 1.5 m fence — 2.0 m posts', 'Corner $13 · Standard $9 · Supporter $13', 2),
+(7, 'For 2.1 m fence — 2.6 m posts', 'Corner $26 · Standard $16 · Supporter $13', 3),
+(7, 'For 2.4 m fence — 3.0 m posts', 'Corner $33 · Standard $18 · Supporter $15', 4),
+(7, 'For 2.5 m fence — 3.0 m posts', 'Corner $33 · Standard $18 · Supporter $15', 5),
+(7, 'For 3.0 m fence — 3.6 m posts', 'Corner $40 · Standard $20 · Supporter $16', 6),
+(7, 'Placement',                   'Standards every 5 m · 1 corner post per corner · 2 supporters per corner', 10),
+(7, 'Finish',                      'Galvanised',                            20);
 
 -- ---------- PRODUCT FEATURES (for diamond mesh) ----------
 INSERT INTO `product_features` (`product_id`, `text`, `sort_order`) VALUES
