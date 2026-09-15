@@ -324,9 +324,9 @@ INSERT INTO `products`
  'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80',
  NULL, 4.7, 86, 1, 2),
 
-(3, 'barbed-wire', 'Barbed Wire',
- 'High-tensile, high-security barbed wire for perimeter and farm protection. Available in 25 kg and 50 kg rolls.',
- 'Hot-dip galvanised barbed wire with 3-strand twist. Available in 25 kg and 50 kg rolls. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
+(3, 'barbed-wire', 'Barbed Wire 25 kg Roll',
+ 'High-tensile, high-security barbed wire for perimeter and farm protection. 25 kg roll.',
+ 'Hot-dip galvanised barbed wire with 3-strand twist, supplied in a 25 kg roll. Also available in a 50 kg roll. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
  'roll', 45.00, 100, 8.00, 0.60, 160.00, 2.50,
  'assets/img/products/barbed-wire.jpg',
  NULL, 4.6, 74, 1, 3),
@@ -472,6 +472,18 @@ INSERT INTO `products`
  'https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80',
  0, 23);
 
+-- Barbed wire 50 kg variant (fencing catalog column set)
+INSERT INTO `products`
+(`subcategory_id`, `slug`, `name`, `short_desc`, `long_desc`, `unit`,
+ `price_usd`, `roll_metres`, `post_price`, `top_wire_rate`, `gate_price`, `install_rate`,
+ `image`, `badge`, `rating`, `reviews_count`, `is_featured`, `sort_order`) VALUES
+(3, 'barbed-wire-50kg', 'Barbed Wire 50 kg Roll',
+ 'High-tensile, high-security barbed wire for perimeter and farm protection. 50 kg roll.',
+ 'Hot-dip galvanised barbed wire with 3-strand twist, supplied in a 50 kg roll. Also available in a 25 kg roll. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
+ 'roll', NULL, 100, 8.00, 0.60, 160.00, 2.50,
+ 'assets/img/products/barbed-wire-50kg.jpg',
+ NULL, 4.6, 74, 1, 24);
+
 -- ---------- PRODUCT SPECS (for diamond mesh as example) ----------
 INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUES
 (1, 'Material',           'Hot-dip galvanised steel wire', 1),
@@ -483,11 +495,17 @@ INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUE
 (1, 'Standard',           'SABS 1587',                     7),
 (1, 'Warranty',           '10 years against manufacturing defects', 8),
 
--- Barbed wire specs (product_id = 3)
+-- Barbed wire specs (product_id = 3 → 25 kg, product_id = 23 → 50 kg)
 (3, 'Material',           'Hot-dip galvanised steel wire', 1),
-(3, 'Roll Weights',       '25 kg / 50 kg',                 2),
-(3, 'Strand Twist',       '3-strand',                      3),
-(3, 'Finish',             'Hot-dip galvanised',            4);
+(3, 'Roll Weight',        '25 kg',                         2),
+(3, 'Also Available',     '50 kg roll',                    3),
+(3, 'Strand Twist',       '3-strand',                      4),
+(3, 'Finish',             'Hot-dip galvanised',            5),
+(23, 'Material',          'Hot-dip galvanised steel wire', 1),
+(23, 'Roll Weight',       '50 kg',                         2),
+(23, 'Also Available',    '25 kg roll',                    3),
+(23, 'Strand Twist',      '3-strand',                      4),
+(23, 'Finish',            'Hot-dip galvanised',            5);
 
 -- ---------- PRODUCT FEATURES (for diamond mesh) ----------
 INSERT INTO `product_features` (`product_id`, `text`, `sort_order`) VALUES
@@ -552,6 +570,7 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-diamond-mesh','Product: Diamond Mesh','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80'),
 ('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80'),
 ('prod-barbed-wire','Product: Barbed Wire (25 kg roll)','products.php, product-detail.php, calculator.php','assets/img/products/barbed-wire.jpg'),
+('prod-barbed-wire-50','Product: Barbed Wire (50 kg roll)','products.php, product-detail.php','assets/img/products/barbed-wire-50kg.jpg'),
 ('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80'),
 ('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80'),
 ('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=600&q=80'),
