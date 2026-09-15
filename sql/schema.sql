@@ -325,8 +325,8 @@ INSERT INTO `products`
  NULL, 4.7, 86, 1, 2),
 
 (3, 'barbed-wire', 'Barbed Wire',
- 'High-tensile, high-security barbed wire for perimeter and farm protection.',
- 'Hot-dip galvanised barbed wire with 3-strand twist. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
+ 'High-tensile, high-security barbed wire for perimeter and farm protection. Available in 25 kg and 50 kg rolls.',
+ 'Hot-dip galvanised barbed wire with 3-strand twist. Available in 25 kg and 50 kg rolls. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
  'roll', 45.00, 100, 8.00, 0.60, 160.00, 2.50,
  'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80',
  NULL, 4.6, 74, 1, 3),
@@ -481,7 +481,13 @@ INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUE
 (1, 'Available Heights',  '1.2 m · 1.5 m · 1.8 m · 2.1 m', 5),
 (1, 'Finish',             'Hot-dip galvanised',            6),
 (1, 'Standard',           'SABS 1587',                     7),
-(1, 'Warranty',           '10 years against manufacturing defects', 8);
+(1, 'Warranty',           '10 years against manufacturing defects', 8),
+
+-- Barbed wire specs (product_id = 3)
+(3, 'Material',           'Hot-dip galvanised steel wire', 1),
+(3, 'Roll Weights',       '25 kg / 50 kg',                 2),
+(3, 'Strand Twist',       '3-strand',                      3),
+(3, 'Finish',             'Hot-dip galvanised',            4);
 
 -- ---------- PRODUCT FEATURES (for diamond mesh) ----------
 INSERT INTO `product_features` (`product_id`, `text`, `sort_order`) VALUES
