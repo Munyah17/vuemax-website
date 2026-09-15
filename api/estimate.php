@@ -94,9 +94,9 @@ if ($pdo) {
  estimator still works when MySQL is not connected. */
 if (empty($fencing_products)) {
  $fencing_products = [
- ['slug'=>'diamond-mesh','name'=>'Diamond Mesh','short_desc'=>'Versatile, durable fencing for homes, farms and businesses.','price_usd'=>120.00,'roll_metres'=>30,'post_price'=>8.00,'top_wire_rate'=>0.80,'gate_price'=>180.00,'install_rate'=>3.50],
+ ['slug'=>'diamond-mesh','name'=>'Diamond Mesh 50x50 (2mm)','short_desc'=>'Versatile, durable fencing for homes, farms and businesses.','price_usd'=>65.00,'roll_metres'=>30,'post_price'=>8.00,'top_wire_rate'=>0.80,'gate_price'=>180.00,'install_rate'=>3.50],
  ['slug'=>'game-fence','name'=>'Game Fence','short_desc'=>'Heavy-duty fencing for wildlife, farms and large properties.','price_usd'=>280.00,'roll_metres'=>50,'post_price'=>12.00,'top_wire_rate'=>1.10,'gate_price'=>220.00,'install_rate'=>4.00],
- ['slug'=>'barbed-wire','name'=>'Barbed Wire','short_desc'=>'High-tensile barbed wire for perimeter and farm protection.','price_usd'=>45.00,'roll_metres'=>100,'post_price'=>8.00,'top_wire_rate'=>0.60,'gate_price'=>160.00,'install_rate'=>2.50],
+ ['slug'=>'barbed-wire','name'=>'Barbed Wire 25 kg','short_desc'=>'High-tensile barbed wire for perimeter and farm protection.','price_usd'=>38.00,'roll_metres'=>100,'post_price'=>8.00,'top_wire_rate'=>0.60,'gate_price'=>160.00,'install_rate'=>2.50],
  ['slug'=>'chicken-mesh','name'=>'Chicken Mesh','short_desc'=>'Lightweight galvanised mesh for poultry runs and small enclosures.','price_usd'=>32.00,'roll_metres'=>30,'post_price'=>6.00,'top_wire_rate'=>0.50,'gate_price'=>140.00,'install_rate'=>2.00],
  ['slug'=>'field-fence','name'=>'Field Fence','short_desc'=>'General agricultural fencing for livestock and crop protection.','price_usd'=>180.00,'roll_metres'=>50,'post_price'=>10.00,'top_wire_rate'=>0.90,'gate_price'=>200.00,'install_rate'=>3.00],
  ['slug'=>'razor-wire','name'=>'Razor Wire','short_desc'=>'Maximum-security installation for high-risk properties.','price_usd'=>95.00,'roll_metres'=>50,'post_price'=>14.00,'top_wire_rate'=>1.40,'gate_price'=>260.00,'install_rate'=>4.50],

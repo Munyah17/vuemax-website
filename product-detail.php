@@ -1,8 +1,156 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 
-$pageTitle = 'Diamond Mesh Vuemax | Fencing Solutions Zimbabwe';
-$pageDesc = 'Diamond Mesh fencing versatile, durable and cost-effective. Galvanised wire available in multiple heights. SABS compliant.';
+/* ---------- Resolve product by ?slug= ----------
+   Primary: MySQL `products` + `product_specs`.
+   Fallback: static map below so the page works offline/file:// too. */
+$slug = preg_replace('/[^a-z0-9-]/', '', strtolower($_GET['slug'] ?? 'diamond-mesh'));
+if ($slug === '') $slug = 'diamond-mesh';
+
+// [name, price|null, unit label, short, long, image slot key, fallback image, specs[]]
+$PD = [
+ 'diamond-mesh' => ['Diamond Mesh 50x50 (2mm)', 65.00, '30m roll',
+   'Versatile, durable and cost-effective fencing. 50x50mm aperture, 2mm wire, 30m rolls.',
+   'Diamond mesh fencing designed for maximum strength and durability. 50x50mm aperture, 2mm wire gauge, hot-dip galvanised to resist rust and corrosion. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm and 3.15mm gauges and 30x30mm aperture.',
+   'prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   [['Mesh Aperture','50 mm × 50 mm'],['Wire Gauge','2.0 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-50x50-2-5mm' => ['Diamond Mesh 50x50 (2.5mm)', 85.00, '30m roll',
+   'Versatile, durable fencing. 50x50mm aperture, 2.5mm wire, 30m rolls.',
+   'Diamond mesh fencing, 50x50mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 3.15mm gauges and 30x30mm aperture.',
+   'prod-diamond-25', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   [['Mesh Aperture','50 mm × 50 mm'],['Wire Gauge','2.5 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-50x50-3-15mm' => ['Diamond Mesh 50x50 (3.15mm)', 150.00, '30m roll',
+   'Heavy-duty diamond mesh. 50x50mm aperture, 3.15mm wire, 30m rolls.',
+   'Heavy-duty diamond mesh fencing, 50x50mm aperture, 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 2.5mm gauges and 30x30mm aperture.',
+   'prod-diamond-315', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   [['Mesh Aperture','50 mm × 50 mm'],['Wire Gauge','3.15 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-30x30-2-5mm' => ['Diamond Mesh 30x30 (2.5mm)', 110.00, '30m roll',
+   'Tighter-mesh diamond fence. 30x30mm aperture, 2.5mm wire, 30m rolls.',
+   'Diamond mesh fencing with a tighter 30x30mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 50x50mm aperture in 2mm, 2.5mm and 3.15mm gauges.',
+   'prod-diamond-30x30', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   [['Mesh Aperture','30 mm × 30 mm'],['Wire Gauge','2.5 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'game-fence' => ['Game Fence', 280.00, 'roll',
+   'Heavy-duty fencing for wildlife, farms and large properties.',
+   'Manufactured from high-tensile galvanised wire, our game fence is built to withstand the demands of wildlife and livestock enclosures. Ideal for game reserves, large farms and perimeter security.',
+   'prod-game-fence', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+   [['Material','High-tensile galvanised wire'],['Roll Length','50 m'],['Finish','Hot-dip galvanised']]],
+ 'barbed-wire' => ['Barbed Wire 25 kg Roll', 38.00, 'roll',
+   'High-tensile, high-security barbed wire for perimeter and farm protection. 25 kg roll.',
+   'Hot-dip galvanised barbed wire with 3-strand twist, supplied in a 25 kg roll. Also available in a 50 kg roll. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
+   'prod-barbed-wire', 'assets/img/products/barbed-wire.jpg',
+   [['Roll Weight','25 kg'],['Also Available','50 kg roll'],['Strand Twist','3-strand'],['Finish','Hot-dip galvanised']]],
+ 'barbed-wire-50kg' => ['Barbed Wire 50 kg Roll', 75.00, 'roll',
+   'High-tensile, high-security barbed wire for perimeter and farm protection. 50 kg roll.',
+   'Hot-dip galvanised barbed wire with 3-strand twist, supplied in a 50 kg roll. Also available in a 25 kg roll. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
+   'prod-barbed-wire-50', 'assets/img/products/barbed-wire-50kg.jpg',
+   [['Roll Weight','50 kg'],['Also Available','25 kg roll'],['Strand Twist','3-strand'],['Finish','Hot-dip galvanised']]],
+ 'chicken-mesh' => ['Chicken Mesh', 32.00, 'roll',
+   'Lightweight, galvanised mesh for poultry runs and small animal enclosures.',
+   'Fine-gauge galvanised chicken mesh ideal for poultry runs, garden enclosures and small animal protection. Lightweight yet durable, resistant to rust and easy to install.',
+   'prod-chicken-mesh', 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1200&q=80',
+   [['Material','Galvanised steel wire'],['Finish','Hot-dip galvanised']]],
+ 'field-fence' => ['Field Fence', 180.00, 'roll',
+   'General agricultural fencing for livestock and crop protection.',
+   'Versatile field fencing designed for livestock containment and crop protection. Galvanised woven wire construction stands up to Zimbabwean conditions season after season.',
+   'prod-field-fence', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+   [['Material','Galvanised woven wire'],['Roll Length','50 m']]],
+ 'razor-wire' => ['Razor Wire', 95.00, 'roll',
+   'Enhanced perimeter security for high-risk installations.',
+   'Concertina razor wire for maximum perimeter security. Razor-sharp blades mounted on a galvanised core, ideal for prisons, banks, warehouses and high-risk commercial properties.',
+   'prod-razor-wire', 'assets/img/products/barbed-wire-50kg-2.jpg',
+   [['Type','Concertina razor wire'],['Core','Galvanised'],['Roll Length','50 m']]],
+ 'fence-posts' => ['Fence Posts', 8.00, 'piece',
+   'Wooden, steel and concrete posts available in multiple heights.',
+   'A complete range of fence posts — steel, timber and pre-cast concrete — in heights to suit every fence type. Steel and concrete options available with pre-drilled holes for easy wire fixing.',
+   'prod-fence-posts', 'assets/img/products/round-pole-75mm.jpg',
+   [['Materials','Steel, timber, pre-cast concrete'],['Heights','Multiple options']]],
+ 'binding-wire' => ['Binding Wire & Clamps', 25.00, 'lot',
+   'Binding wire, tensioning wire, clamps and tensioners for installation.',
+   'Everything you need to secure and tension your fence line — galvanised binding wire, tension wire, wire clamps and turnbuckles for a professional finish.',
+   'prod-binding-wire', 'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=1200&q=80',
+   [['Contents','Binding wire, clamps, tensioners'],['Finish','Galvanised']]],
+ 'checkered-plate-3mm' => ['Checkered Plate Galvanised 3mm', 122.00, 'sheet',
+   'Galvanised checkered steel plate, 3mm thick, 2.4m × 1.2m sheet.',
+   'Galvanised checkered (tread) plate, 3mm thickness, supplied as 2.4m × 1.2m sheets. Anti-slip raised pattern — ideal for flooring, walkways, ramps, trailers and industrial platforms.',
+   'prod-checkered-plate', 'assets/img/products/checkered-plate-3mm.jpg',
+   [['Thickness','3 mm'],['Sheet Size','2.4 m × 1.2 m'],['Finish','Galvanised, checkered pattern']]],
+ 'galvanised-round-pole-75mm' => ['Galvanised Round Pole 75mm', 36.00, 'length (6m)',
+   'Galvanised round steel pole, 75mm diameter × 2mm wall × 6000mm.',
+   'Galvanised round steel pole — 75mm outside diameter, 2mm wall thickness, 6000mm standard length. Suitable for fencing posts, structural supports, gates and general fabrication.',
+   'prod-round-pole-75', 'assets/img/products/round-pole-75mm.jpg',
+   [['Diameter','75 mm'],['Wall Thickness','2 mm'],['Length','6000 mm'],['Finish','Galvanised']]],
+ 'galvanised-round-pole-32mm' => ['Galvanised Round Pole 32mm', 25.00, 'length (6m)',
+   'Galvanised round steel pole, 32mm diameter × 2mm wall × 6000mm.',
+   'Galvanised round steel pole — 32mm outside diameter, 2mm wall thickness, 6000mm standard length. Suitable for fencing posts, structural supports, gates and general fabrication.',
+   'prod-round-pole-32', 'assets/img/products/round-pole-32mm.jpg',
+   [['Diameter','32 mm'],['Wall Thickness','2 mm'],['Length','6000 mm'],['Finish','Galvanised']]],
+ 'galvanised-round-pole-38mm' => ['Galvanised Round Pole 38mm', 28.00, 'length (6m)',
+   'Galvanised round steel pole, 38mm diameter × 2mm wall × 6000mm.',
+   'Galvanised round steel pole — 38mm outside diameter, 2mm wall thickness, 6000mm standard length. Suitable for fencing posts, structural supports, gates and general fabrication.',
+   'prod-round-pole-38', 'assets/img/products/round-pole-38mm.jpg',
+   [['Diameter','38 mm'],['Wall Thickness','2 mm'],['Length','6000 mm'],['Finish','Galvanised']]],
+ 'square-tubes' => ['Square Tubes', null, 'length',
+   'Steel square tubes in various sizes and thicknesses. Supplied on request.',
+   'Steel square tubes for gates, frames, structural work and fabrication. Available in various sizes and thicknesses. Not a stock item — supplied on request.',
+   'prod-square-tubes', 'assets/img/products/square-tubes.jpg',
+   [['Type','Square hollow section'],['Availability','Supplied on request']]],
+ 'angle-irons' => ['Angle Irons', null, 'length',
+   'Steel angle sections in various sizes. Supplied on request.',
+   'Strong and versatile steel angle sections designed for structural support and general fabrication. Ideal for frames, brackets, supports, fencing, construction and engineering applications. Available in various sizes and thicknesses. Not a stock item — supplied on request.',
+   'prod-angle-irons', 'assets/img/products/angle-irons.jpg',
+   [['Type','Equal/unequal angle'],['Availability','Supplied on request']]],
+ 'deformed-bars' => ['Deformed Bars', null, 'length',
+   'High-strength ribbed reinforcement bars for reinforced concrete. Supplied on request.',
+   'High-strength steel reinforcement bars with a ribbed surface designed to provide excellent bonding with concrete. Ideal for reinforced concrete structures, foundations, columns, beams, slabs and general construction projects. Not a stock item — supplied on request.',
+   'prod-deformed-bars', 'assets/img/products/deformed-bars.jpg',
+   [['Type','Deformed (ribbed) rebar'],['Availability','Supplied on request']]],
+];
+
+$prod  = $PD[$slug] ?? null;
+$specs = $prod ? $prod[7] : [];
+$badge = null; $rating = null; $reviews = 0;
+
+// Prefer live DB when connected
+if ($pdo) {
+    try {
+        $st = $pdo->prepare('SELECT * FROM products WHERE slug = ? AND is_active = 1 LIMIT 1');
+        $st->execute([$slug]);
+        $row = $st->fetch();
+        if ($row) {
+            $prod = [$row['name'], $row['price_usd'] !== null ? (float)$row['price_usd'] : null,
+                     $row['unit'], $row['short_desc'], $row['long_desc'],
+                     'prod-' . $slug, $row['image'], $prod ? $prod[7] : []];
+            $badge = $row['badge']; $rating = (float)$row['rating']; $reviews = (int)$row['reviews_count'];
+            $st = $pdo->prepare('SELECT label, value FROM product_specs WHERE product_id = ? ORDER BY sort_order');
+            $st->execute([$row['id']]);
+            $specs = array_map(fn($r) => [$r['label'], $r['value']], $st->fetchAll());
+        }
+    } catch (Throwable $e) { /* keep fallback */ }
+}
+
+if (!$prod) {
+    // generic render for catalog items without a full record
+    $pretty = ucwords(str_replace('-', ' ', $slug));
+    $prod = [$pretty, null, 'item',
+        'Quality product supplied by Vuemax.',
+        $pretty . ' — supplied by Vuemax Industries. Contact us for specifications, pricing and availability.',
+        'prod-' . $slug, 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1200&q=80',
+        [['Availability','Contact us for specs & pricing']]];
+}
+
+[$pName, $pPrice, $pUnit, $pShort, $pLong, $pImgKey, $pImgFallback] = $prod;
+$mainImg = site_image($pImgKey, $pImgFallback);
+// second gallery image: <basename>-2.<ext> if it exists alongside the main image
+$img2 = null;
+if ($mainImg && strpos($mainImg, 'http') !== 0) {
+    $cand = preg_replace('/\.(jpe?g|png|webp)$/i', '-2.$1', $mainImg);
+    if ($cand !== $mainImg && file_exists(__DIR__ . '/' . $cand)) $img2 = $cand;
+}
+$onRequest = ($pPrice === null);
+$sku = 'VX-' . strtoupper(preg_replace('/[^A-Z0-9]/', '', substr(md5($slug), 0, 6)));
+
+$pageTitle = $pName . ' | Vuemax';
+$pageDesc  = mb_substr(strip_tags($pShort), 0, 150);
 $active = '';
 
 $extraCss = <<<'CSS'
@@ -240,16 +388,6 @@ $extraJs = <<<'JS'
  PRODUCT DETAIL INTERACTIONS
  ============================================================ */
 (function(){
- /* ---- Read slug from URL and update breadcrumb + title ---- */
- const params = new URLSearchParams(window.location.search);
- const slug = params.get('slug');
- if (slug) {
- const pretty = slug.replace(/-/g,' ').replace(/\b\w/g, c => c.toUpperCase());
- document.title = pretty + ' Vuemax | Fencing Solutions Zimbabwe';
- document.getElementById('crumbProduct').textContent = pretty;
- document.getElementById('productName').textContent = pretty;
- }
-
  /* ---- Gallery thumb switching ---- */
  const main = document.getElementById('galleryMain');
  document.querySelectorAll('#galleryThumbs .gallery-thumb').forEach(t => {
@@ -327,7 +465,7 @@ require __DIR__ . '/includes/header.php';
  <span class="sep">›</span>
  <a href="products.php?category=fencing">Fencing</a>
  <span class="sep">›</span>
- <span class="current" id="crumbProduct">Diamond Mesh</span>
+ <span class="current" id="crumbProduct"><?= e($pName) ?></span>
  </div>
  </div>
 </div>
@@ -340,11 +478,12 @@ require __DIR__ . '/includes/header.php';
  <!-- LEFT: GALLERY -->
  <div class="gallery">
  <div class="gallery-main" id="galleryMain"
- style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80')) ?>')">
- <span class="badge-pop">Best Seller</span>
+ style="background-image:url('<?= e($mainImg) ?>')">
+ <?php if ($badge): ?><span class="badge-pop"><?= e($badge) ?></span><?php endif; ?>
  </div>
  <div class="gallery-thumbs" id="galleryThumbs">
- <div class="gallery-thumb active" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="gallery-thumb active" style="background-image:url('<?= e($mainImg) ?>')"></div>
+ <?php if ($img2): ?><div class="gallery-thumb" style="background-image:url('<?= e($img2) ?>')"></div><?php endif; ?>
  <div class="gallery-thumb" style="background-image:url('<?= e(site_image('pd-gallery-2', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
  <div class="gallery-thumb" style="background-image:url('<?= e(site_image('pd-gallery-3', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
  <div class="gallery-thumb" style="background-image:url('<?= e(site_image('pd-gallery-4', 'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
@@ -353,63 +492,57 @@ require __DIR__ . '/includes/header.php';
 
  <!-- RIGHT: INFO -->
  <div class="product-info">
- <h1 id="productName">Diamond Mesh</h1>
+ <h1 id="productName"><?= e($pName) ?></h1>
 
  <div class="product-meta">
+ <?php if ($rating): ?>
  <span class="stars">★★★★★</span>
- <span>4.8 (120 reviews)</span>
+ <span><?= $rating ?> (<?= $reviews ?> reviews)</span>
  <span class="divider"></span>
- <span>SKU: VX-DM-180</span>
+ <?php endif; ?>
+ <span>SKU: <?= $sku ?></span>
  <span class="divider"></span>
- <span style="color:var(--green-text);font-weight:600;">In Stock</span>
+ <span style="color:var(--green-text);font-weight:600;"><?= $onRequest ? 'Supplied on Request' : 'In Stock' ?></span>
  </div>
 
- <p class="tagline">
- Versatile, durable and cost-effective fencing for homes, farms and businesses.
- Hot-dip galvanised wire available in multiple heights and roll lengths.
- </p>
+ <p class="tagline"><?= e($pShort) ?></p>
 
  <!-- Pricing -->
  <div class="price-block">
  <div class="price-row primary">
- <span class="label">From</span>
- <span class="value">$120.00</span>
+ <?php if ($onRequest): ?>
+ <span class="label">Price</span>
+ <span class="value">Supplied on request</span>
+ <?php else: ?>
+ <span class="label"><?= str_starts_with($pShort, 'Versatile') || str_contains($pShort, 'heights') ? 'From' : 'Price' ?></span>
+ <span class="value"><?= usd($pPrice) ?></span>
+ <?php endif; ?>
  </div>
  <div class="price-row">
  <span class="label">Per</span>
- <span class="value">Roll (30 m)</span>
+ <span class="value"><?= e(ucfirst($pUnit)) ?></span>
  </div>
+ <?php foreach (array_slice($specs, 0, 4) as $sp): if (stripos($sp[0], 'height') === 0) continue; ?>
  <div class="price-row">
- <span class="label">Heights Available</span>
- <span class="value">1.2 m · 1.5 m · 1.8 m · 2.1 m</span>
+ <span class="label"><?= e($sp[0]) ?></span>
+ <span class="value"><?= e($sp[1]) ?></span>
  </div>
- <div class="price-row">
- <span class="label">Wire Diameter</span>
- <span class="value">2.5 mm</span>
- </div>
- <div class="price-note">Prices are estimates and may vary based on order volume and location.</div>
+ <?php endforeach; ?>
+ <div class="price-note"><?= $onRequest ? 'Contact us with your sizes and quantities for a quotation.' : 'Prices are estimates and may vary based on order volume and location.' ?></div>
  </div>
 
- <!-- Height option -->
+ <?php $heightSpecs = array_values(array_filter($specs, fn($s) => stripos($s[0], 'Height') === 0)); ?>
+ <?php if ($heightSpecs): ?>
+ <!-- Height option (priced per height) -->
  <div class="option-group">
- <label for="heightOpts">Select Height</label>
+ <label for="heightOpts">Select Height (price per roll)</label>
  <div class="option-pills" id="heightOpts">
- <button class="option-pill">1.2 m</button>
- <button class="option-pill">1.5 m</button>
- <button class="option-pill active">1.8 m</button>
- <button class="option-pill">2.1 m</button>
+ <?php foreach ($heightSpecs as $i => $h): ?>
+ <button class="option-pill <?= $i === 0 ? 'active' : '' ?>"><?= e(str_replace('Height ', '', $h[0])) ?> — <?= e($h[1]) ?></button>
+ <?php endforeach; ?>
  </div>
  </div>
-
- <!-- Roll length option -->
- <div class="option-group">
- <label for="lengthOpts">Roll Length</label>
- <div class="option-pills" id="lengthOpts">
- <button class="option-pill active">30 m</button>
- <button class="option-pill">50 m</button>
- <button class="option-pill">100 m</button>
- </div>
- </div>
+ <?php endif; ?>
 
  <!-- Qty + Add to quote -->
  <div class="qty-row">
@@ -458,24 +591,19 @@ require __DIR__ . '/includes/header.php';
 
  <!-- Description -->
  <div class="tab-panel active" id="tab-desc">
- <h3>About Diamond Mesh</h3>
- <p>Our diamond mesh fencing is designed for maximum strength and durability, making it ideal for wildlife enclosures, farms and large properties. Manufactured to SABS standards, it offers exceptional protection and long service life even in harsh conditions.</p>
- <p>Each roll is hot-dip galvanised to resist rust and corrosion perfect for Zimbabwe's varied climate. The interlocking diamond pattern provides flexibility and impact resistance while maintaining clear visibility through the fence line.</p>
- <p>Available in four standard heights and three roll lengths, diamond mesh can be combined with steel or wooden posts, top wire, and accessories to build a complete fencing solution tailored to your project.</p>
+ <h3>About <?= e($pName) ?></h3>
+ <?php foreach (preg_split('/\n\s*\n|(?<=\.)\s+(?=Also |Not a )/', $pLong) as $para): ?>
+ <p><?= e(trim($para)) ?></p>
+ <?php endforeach; ?>
  </div>
 
  <!-- Specs -->
  <div class="tab-panel" id="tab-specs">
  <h3>Technical Specifications</h3>
  <table class="specs-table">
- <tr><td>Material</td><td>Hot-dip galvanised steel wire</td></tr>
- <tr><td>Mesh Aperture</td><td>50 mm × 50 mm</td></tr>
- <tr><td>Wire Diameter</td><td>2.5 mm</td></tr>
- <tr><td>Roll Length</td><td>30 m / 50 m / 100 m</td></tr>
- <tr><td>Available Heights</td><td>1.2 m · 1.5 m · 1.8 m · 2.1 m</td></tr>
- <tr><td>Finish</td><td>Hot-dip galvanised</td></tr>
- <tr><td>Standard</td><td>SABS 1587</td></tr>
- <tr><td>Warranty</td><td>10 years against manufacturing defects</td></tr>
+ <?php foreach ($specs as $sp): ?>
+ <tr><td><?= e($sp[0]) ?></td><td><?= e($sp[1]) ?></td></tr>
+ <?php endforeach; ?>
  </table>
  </div>
 
