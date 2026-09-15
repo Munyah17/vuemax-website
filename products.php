@@ -327,7 +327,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 3 -->
  <a class="product-card" href="product-detail.php?slug=barbed-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'assets/img/products/barbed-wire.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Barbed Wire</h3>

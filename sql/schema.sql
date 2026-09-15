@@ -328,7 +328,7 @@ INSERT INTO `products`
  'High-tensile, high-security barbed wire for perimeter and farm protection. Available in 25 kg and 50 kg rolls.',
  'Hot-dip galvanised barbed wire with 3-strand twist. Available in 25 kg and 50 kg rolls. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
  'roll', 45.00, 100, 8.00, 0.60, 160.00, 2.50,
- 'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80',
+ 'assets/img/products/barbed-wire.jpg',
  NULL, 4.6, 74, 1, 3),
 
 (4, 'chicken-mesh', 'Chicken Mesh',
@@ -551,7 +551,7 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('cat-hardware','Category card: General Hardware','index.php','https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=800&q=80'),
 ('prod-diamond-mesh','Product: Diamond Mesh','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80'),
 ('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80'),
-('prod-barbed-wire','Product: Barbed Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80'),
+('prod-barbed-wire','Product: Barbed Wire (25 kg roll)','products.php, product-detail.php, calculator.php','assets/img/products/barbed-wire.jpg'),
 ('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80'),
 ('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80'),
 ('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=600&q=80'),
