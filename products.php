@@ -332,7 +332,7 @@ require __DIR__ . '/includes/header.php';
  <span class="cat">Fencing</span>
  <h3>Barbed Wire 25 kg</h3>
  <p>High-tensile barbed wire for perimeter security and farm protection. 25 kg roll, also available in 50 kg.</p>
- <div class="price">From $45 <span>/ roll</span></div>
+ <div class="price">$38 <span>/ roll</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
@@ -346,7 +346,7 @@ require __DIR__ . '/includes/header.php';
  <span class="cat">Fencing</span>
  <h3>Barbed Wire 50 kg</h3>
  <p>High-tensile barbed wire for perimeter security and farm protection. 50 kg roll, also available in 25 kg.</p>
- <div class="price">Price on <span>request</span></div>
+ <div class="price">$75 <span>/ roll</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
