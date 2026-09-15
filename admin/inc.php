@@ -93,6 +93,10 @@ function admin_nav($active) {
                     <?= $link('products.php', 'fas fa-boxes', 'Products', 'products') ?>
                     <?= $link('quotes.php', 'fas fa-file-invoice-dollar', 'Quotes', 'quotes') ?>
                     <?= $link('messages.php', 'fas fa-envelope', 'Messages', 'messages') ?>
+                    <div class="sb-sidenav-menu-heading">Back Office</div>
+                    <?= $link('customers.php', 'fas fa-users', 'Customers', 'customers') ?>
+                    <?= $link('orders.php', 'fas fa-truck', 'Orders &amp; Delivery', 'orders') ?>
+                    <?= $link('users.php', 'fas fa-user-shield', 'Admin Users', 'users') ?>
                     <div class="sb-sidenav-menu-heading">Other</div>
                     <a class="nav-link" href="../index.php" target="_blank">
                         <div class="sb-nav-link-icon"><i class="fas fa-external-link-alt"></i></div>

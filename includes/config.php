@@ -66,9 +66,11 @@ function site_image($key, $fallback = '') {
  * slot, otherwise the default V emblem.
  */
 function logo_mark_html() {
+ global $base;
  $img = site_image('logo', 'assets/img/logo.png');
  if ($img) {
- return '<img class="logo-mark logo-img" src="' . e($img) . '" alt="Vuemax Industries">';
+ $src = ($img && strpos($img, 'http') !== 0) ? ($base ?? '') . $img : $img;
+ return '<img class="logo-mark logo-img" src="' . e($src) . '" alt="Vuemax Industries">';
  }
  return '<div class="logo-mark">V</div>';
 }

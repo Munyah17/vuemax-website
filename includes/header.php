@@ -8,6 +8,7 @@
  * $extraCss (string) optional page-specific CSS (printed inside <style>)
  * $extraHead (string) optional extra <head> markup
  */
+$b = isset($base) ? $base : '';   // path prefix for pages in subdirs (e.g. account/)
 $pageTitle = isset($pageTitle) ? $pageTitle : 'Vuemax Fencing, Steel & Hardware Solutions | Zimbabwe';
 $pageDesc = isset($pageDesc) ? $pageDesc : 'Vuemax supplies quality fencing, steel and hardware products across Zimbabwe.';
 $active = isset($active) ? $active : '';
@@ -26,7 +27,7 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/vuemax.css">
+<link rel="stylesheet" href="<?= $b ?>assets/css/vuemax.css">
 <?php if (!empty($extraCss)): ?>
 <style>
 <?= $extraCss ?>
@@ -56,7 +57,7 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
 <!-- ===================== HEADER ===================== -->
 <header class="site-header">
  <div class="container header-inner">
- <a href="index.php" class="logo">
+ <a href="<?= $b ?>index.php" class="logo">
  <?= logo_mark_html() ?>
  <div class="logo-text">
  <strong>VUEMAX</strong>
@@ -65,17 +66,18 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
  </a>
 
  <nav class="nav-desktop">
- <a href="index.php"<?= navClass('home', $active) ?>>Home</a>
- <a href="products.php?category=fencing"<?= navClass('fencing', $active) ?>>Fencing</a>
- <a href="products.php?category=steel"<?= navClass('steel', $active) ?>>Steel</a>
- <a href="products.php?category=hardware"<?= navClass('hardware', $active) ?>>Hardware</a>
- <a href="installations.php"<?= navClass('projects', $active) ?>>Projects</a>
- <a href="about.php"<?= navClass('about', $active) ?>>About</a>
- <a href="contact.php"<?= navClass('contact', $active) ?>>Contact</a>
+ <a href="<?= $b ?>index.php"<?= navClass('home', $active) ?>>Home</a>
+ <a href="<?= $b ?>products.php?category=fencing"<?= navClass('fencing', $active) ?>>Fencing</a>
+ <a href="<?= $b ?>products.php?category=steel"<?= navClass('steel', $active) ?>>Steel</a>
+ <a href="<?= $b ?>products.php?category=hardware"<?= navClass('hardware', $active) ?>>Hardware</a>
+ <a href="<?= $b ?>installations.php"<?= navClass('projects', $active) ?>>Projects</a>
+ <a href="<?= $b ?>about.php"<?= navClass('about', $active) ?>>About</a>
+ <a href="<?= $b ?>contact.php"<?= navClass('contact', $active) ?>>Contact</a>
+ <a href="<?= $b ?>account/index.php"<?= navClass('account', $active) ?>>Account</a>
  </nav>
 
  <div class="header-actions">
- <a href="calculator.php" class="btn btn-amber btn-pill btn-sm">
+ <a href="<?= $b ?>calculator.php" class="btn btn-amber btn-pill btn-sm">
  <span class="header-cta-text">Get Quote</span>
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </a>
@@ -90,7 +92,7 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
  <div class="drawer-head">
- <a href="index.php" class="logo">
+ <a href="<?= $b ?>index.php" class="logo">
  <?= logo_mark_html() ?>
  <div class="logo-text">
  <strong>VUEMAX</strong>
@@ -103,21 +105,22 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
  </div>
 
  <nav class="drawer-nav">
- <a href="index.php"<?= navClass('home', $active) ?>>Home</a>
- <a href="products.php?category=fencing"<?= navClass('fencing', $active) ?>>Fencing</a>
- <a href="products.php?category=steel"<?= navClass('steel', $active) ?>>Steel</a>
- <a href="products.php?category=hardware"<?= navClass('hardware', $active) ?>>General Hardware</a>
- <a href="installations.php"<?= navClass('projects', $active) ?>>Projects</a>
- <a href="about.php"<?= navClass('about', $active) ?>>About</a>
- <a href="contact.php"<?= navClass('contact', $active) ?>>Contact</a>
+ <a href="<?= $b ?>index.php"<?= navClass('home', $active) ?>>Home</a>
+ <a href="<?= $b ?>products.php?category=fencing"<?= navClass('fencing', $active) ?>>Fencing</a>
+ <a href="<?= $b ?>products.php?category=steel"<?= navClass('steel', $active) ?>>Steel</a>
+ <a href="<?= $b ?>products.php?category=hardware"<?= navClass('hardware', $active) ?>>General Hardware</a>
+ <a href="<?= $b ?>installations.php"<?= navClass('projects', $active) ?>>Projects</a>
+ <a href="<?= $b ?>about.php"<?= navClass('about', $active) ?>>About</a>
+ <a href="<?= $b ?>contact.php"<?= navClass('contact', $active) ?>>Contact</a>
+ <a href="<?= $b ?>account/index.php"<?= navClass('account', $active) ?>>My Account</a>
  </nav>
 
  <div class="drawer-cta">
- <a href="calculator.php" class="btn btn-amber btn-block">
+ <a href="<?= $b ?>calculator.php" class="btn btn-amber btn-block">
  Get Instant Quote
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </a>
- <a href="estimator.php" class="btn btn-outline-navy btn-block">
+ <a href="<?= $b ?>estimator.php" class="btn btn-outline-navy btn-block">
  AI Estimator
  </a>
  </div>

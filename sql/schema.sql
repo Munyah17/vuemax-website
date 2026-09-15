@@ -244,6 +244,98 @@ CREATE TABLE `faqs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
+-- 10b. CUSTOMERS  (customer portal accounts — login via /account)
+-- ============================================================
+DROP TABLE IF EXISTS `order_events`;
+DROP TABLE IF EXISTS `order_items`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `customers`;
+
+CREATE TABLE `customers` (
+  `id`            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name`          VARCHAR(160) NOT NULL,
+  `email`         VARCHAR(160) NOT NULL,
+  `phone`         VARCHAR(60)  DEFAULT NULL,
+  `company`       VARCHAR(160) DEFAULT NULL,
+  `address`       VARCHAR(255) DEFAULT NULL,
+  `password_hash` VARCHAR(255) NOT NULL,   -- password_hash()
+  `status`        VARCHAR(20)  NOT NULL DEFAULT 'active',  -- active | suspended
+  `last_login`    TIMESTAMP    NULL DEFAULT NULL,
+  `created_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_customers_email` (`email`),
+  KEY `idx_customers_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Customer permissions model (enforced in account/inc.php):
+--   CAN: view own orders + tracking timeline, download own quote,
+--        edit own profile, change own password
+--   CANNOT: see other customers' data, modify orders, access /admin
+
+-- ============================================================
+-- 10c. ORDERS  (purchases + delivery pipeline, admin-managed)
+-- ============================================================
+CREATE TABLE `orders` (
+  `id`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_no`        VARCHAR(40)  NOT NULL,          -- e.g. VO-2026-0001
+  `customer_id`     INT UNSIGNED NOT NULL,
+  `quote_id`        INT UNSIGNED DEFAULT NULL,       -- optional link to saved quote
+  `status`          VARCHAR(30)  NOT NULL DEFAULT 'pending',
+  -- pending | confirmed | processing | packed | shipped |
+  -- out_for_delivery | delivered | cancelled
+  `payment_status`  VARCHAR(20)  NOT NULL DEFAULT 'unpaid',  -- unpaid | deposit | paid
+  `subtotal_usd`    DECIMAL(12,2) DEFAULT NULL,
+  `delivery_usd`    DECIMAL(10,2) DEFAULT 0.00,
+  `total_usd`       DECIMAL(12,2) DEFAULT NULL,
+  `delivery_address` VARCHAR(255) DEFAULT NULL,
+  `tracking_ref`    VARCHAR(80)   DEFAULT NULL,
+  `driver_phone`    VARCHAR(60)   DEFAULT NULL,
+  `eta`             DATE          DEFAULT NULL,
+  `admin_notes`     TEXT          DEFAULT NULL,       -- internal only
+  `created_at`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_orders_no` (`order_no`),
+  KEY `idx_orders_customer` (`customer_id`, `status`),
+  KEY `idx_orders_status` (`status`, `created_at`),
+  CONSTRAINT `fk_orders_customer` FOREIGN KEY (`customer_id`)
+    REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_orders_quote` FOREIGN KEY (`quote_id`)
+    REFERENCES `quotes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `order_items` (
+  `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id`    INT UNSIGNED NOT NULL,
+  `product_id`  INT UNSIGNED DEFAULT NULL,
+  `name`        VARCHAR(200) NOT NULL,
+  `spec`        VARCHAR(255) DEFAULT NULL,   -- '1.8m × 30m roll', '50 kg roll'
+  `qty`         DECIMAL(10,2) NOT NULL DEFAULT 1,
+  `unit_price`  DECIMAL(12,2) DEFAULT NULL,
+  `total`       DECIMAL(12,2) DEFAULT NULL,
+  `sort_order`  INT          NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_order_items_order` (`order_id`, `sort_order`),
+  CONSTRAINT `fk_order_items_order` FOREIGN KEY (`order_id`)
+    REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tracking timeline — one row per status change / delivery update,
+-- shown to the customer on their order tracking page.
+CREATE TABLE `order_events` (
+  `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `order_id`   INT UNSIGNED NOT NULL,
+  `status`     VARCHAR(30)  NOT NULL,
+  `note`       VARCHAR(255) DEFAULT NULL,   -- e.g. 'Left depot, ETA Thursday'
+  `is_public`  TINYINT(1)   NOT NULL DEFAULT 1,  -- 0 = internal note, hidden from customer
+  `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_order_events` (`order_id`, `created_at`),
+  CONSTRAINT `fk_order_events` FOREIGN KEY (`order_id`)
+    REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
 -- 11. ADMIN USERS  (for Phase 3 admin panel)
 -- ============================================================
 DROP TABLE IF EXISTS `admin_users`;
@@ -255,18 +347,19 @@ CREATE TABLE `admin_users` (
   `role`           VARCHAR(20)  NOT NULL DEFAULT 'admin', -- admin | editor | viewer
   `last_login`     TIMESTAMP    NULL DEFAULT NULL,
   `is_active`      TINYINT(1)   NOT NULL DEFAULT 1,
+  `is_protected`   TINYINT(1)   NOT NULL DEFAULT 0,  -- primary admin: can never be deleted/deactivated
   `created_at`     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_admin_username` (`username`),
   UNIQUE KEY `uk_admin_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Admin login (works straight after import):
---   Username: munyah   (or email: munyamuzvidziwa19@gmail.com)
---   Password: @@Griezmann177#$
--- (password_hash() with PASSWORD_BCRYPT)
-INSERT INTO `admin_users` (`username`, `email`, `password_hash`, `role`) VALUES
-('munyah', 'munyamuzvidziwa19@gmail.com', '$2y$10$u2EHyBRqyibodmk/hLKdzuDXnOwVTArBi3xLWhVj3KeBYuCA.M.aS', 'admin');
+-- Primary admin login (works straight after import):
+--   Username: munyah   (or email: munyah777@gmail.com)
+--   Password: griezmann17
+-- is_protected=1 → this account cannot be deleted or deactivated.
+INSERT INTO `admin_users` (`username`, `email`, `password_hash`, `role`, `is_protected`) VALUES
+('munyah', 'munyah777@gmail.com', '$2y$10$TsLUFaPH6/8zhfFxASx0CugjSkNAZ.tWnSE2KPwAjSVn5/Vw.ZWzS', 'admin', 1);
 
 -- ============================================================
 -- SEED DATA
@@ -692,3 +785,22 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('proj-10','Gallery project image 10','installations.php','https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80'),
 ('proj-11','Gallery project image 11','installations.php','https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=800&q=80'),
 ('proj-12','Gallery project image 12','installations.php','https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80');
+
+-- ============================================================
+-- SEED: demo customer + order (remove or keep for testing)
+-- ============================================================
+-- Demo customer login:  demo@customer.com / customer123
+INSERT INTO `customers` (`name`, `email`, `phone`, `company`, `address`, `password_hash`, `status`) VALUES
+('Demo Customer', 'demo@customer.com', '+263 77 000 0000', 'Demo Farms (Pvt) Ltd', 'Graniteside, Harare', '$2y$10$Zu0Kd2/gR4uEkqmeeBYbfOAiP7E1PNh2vpIxulcSkgmY0ADsGEH.2', 'active');
+
+INSERT INTO `orders` (`order_no`, `customer_id`, `status`, `payment_status`, `subtotal_usd`, `delivery_usd`, `total_usd`, `delivery_address`, `tracking_ref`, `driver_phone`, `eta`) VALUES
+('VO-2026-0001', 1, 'processing', 'deposit', 284.00, 25.00, 309.00, 'Graniteside, Harare', 'VMX-TRK-0001', '+263 71 111 1111', '2026-09-20');
+
+INSERT INTO `order_items` (`order_id`, `product_id`, `name`, `spec`, `qty`, `unit_price`, `total`, `sort_order`) VALUES
+(1, 1, 'Diamond Mesh 50x50 (2mm)', '1.8m height x 30m roll', 2, 110.00, 220.00, 1),
+(1, 7, 'Fence Posts', '2.4m steel posts', 8, 8.00, 64.00, 2);
+
+INSERT INTO `order_events` (`order_id`, `status`, `note`, `is_public`) VALUES
+(1, 'pending',    'Order placed', 1),
+(1, 'confirmed',  'Payment deposit confirmed', 1),
+(1, 'processing', 'Items being picked at warehouse', 1);

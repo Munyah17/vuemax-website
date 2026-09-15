@@ -3,13 +3,14 @@
  * Vuemax shared page footer
  * Optional: $extraJs (string) page-specific JS printed inside <script> before </body>
  */
+$b = isset($base) ? $base : '';
 ?>
 <!-- ===================== FOOTER ===================== -->
 <footer class="site-footer">
  <div class="container">
  <div class="footer-grid">
  <div class="footer-brand">
- <a href="index.php" class="logo">
+ <a href="<?= $b ?>index.php" class="logo">
  <?= logo_mark_html() ?>
  <div class="logo-text">
  <strong>VUEMAX</strong>
@@ -22,20 +23,20 @@
  <div class="footer-col">
  <h4>Shop</h4>
  <ul>
- <li><a href="products.php?category=fencing">Fencing</a></li>
- <li><a href="products.php?category=steel">Steel</a></li>
- <li><a href="products.php?category=hardware">General Hardware</a></li>
- <li><a href="products.php">All Products</a></li>
+ <li><a href="<?= $b ?>products.php?category=fencing">Fencing</a></li>
+ <li><a href="<?= $b ?>products.php?category=steel">Steel</a></li>
+ <li><a href="<?= $b ?>products.php?category=hardware">General Hardware</a></li>
+ <li><a href="<?= $b ?>products.php">All Products</a></li>
  </ul>
  </div>
 
  <div class="footer-col">
  <h4>Company</h4>
  <ul>
- <li><a href="about.php">About Us</a></li>
- <li><a href="installations.php">Projects</a></li>
- <li><a href="faq.php">FAQ</a></li>
- <li><a href="contact.php">Contact</a></li>
+ <li><a href="<?= $b ?>about.php">About Us</a></li>
+ <li><a href="<?= $b ?>installations.php">Projects</a></li>
+ <li><a href="<?= $b ?>faq.php">FAQ</a></li>
+ <li><a href="<?= $b ?>contact.php">Contact</a></li>
  </ul>
  </div>
 
@@ -75,7 +76,7 @@
  </div>
 </footer>
 
-<script src="assets/js/main.js" defer></script>
+<script src="<?= $b ?>assets/js/main.js" defer></script>
 <?php if (!empty($extraJs)): ?>
 <script>
 <?= $extraJs ?>
