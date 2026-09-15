@@ -1,5 +1,5 @@
 -- ============================================================
--- VUEMAX INVESTMENTS — DATABASE SCHEMA
+-- VUEMAX INDUSTRIES — DATABASE SCHEMA
 -- File: /sql/schema.sql
 -- Engine: InnoDB · Charset: utf8mb4 · Collation: utf8mb4_unicode_ci
 --
@@ -844,3 +844,6 @@ INSERT INTO `order_events` (`order_id`, `status`, `note`, `is_public`) VALUES
 (1, 'pending',    'Order placed', 1),
 (1, 'confirmed',  'Payment deposit confirmed', 1),
 (1, 'processing', 'Items being picked at warehouse', 1);
+
+SET FOREIGN_KEY_CHECKS = 1;
+
