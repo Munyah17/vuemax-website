@@ -291,10 +291,30 @@ function detect_options($text) {
 
 $options = $ai ? $ai['options'] : detect_options($text);
 
-/* ---------- 5. Compute BOQ ---------- */
-
-$spacing = 2.5; // Standard post spacing
+$spacing = 5.0; // Client rule: standard posts every 5 m
 $corners = 4; // Assume rectangular site
+
+/* ---------- Assist mode ----------
+   Used by the calculator's "AI Quick-Fill": return the parsed
+   project parameters only (no pricing), so the form stays
+   deterministic and reviewable by the user. */
+if (!empty($body['assist'])) {
+ json_response([
+ 'ok' => true,
+ 'parsed' => [
+ 'fence_slug' => $best_product['slug'],
+ 'perimeter' => $perimeter,
+ 'corners' => $corners,
+ 'height' => $height,
+ 'spacing' => $spacing,
+ 'options' => $options,
+ ],
+ 'confidence' => $ai ? 'high' : ($best_score >= 5 ? 'high' : ($best_score >= 2 ? 'medium' : 'low')),
+ 'engine' => $ai ? 'groq:' . GROQ_MODEL : 'rules',
+ ]);
+}
+
+/* ---------- 5. Compute BOQ ---------- */
 
 $items = [];
 

@@ -306,6 +306,47 @@ $extraCss = <<<'CSS'
  margin-top:8px;
 }
 
+/* AI Quick-Fill */
+.ai-assist{
+ background:linear-gradient(135deg,#0E2745,#16294B);
+ border-radius:var(--radius-card);padding:20px 22px;margin-bottom:24px;
+ position:relative;overflow:hidden;
+}
+.ai-assist::before{
+ content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;
+ background:radial-gradient(circle,rgba(245,183,49,.22),transparent 70%);
+}
+.ai-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;color:#fff;}
+.ai-head svg{color:var(--amber);flex-shrink:0;}
+.ai-head strong{font-size:14.5px;font-weight:700;}
+.ai-head .ai-tag{
+ font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ background:rgba(245,183,49,.2);color:var(--amber);padding:3px 9px;border-radius:20px;
+ margin-left:auto;
+}
+.ai-assist textarea{
+ width:100%;min-height:64px;resize:vertical;
+ border:1.5px solid rgba(255,255,255,.18);border-radius:10px;
+ background:rgba(255,255,255,.08);color:#fff;
+ padding:11px 13px;font:inherit;font-size:13.5px;line-height:1.5;
+ outline:none;
+}
+.ai-assist textarea::placeholder{color:rgba(255,255,255,.45);}
+.ai-assist textarea:focus{border-color:var(--amber);}
+.ai-actions{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap;}
+.ai-status{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.75);}
+.ai-status.ok{color:#7DD3A8;}
+.ai-status.err{color:#FCA5A5;}
+.ai-fill-btn{
+ display:inline-flex;align-items:center;gap:8px;
+ background:var(--amber);color:var(--navy);
+ border:none;border-radius:10px;padding:10px 18px;
+ font:inherit;font-size:13px;font-weight:700;cursor:pointer;
+ transition:.2s;
+}
+.ai-fill-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(245,183,49,.35);}
+.ai-fill-btn:disabled{opacity:.6;cursor:wait;transform:none;box-shadow:none;}
+
 /* Estimate footer CTAs */
 .estimate-ctas{
  padding:16px 20px 20px;border-top:1px solid var(--border);
@@ -568,6 +609,80 @@ document.querySelectorAll('.opt-card input').forEach(cb => {
  });
 });
 
+/* --- AI Quick-Fill: parse free text into form fields (Groq, rules fallback) --- */
+document.getElementById('aiFill').addEventListener('click', async function(){
+ const txt = document.getElementById('aiText').value.trim();
+ const status = document.getElementById('aiStatus');
+ if (txt.length < 10){
+ status.className = 'ai-status err';
+ status.textContent = 'Describe your project in a few words first.';
+ return;
+ }
+ this.disabled = true;
+ status.className = 'ai-status';
+ status.textContent = 'Thinking…';
+ try {
+ const res = await fetch('api/estimate.php', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ text: txt, assist: true })
+ });
+ const j = await res.json();
+ if (!j.ok) throw new Error(j.error || 'Could not understand that.');
+ const q = j.parsed;
+
+ // Apply to fields
+ if (q.perimeter) document.getElementById('perimeter').value = q.perimeter;
+ if (q.spacing) document.getElementById('spacing').value = q.spacing;
+ if (q.corners != null){
+ const cSel = document.getElementById('corners');
+ const opts = [...cSel.options].map(o => parseInt(o.value, 10));
+ cSel.value = opts.reduce((a, b) => Math.abs(b - q.corners) < Math.abs(a - q.corners) ? b : a);
+ }
+ if (q.height){
+ const hSel = document.getElementById('height');
+ const hOpts = [...hSel.options].map(o => parseFloat(o.value));
+ hSel.value = hOpts.reduce((a, b) => Math.abs(b - q.height) < Math.abs(a - q.height) ? b : a);
+ }
+ if (q.fence_slug){
+ const radio = document.querySelector(`input[name="fenceType"][value="${q.fence_slug}"]`);
+ if (radio){
+ radio.checked = true;
+ document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+ radio.closest('.type-card').classList.add('selected');
+ }
+ }
+ ['topWire','gate','install','concrete'].forEach(k => {
+ const id = 'opt' + k.charAt(0).toUpperCase() + k.slice(1);
+ const cb = document.getElementById(id);
+ if (cb && q.options){
+ cb.checked = !!q.options[k];
+ cb.closest('.opt-card')?.classList.toggle('selected', cb.checked);
+ }
+ });
+ render();
+
+ const p = CATALOG[q.fence_slug];
+ const bits = [];
+ if (p) bits.push(p.name);
+ bits.push(q.perimeter + 'm perimeter', q.height + 'm high');
+ if (q.corners) bits.push(q.corners + ' corners');
+ const extras = [];
+ if (q.options?.topWire) extras.push('top wire');
+ if (q.options?.gate) extras.push('gate');
+ if (q.options?.install) extras.push('installation');
+ if (q.options?.concrete) extras.push('concrete');
+ if (extras.length) bits.push('with ' + extras.join(' + '));
+
+ status.className = 'ai-status ok';
+ status.textContent = 'Filled: ' + bits.join(' · ') + (j.engine === 'rules' ? ' (offline mode)' : '');
+ } catch (e) {
+ status.className = 'ai-status err';
+ status.textContent = e.message || 'Could not parse — fill the form manually.';
+ }
+ this.disabled = false;
+});
+
 /* --- Download BOQ (visual placeholder for now) --- */
 function downloadBOQ(){
  const { items, total, v, p } = computeBOQ();
@@ -715,6 +830,23 @@ require __DIR__ . '/includes/header.php';
  <div>
  <h2>Project Details</h2>
  <p>Tell us about your fencing project so we can calculate the bill of quantities.</p>
+ </div>
+ </div>
+
+ <!-- AI Quick-Fill -->
+ <div class="ai-assist">
+ <div class="ai-head">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2zm7 10l.9 2.6L22.5 15.5l-2.6.9L19 19l-.9-2.6-2.6-.9 2.6-.9L19 12zM6 14l.9 2.6L9.5 17.5l-2.6.9L6 21l-.9-2.6-2.6-.9L5.1 16.6 6 14z"/></svg>
+ <strong>AI Quick-Fill</strong>
+ <span class="ai-tag">Powered by AI</span>
+ </div>
+ <textarea id="aiText" placeholder="Describe your project in one sentence — e.g. &quot;200m barbed wire fence, 2.1m high, around my farm plot with a gate and installation&quot;"></textarea>
+ <div class="ai-actions">
+ <button type="button" class="ai-fill-btn" id="aiFill">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z"/></svg>
+ Fill my quote
+ </button>
+ <div class="ai-status" id="aiStatus"></div>
  </div>
  </div>
 
