@@ -386,7 +386,7 @@ INSERT INTO `products`
 
 (11, 'deformed-bars', 'Deformed Bars',
  'High-strength ribbed reinforcement bars for reinforced concrete.',
- 'High-strength steel reinforcement bars with a ribbed surface designed to provide excellent bonding with concrete. Ideal for reinforced concrete structures, foundations, columns, beams, slabs and general construction projects.',
+ 'High-strength steel reinforcement bars with a ribbed surface designed to provide excellent bonding with concrete. Ideal for reinforced concrete structures, foundations, columns, beams, slabs and general construction projects. Not a stock item — supplied on request.',
  'length', NULL,
  'assets/img/products/deformed-bars.jpg',
  1, 12),
@@ -428,14 +428,14 @@ INSERT INTO `products`
 
 (9, 'square-tubes', 'Square Tubes',
  'High-quality steel square tubes for structural work, fabrication, fencing, gates and frames.',
- 'High-quality steel square tubes designed for strength, durability and versatility. Ideal for structural work, fabrication, fencing, gates, frames, roofing supports and general construction applications. Available in various sizes and thicknesses to suit different project requirements.',
+ 'High-quality steel square tubes designed for strength, durability and versatility. Ideal for structural work, fabrication, fencing, gates, frames, roofing supports and general construction applications. Available in various sizes and thicknesses. Not a stock item — supplied on request.',
  'length', NULL,
  'assets/img/products/square-tubes.jpg',
  1, 18),
 
 (12, 'angle-irons', 'Angle Irons',
  'Strong, versatile steel angle sections for structural support and general fabrication.',
- 'Strong and versatile steel angle sections designed for structural support and general fabrication. Ideal for frames, brackets, supports, fencing, construction and engineering applications. Available in various sizes and thicknesses to meet different project requirements.',
+ 'Strong and versatile steel angle sections designed for structural support and general fabrication. Ideal for frames, brackets, supports, fencing, construction and engineering applications. Available in various sizes and thicknesses. Not a stock item — supplied on request.',
  'length', NULL,
  'assets/img/products/angle-irons.jpg',
  1, 19);

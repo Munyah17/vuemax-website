@@ -514,7 +514,7 @@ require __DIR__ . '/includes/header.php';
  <span class="cat">Steel</span>
  <h3>Square Tubes</h3>
  <p>Steel square tubes for structural work, fabrication, gates, frames and roofing supports. Various sizes.</p>
- <div class="price">Price on <span>request</span></div>
+ <div class="price">Supplied on <span>request</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
@@ -528,7 +528,7 @@ require __DIR__ . '/includes/header.php';
  <span class="cat">Steel</span>
  <h3>Angle Irons</h3>
  <p>Steel angle sections for structural support, frames, brackets and fabrication. Various sizes.</p>
- <div class="price">Price on <span>request</span></div>
+ <div class="price">Supplied on <span>request</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
@@ -542,7 +542,7 @@ require __DIR__ . '/includes/header.php';
  <span class="cat">Steel</span>
  <h3>Deformed Bars</h3>
  <p>High-strength ribbed reinforcement bars for concrete slabs, columns, beams and foundations.</p>
- <div class="price">Price on <span>request</span></div>
+ <div class="price">Supplied on <span>request</span></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
