@@ -349,14 +349,14 @@ INSERT INTO `products`
  'Enhanced perimeter security for high-risk installations.',
  'Concertina razor wire for maximum perimeter security. Razor-sharp blades mounted on a galvanised core, ideal for prisons, banks, warehouses and high-risk commercial properties.',
  'roll', 95.00, 50, 14.00, 1.40, 260.00, 4.50,
- 'https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=600&q=80',
+ 'assets/img/products/barbed-wire-50kg-2.jpg',
  NULL, 4.9, 40, 1, 6),
 
 (7, 'fence-posts', 'Fence Posts',
  'Wooden, steel and concrete posts available in multiple heights.',
  'A complete range of fence posts — steel, timber and pre-cast concrete — in heights to suit every fence type. Steel and concrete options available with pre-drilled holes for easy wire fixing.',
  'piece', 8.00, NULL, NULL, NULL, NULL, NULL,
- 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=600&q=80',
+ 'assets/img/products/round-pole-75mm.jpg',
  NULL, 4.5, 38, 0, 7),
 
 (8, 'binding-wire', 'Binding Wire & Clamps',
@@ -508,6 +508,10 @@ INSERT INTO `products`
  'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
  NULL, 4.8, 95, 1, 27);
 
+-- Generic 'Steel Tubing' placeholder replaced by real products — keep the row
+-- (stable IDs) but hide it from the catalog.
+UPDATE `products` SET `is_active` = 0 WHERE `slug` = 'steel-tubing';
+
 -- ---------- PRODUCT SPECS ----------
 INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUES
 (1, 'Material',           'Hot-dip galvanised steel wire', 1),
@@ -653,9 +657,8 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-barbed-wire-50','Product: Barbed Wire (50 kg roll)','products.php, product-detail.php','assets/img/products/barbed-wire-50kg.jpg'),
 ('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80'),
 ('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80'),
-('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=600&q=80'),
-('prod-fence-posts','Product: Fence Posts','products.php, product-detail.php','https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=600&q=80'),
-('prod-steel-tubing','Product: Steel Tubing','index.php, products.php','https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=600&q=80'),
+('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','assets/img/products/barbed-wire-50kg-2.jpg'),
+('prod-fence-posts','Product: Fence Posts','products.php, product-detail.php','assets/img/products/round-pole-75mm.jpg'),
 ('prod-gate-locks','Product: Gate Locks & Hinges','index.php, products.php','https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80'),
 ('prod-checkered-plate','Product: Checkered Plate 3mm','products.php','assets/img/products/checkered-plate-3mm.jpg'),
 ('prod-round-pole-75','Product: Galvanised Round Pole 75mm','products.php','assets/img/products/round-pole-75mm.jpg'),

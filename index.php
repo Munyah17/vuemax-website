@@ -385,13 +385,13 @@ require __DIR__ . '/includes/header.php';
  </div>
 
  <div class="product-card reveal reveal-d2">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-steel-tubing', 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-square-tubes', 'assets/img/products/square-tubes.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Steel</span>
- <h3>Steel Tubing</h3>
- <p>Square and rectangular tubing for gates, frames and fabrication.</p>
- <div class="price">From $12 <span>/ metre</span></div>
- <a class="more card-cover" href="product-detail.php?slug=steel-tubing">View Details
+ <h3>Square Tubes</h3>
+ <p>Steel square tubes for gates, frames, structural work and fabrication.</p>
+ <div class="price">Price on <span>request</span></div>
+ <a class="more card-cover" href="product-detail.php?slug=square-tubes">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </a>
  </div>
