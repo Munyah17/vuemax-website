@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/config.php';
 
 $pageTitle = 'Contact Us Vuemax | Fencing, Steel & Hardware Zimbabwe';
-$pageDesc = 'Get in touch with Vuemax Investments. Call, email, WhatsApp or send us a message we respond within 24 hours.';
+$pageDesc = 'Get in touch with Vuemax Industries. Call, email, WhatsApp or send us a message we respond within 24 hours.';
 $active = 'contact';
 
 $extraCss = <<<'CSS'

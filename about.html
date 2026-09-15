@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0E2745">
 <title>About Us Vuemax | Fencing, Steel &amp; Hardware Zimbabwe</title>
-<meta name="description" content="Vuemax Investments is a leading supplier of quality fencing, steel and hardware products in Zimbabwe. Learn about our story, mission and values.">
+<meta name="description" content="Vuemax Industries is a leading supplier of quality fencing, steel and hardware products in Zimbabwe. Learn about our story, mission and values.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -247,6 +247,31 @@
  color:var(--white);line-height:1.3;
 }
 
+/* Trusted-by clients */
+.clients-section{padding:64px 0;}
+.clients-head{text-align:center;margin-bottom:36px;}
+.clients-head h2{
+ font-family:'Playfair Display',serif;font-size:clamp(26px,3.4vw,36px);
+ font-weight:700;color:var(--navy);margin-bottom:10px;
+}
+.clients-head h2 .accent{color:var(--amber);}
+.clients-head p{color:var(--muted);font-size:15px;max-width:620px;margin:0 auto;}
+.clients-grid{
+ display:grid;grid-template-columns:repeat(5,1fr);gap:14px;
+}
+.client-chip{
+ background:var(--white);border:1px solid var(--border);
+ border-radius:var(--radius-card);padding:18px 14px;
+ text-align:center;font-size:13.5px;font-weight:600;color:var(--navy);
+ transition:.2s;
+}
+.client-chip .ico{
+ width:34px;height:34px;margin:0 auto 10px;border-radius:9px;
+ background:var(--navy);color:var(--amber);
+ display:flex;align-items:center;justify-content:center;
+}
+.client-chip:hover{border-color:var(--amber);transform:translateY(-2px);}
+
 /* Coverage stats */
 .coverage-stats{
  display:grid;grid-template-columns:repeat(3,1fr);
@@ -276,6 +301,7 @@
  .values-grid{grid-template-columns:repeat(2,1fr);}
  .why-grid{grid-template-columns:1fr;gap:36px;}
  .provinces-grid{grid-template-columns:repeat(3,1fr);}
+ .clients-grid{grid-template-columns:repeat(3,1fr);}
 }
 @media (max-width:980px){
  .page-hero .script-note{display:none;}
@@ -389,7 +415,7 @@
  <span class="sep">›</span>
  <span>About</span>
  </div>
- <h1>About <span class="accent">Vuemax Investments</span></h1>
+ <h1>About <span class="accent">Vuemax Industries</span></h1>
  <p>Quality fencing, steel and hardware solutions for a stronger Zimbabwe delivered with expertise, honesty and lasting value.</p>
  </div>
  <div class="script-note">Building<br>a Safer<br>Zimbabwe</div>
@@ -405,10 +431,10 @@
 
  <div class="story-content reveal reveal-d1">
  <span class="eyebrow">Our Story</span>
- <h2>Zimbabwe's Trusted Supplier of Fencing, Steel &amp; Hardware</h2>
- <p>Vuemax Investments began with a simple belief: that Zimbabwean homes, farms and businesses deserve access to high-quality fencing, steel and hardware products backed by genuine expertise and honest service.</p>
- <p>Over the years, we've grown into a trusted supplier serving customers across all ten provinces, from individual homeowners to large commercial and agricultural operations. Every project we deliver strengthens our reputation as a partner who shows up, delivers on time, and stands behind the work.</p>
- <p>Today, we continue to expand our catalogue and capabilities investing in smarter tools, faster delivery and a service experience that makes buying fencing and building materials simple.</p>
+ <h2>Zimbabwe's Trusted Manufacturer &amp; Supplier of Steel, Wire &amp; Fencing</h2>
+ <p>VueMax Industries is a Zimbabwean manufacturing and supply company specialising in the production and supply of steel, wire and fencing products for residential, commercial, industrial, agricultural and infrastructure projects.</p>
+ <p>Our product range includes barbed wire, welded mesh, diamond mesh, game and field fencing, clear-view fencing, galvanised plain wire, galvanised fencing posts, steel products, nails, angle irons, tubes, plates and other general hardware and steel supplies.</p>
+ <p>From individual homeowners to large commercial and agricultural operations across all ten provinces, every order we deliver strengthens our reputation as a partner who shows up, delivers on time, and stands behind the product.</p>
  <a href="installations.html" class="btn btn-navy">
  See Our Work
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -543,6 +569,29 @@
  </div>
 </section>
 
+<!-- ===================== TRUSTED BY ===================== -->
+<section class="clients-section">
+ <div class="container">
+ <div class="clients-head reveal">
+ <span class="eyebrow">Who We Serve</span>
+ <h2>Trusted <span class="accent">Across Zimbabwe</span></h2>
+ <p>A selection of the clients and organisations that trust VueMax Industries for their steel, wire and fencing requirements.</p>
+ </div>
+ <div class="clients-grid">
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1m4 0h1M9 13h1m4 0h1M9 17h1m4 0h1"/></svg></div>Construction Companies</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10"/></svg></div>Property Developers</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21c-4 0-7-3-7-7V6l7-3 7 3v8c0 4-3 7-7 7z"/></svg></div>Farmers &amp; Agriculture</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>Mining Companies</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>Security Companies</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1.5 6h9L18 2M4 8h16l-1 14H5L4 8z"/></svg></div>Hardware &amp; Retailers</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18V9l8-6 8 6v9M9 21v-6h6v6"/></svg></div>Government &amp; Institutions</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div>Schools &amp; Universities</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L2 19l3 3 7.3-7.3a4 4 0 0 0 2.4-8.4z"/></svg></div>Contractors &amp; Installers</div>
+ <div class="client-chip reveal"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>Homeowners &amp; Property Owners</div>
+ </div>
+ </div>
+</section>
+
 <!-- ===================== COVERAGE ===================== -->
 <section class="coverage-section">
  <div class="container">
@@ -655,7 +704,7 @@
  </div>
 
  <div class="footer-bottom">
- <div>&copy; <span id="footerYear">2026</span> Vuemax Investments. All rights reserved. Developed and Powered By Global Space Web +263 773 909 307</div>
+ <div>&copy; <span id="footerYear">2026</span> Vuemax Industries. All rights reserved. Developed and Powered By Global Space Web +263 773 909 307</div>
  <div class="footer-socials">
  <a href="#" aria-label="Facebook">
  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>

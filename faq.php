@@ -502,7 +502,7 @@ require __DIR__ . '/includes/header.php';
  </button>
  <div class="faq-answer">
  <div class="faq-answer-inner">
- <p>Vuemax Investments is a Zimbabwean supplier of quality fencing, steel and hardware products. We've been serving homes, farms, businesses and institutions across all ten provinces for over 15 years.</p>
+ <p>Vuemax Industries is a Zimbabwean supplier of quality fencing, steel and hardware products. We've been serving homes, farms, businesses and institutions across all ten provinces for over 15 years.</p>
  <p>Our main showroom and warehouse is located at <strong>103 Willowvale Road, Harare</strong>. We also deliver nationwide.</p>
  </div>
  </div>

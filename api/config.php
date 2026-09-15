@@ -41,7 +41,7 @@ define('GROQ_MODEL', 'openai/gpt-oss-120b');
 // ==========================================================
 
 /* ---------- Site constants (used for emails / links) ---------- */
-define('SITE_NAME', 'Vuemax Investments');
+define('SITE_NAME', 'Vuemax Industries');
 define('SITE_URL', 'https://vuemax.co.zw'); // Change to your real domain
 define('SITE_EMAIL', 'sales@vuemax.co.zw');
 define('SITE_PHONE', '0784 689 857');
