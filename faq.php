@@ -1,6 +1,59 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
 
+/* FAQs from DB (managed via /admin). Category order + labels below. */
+$CAT_LABELS = [
+ 'general' => 'General', 'products' => 'Products', 'delivery' => 'Delivery',
+ 'payment' => 'Payment & Pricing', 'installation' => 'Installation',
+];
+$faqs = [];
+if ($pdo) {
+    try {
+        $faqs = $pdo->query('SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order, id')->fetchAll();
+    } catch (Throwable $e) { $faqs = []; }
+}
+// Offline fallback — mirrors the schema seed so file:// previews work too
+if (!$faqs) {
+    $faqs = [
+        ['category'=>'general','question'=>'Who is Vuemax and where are you located?','answer'=>"Vuemax Industries is a Zimbabwean manufacturing and supply company specialising in steel, wire and fencing products. Our main showroom and warehouse is at 103 Willowvale Road, Harare. We also deliver nationwide."],
+        ['category'=>'general','question'=>'What areas of Zimbabwe do you serve?',"answer"=>"We serve customers in all ten provinces of Zimbabwe:\n- Harare and Bulawayo metropolitan\n- Manicaland, Mashonaland Central, East and West\n- Masvingo, Midlands\n- Matabeleland North and South\nDelivery fees vary with distance and order size — contact us for a quote."],
+        ['category'=>'general','question'=>'Are your products SABS compliant?','answer'=>"Yes. Our fencing products including diamond mesh, game fence and barbed wire are manufactured to SABS standards, ensuring consistent quality, correct wire gauge and proper galvanisation for Zimbabwe's climate. For commercial tenders requiring SABS certification, we provide documentation."],
+        ['category'=>'products','question'=>'What is the best fence for a farm?','answer'=>"It depends on what you're protecting against and your livestock:\n- Game fence — wildlife and large properties, heavy-duty and long-lasting\n- Field fence — cattle, goats and general livestock\n- Diamond mesh — crop protection and mixed-use boundaries\n- Barbed wire — affordable perimeter addition for livestock deterrence\nTell us your farm size and livestock type and we'll recommend the right solution."],
+        ['category'=>'products','question'=>'How long will my fence last?','answer'=>"Our galvanised fencing typically lasts 10–20 years depending on the environment, install method and maintenance. Coastal or high-rainfall areas may reduce lifespan slightly — we recommend hot-dip galvanised products for those locations. Concrete footings and proper tensioning significantly extend lifespan."],
+        ['category'=>'products','question'=>'Do you sell fencing accessories and posts?','answer'=>"Yes — we stock the complete fencing kit:\n- Fence posts (steel, timber and concrete) in multiple heights\n- Top wire (barbed or razor)\n- Binding wire and tensioning wire\n- Gates, hinges, locks and latches\n- Concrete footings and accessories"],
+        ['category'=>'products','question'=>'Can you supply steel and general hardware too?','answer'=>"Absolutely. While fencing is our flagship division, we also supply:\n- Steel products — tubing, sheets, deformed bars, structural sections\n- General hardware — tools, fixings, gate hardware, fasteners\nIf you need both fencing and building materials, we can consolidate your order and deliver together."],
+        ['category'=>'delivery','question'=>'Do you deliver nationwide?','answer'=>"Yes. We deliver to all ten provinces of Zimbabwe. Delivery cost is calculated based on distance from Harare and total order weight/volume. For larger orders we offer free or discounted delivery — ask us when requesting a quote."],
+        ['category'=>'delivery','question'=>'How long does delivery take?','answer'=>"Typical delivery timelines:\n- Harare metro — 1–2 business days\n- Bulawayo, Mutare, Gweru, Masvingo — 2–4 business days\n- Remote and rural areas — 3–7 business days\nWe'll confirm an exact delivery date when you order."],
+        ['category'=>'payment','question'=>'What payment methods do you accept?','answer'=>"We accept:\n- Cash (USD and ZWL)\n- EcoCash\n- Bank transfer (USD and ZWL accounts)\n- Point-of-sale card payments at our Harare showroom\nFor large orders we can arrange staged or deposit-based payment terms."],
+        ['category'=>'payment','question'=>'Do you offer bulk discounts?','answer'=>"Yes. We offer tiered discounts on bulk orders — typically from 5% for medium orders up to 15%+ for very large projects. Contact us with your quantities and we'll send a tailored quotation."],
+        ['category'=>'payment','question'=>'How accurate is the online quote calculator?','answer'=>"Our calculator provides a strong working estimate based on real product pricing and standard material ratios — typically accurate to within ±10% for standard rectangular sites. Final pricing is confirmed by our team after reviewing terrain, access and requirements. For unusual shapes or difficult access, we recommend a site visit."],
+        ['category'=>'installation','question'=>'Do you install the fence, or just supply?','answer'=>"Both. You can:\n- Buy materials only and install yourself (or with your own team)\n- Have us supply and install using our experienced installation crews\nOur install teams work nationwide. Pricing depends on perimeter length, terrain and access."],
+        ['category'=>'installation','question'=>'How long does installation take?','answer'=>"Installation timelines vary with site size and complexity:\n- Residential (100–200m) — 1–2 days\n- Commercial (200–500m) — 2–4 days\n- Farm perimeter (500m+) — 4–10 days\nWe'll give you a firm timeline as part of your quotation."],
+    ];
+}
+
+// group + count per category (known cats first, then extras)
+$catCounts = [];
+foreach ($faqs as $f) { $catCounts[$f['category']] = ($catCounts[$f['category']] ?? 0) + 1; }
+$catOrder = array_keys($CAT_LABELS) + array_diff(array_keys($catCounts), array_keys($CAT_LABELS));
+
+// answer text → HTML: "- item" lines become a list, others <p>
+function faq_answer_html($txt) {
+    $out = ''; $inList = false;
+    foreach (preg_split('/\r?\n/', (string)$txt) as $ln) {
+        $ln = trim($ln);
+        if ($ln === '') continue;
+        if (str_starts_with($ln, '- ')) {
+            if (!$inList) { $out .= '<ul>'; $inList = true; }
+            $out .= '<li>' . e(substr($ln, 2)) . '</li>';
+        } else {
+            if ($inList) { $out .= '</ul>'; $inList = false; }
+            $out .= '<p>' . e($ln) . '</p>';
+        }
+    }
+    return $out . ($inList ? '</ul>' : '');
+}
+
 $pageTitle = 'FAQ Vuemax | Fencing, Steel & Hardware Zimbabwe';
 $pageDesc = 'Answers to common questions about Vuemax fencing, steel, hardware, delivery, payment and installation across Zimbabwe.';
 $active = 'faq';
@@ -457,12 +510,10 @@ require __DIR__ . '/includes/header.php';
  <div class="sidebar-block">
  <h4>Categories</h4>
  <ul class="cat-list" id="catList">
- <li><button class="active" data-cat="all">All Questions <span class="count" id="countAll">14</span></button></li>
- <li><button data-cat="general">General <span class="count">3</span></button></li>
- <li><button data-cat="products">Products <span class="count">4</span></button></li>
- <li><button data-cat="delivery">Delivery <span class="count">2</span></button></li>
- <li><button data-cat="payment">Payment &amp; Pricing <span class="count">3</span></button></li>
- <li><button data-cat="installation">Installation <span class="count">2</span></button></li>
+ <li><button class="active" data-cat="all">All Questions <span class="count" id="countAll"><?= count($faqs) ?></span></button></li>
+ <?php foreach ($catCounts as $c => $n): ?>
+ <li><button data-cat="<?= e($c) ?>"><?= e($CAT_LABELS[$c] ?? ucfirst($c)) ?> <span class="count"><?= $n ?></span></button></li>
+ <?php endforeach; ?>
  </ul>
  </div>
 
@@ -486,271 +537,29 @@ require __DIR__ . '/includes/header.php';
  <div class="faq-head-row">
  <h2 id="listTitle">All Questions</h2>
  <div class="result-count">
- Showing <strong id="visibleCount">14</strong> of <strong>14</strong> questions
+ Showing <strong id="visibleCount"><?= count($faqs) ?></strong> of <strong><?= count($faqs) ?></strong> questions
  </div>
  </div>
 
  <ul class="faq-list" id="faqList">
-
- <!-- ============ GENERAL ============ -->
- <li class="faq-item" data-cat="general">
+<?php foreach ($faqs as $f): ?>
+ <li class="faq-item" data-cat="<?= e($f['category']) ?>">
  <button class="faq-question">
- <span>Who is Vuemax and where are you located?</span>
+ <span><?= e($f['question']) ?></span>
  <span class="icon-wrap">
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
  </span>
  </button>
  <div class="faq-answer">
  <div class="faq-answer-inner">
- <p>Vuemax Industries is a Zimbabwean supplier of quality fencing, steel and hardware products. We've been serving homes, farms, businesses and institutions across all ten provinces for over 15 years.</p>
- <p>Our main showroom and warehouse is located at <strong>103 Willowvale Road, Harare</strong>. We also deliver nationwide.</p>
+ <?= faq_answer_html($f['answer']) ?>
  </div>
  </div>
  </li>
-
- <li class="faq-item" data-cat="general">
- <button class="faq-question">
- <span>What areas of Zimbabwe do you serve?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>We serve customers in all ten provinces of Zimbabwe:</p>
- <ul>
- <li>Harare &amp; Bulawayo metropolitan</li>
- <li>Manicaland, Mashonaland Central, East &amp; West</li>
- <li>Masvingo, Midlands</li>
- <li>Matabeleland North &amp; South</li>
- </ul>
- <p>Delivery fees may vary depending on distance and order size contact us for a quote.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="general">
- <button class="faq-question">
- <span>Are your products SABS compliant?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Yes. Our fencing products including diamond mesh, game fence and barbed wire are manufactured to SABS standards. This ensures consistent quality, correct wire gauge and proper galvanisation for Zimbabwe's climate.</p>
- <p>If you need specific SABS certification for a commercial tender, let us know and we'll provide documentation.</p>
- </div>
- </div>
- </li>
-
- <!-- ============ PRODUCTS ============ -->
- <li class="faq-item" data-cat="products">
- <button class="faq-question">
- <span>What is the best fence for a farm?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>It depends on what you're protecting against and your livestock:</p>
- <ul>
- <li><strong>Game fence</strong> best for wildlife and large properties, heavy-duty and long-lasting</li>
- <li><strong>Field fence</strong> ideal for cattle, goats and general livestock</li>
- <li><strong>Diamond mesh</strong> great for crop protection and mixed-use boundaries</li>
- <li><strong>Barbed wire</strong> affordable perimeter addition for livestock deterrence</li>
- </ul>
- <p>Tell us your farm size and livestock type and we'll recommend the right solution.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="products">
- <button class="faq-question">
- <span>How long will my fence last?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Our galvanised fencing typically lasts <strong>10 20 years</strong> depending on the environment, install method and maintenance. Coastal or high-rainfall areas may reduce lifespan slightly, which is why we recommend hot-dip galvanised products for those locations.</p>
- <p>Concrete footings and proper tensioning at install time significantly extend lifespan.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="products">
- <button class="faq-question">
- <span>Do you sell fencing accessories and posts?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Yes we stock the complete fencing kit:</p>
- <ul>
- <li>Fence posts (steel, timber and concrete) in multiple heights</li>
- <li>Top wire (barbed or razor)</li>
- <li>Binding wire and tensioning wire</li>
- <li>Gates, hinges, locks and latches</li>
- <li>Concrete footings and accessories</li>
- </ul>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="products">
- <button class="faq-question">
- <span>Can you supply steel and general hardware too?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Absolutely. While fencing is our flagship division, we also supply:</p>
- <ul>
- <li><strong>Steel products</strong> tubing, sheets, rebar, structural sections</li>
- <li><strong>General hardware</strong> tools, fixings, gate hardware, fasteners</li>
- </ul>
- <p>If you need both fencing and building materials, we can consolidate your order and deliver together.</p>
- </div>
- </div>
- </li>
-
- <!-- ============ DELIVERY ============ -->
- <li class="faq-item" data-cat="delivery">
- <button class="faq-question">
- <span>Do you deliver nationwide?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Yes. We deliver to all ten provinces of Zimbabwe. Delivery cost is calculated based on distance from Harare and total order weight/volume.</p>
- <p>For larger orders, we offer free or discounted delivery ask us when requesting a quote.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="delivery">
- <button class="faq-question">
- <span>How long does delivery take?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Typical delivery timelines:</p>
- <ul>
- <li>Harare metro 1 2 business days</li>
- <li>Bulawayo, Mutare, Gweru, Masvingo 2 4 business days</li>
- <li>Remote and rural areas 3 7 business days</li>
- </ul>
- <p>We'll confirm an exact delivery date when you order.</p>
- </div>
- </div>
- </li>
-
- <!-- ============ PAYMENT ============ -->
- <li class="faq-item" data-cat="payment">
- <button class="faq-question">
- <span>What payment methods do you accept?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>We accept:</p>
- <ul>
- <li>Cash (USD and ZWL)</li>
- <li>EcoCash</li>
- <li>Bank transfer (USD and ZWL accounts)</li>
- <li>Point-of-sale card payments at our Harare showroom</li>
- </ul>
- <p>For large orders we can arrange staged or deposit-based payment terms.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="payment">
- <button class="faq-question">
- <span>Do you offer bulk discounts?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Yes. We offer tiered discounts on bulk orders typically from 5% for medium orders up to 15%+ for very large projects. Contact us with your quantities and we'll send a tailored quotation.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="payment">
- <button class="faq-question">
- <span>How accurate is the online quote calculator?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Our calculator provides a strong working estimate based on real product pricing and standard material ratios. For most standard rectangular sites, the estimate is accurate to within <strong>±10%</strong>.</p>
- <p>Final pricing is confirmed by our team after reviewing terrain, access and specific requirements. For unusual shapes or sites with difficult access, we recommend a site visit for the most accurate quote.</p>
- </div>
- </div>
- </li>
-
- <!-- ============ INSTALLATION ============ -->
- <li class="faq-item" data-cat="installation">
- <button class="faq-question">
- <span>Do you install the fence, or just supply?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Both. You can:</p>
- <ul>
- <li>Buy materials only and install yourself (or with your own team)</li>
- <li>Have us supply and install using our experienced installation crews</li>
- </ul>
- <p>Our install teams work nationwide. Pricing depends on perimeter length, terrain and access.</p>
- </div>
- </div>
- </li>
-
- <li class="faq-item" data-cat="installation">
- <button class="faq-question">
- <span>How long does installation take?</span>
- <span class="icon-wrap">
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
- </span>
- </button>
- <div class="faq-answer">
- <div class="faq-answer-inner">
- <p>Installation timelines vary with site size and complexity:</p>
- <ul>
- <li>Residential (100 200m) 1 2 days</li>
- <li>Commercial (200 500m) 2 4 days</li>
- <li>Farm perimeter (500m+) 4 10 days</li>
- </ul>
- <p>We'll give you a firm timeline as part of your quotation.</p>
- </div>
- </div>
- </li>
-
- </ul>
-
- <!-- No results -->
+<?php endforeach; ?>
+<?php if (!$faqs): ?><li class="faq-item open"><div class="faq-answer-inner"><p>FAQs coming soon — ask us anything via the <a href="contact.php">contact page</a>.</p></div></li><?php endif; ?>
+</ul>
+<!-- No results -->
  <div class="no-results" id="noResults">
  <div class="icon">
  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>

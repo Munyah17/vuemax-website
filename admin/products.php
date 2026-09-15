@@ -4,6 +4,16 @@ require_admin();
 
 $rows  = [];
 $noDb  = ($pdo === null);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pdo) {
+    csrf_check();
+    if (($_POST['act'] ?? '') === 'toggle') {
+        $pdo->prepare('UPDATE products SET is_active = 1 - is_active WHERE id=?')->execute([(int)$_POST['id']]);
+    }
+    header('Location: products.php');
+    exit;
+}
+
 if ($pdo) {
     try {
         $rows = $pdo->query('
@@ -30,7 +40,8 @@ admin_nav('products');
 <?php endif; ?>
 
 <div class="card mb-4">
-    <div class="card-header"><i class="fas fa-boxes me-1"></i> Catalog <span class="badge bg-secondary ms-2"><?= count($rows) ?></span></div>
+    <div class="card-header"><i class="fas fa-boxes me-1"></i> Catalog <span class="badge bg-secondary ms-2"><?= count($rows) ?></span>
+        <a href="product-edit.php?new=1" class="btn btn-sm btn-dark float-end"><i class="fas fa-plus"></i> New product</a></div>
     <div class="card-body">
         <table id="datatablesSimple" class="table table-striped table-sm">
             <thead><tr><th>#</th><th>Product</th><th>Category</th><th>Subcategory</th><th>Unit</th><th class="text-end">Price (USD)</th><th>Status</th><th></th></tr></thead>
@@ -44,7 +55,16 @@ admin_nav('products');
                     <td><?= e($r['unit']) ?></td>
                     <td class="text-end"><?= $r['price_usd'] !== null ? usd($r['price_usd']) : '<em>on request</em>' ?></td>
                     <td><?= $r['is_active'] ? '<span class="badge bg-success">active</span>' : '<span class="badge bg-secondary">hidden</span>' ?></td>
-                    <td><a class="small" href="../product-detail.php?slug=<?= urlencode($r['slug']) ?>" target="_blank">view</a></td>
+                    <td class="text-nowrap">
+                        <a class="btn btn-sm btn-outline-dark" href="product-edit.php?id=<?= (int)$r['id'] ?>" title="Edit"><i class="fas fa-edit"></i></a>
+                        <form method="post" class="d-inline">
+                            <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">
+                            <input type="hidden" name="act" value="toggle">
+                            <input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
+                            <button class="btn btn-sm btn-outline-<?= $r['is_active'] ? 'warning' : 'success' ?>" title="<?= $r['is_active'] ? 'Hide' : 'Show' ?>"><i class="fas fa-<?= $r['is_active'] ? 'eye-slash' : 'eye' ?>"></i></button>
+                        </form>
+                        <a class="btn btn-sm btn-outline-secondary" href="../product-detail.php?slug=<?= urlencode($r['slug']) ?>" target="_blank" title="View"><i class="fas fa-external-link-alt"></i></a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

@@ -278,7 +278,7 @@ require __DIR__ . '/includes/header.php';
 
  <div class="cat-grid" id="catGrid">
  <div class="cat-card reveal">
- <div class="thumb" style="background-image:url('<?= e(site_image('cat-fencing', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80')) ?>')">
+ <div class="thumb" style="background-image:url('<?= e(site_image('cat-fencing', 'https://images.unsplash.com/photo-1640538336739-ce6ee5ee853e?auto=format&fit=crop&w=800&q=80')) ?>')">
  <span class="badge">Most Popular</span>
  </div>
  <div class="body">
@@ -300,7 +300,7 @@ require __DIR__ . '/includes/header.php';
  </div>
 
  <div class="cat-card reveal reveal-d1">
- <div class="thumb" style="background-image:url('<?= e(site_image('cat-steel', 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('cat-steel', 'assets/img/products/square-tubes.jpg')) ?>')"></div>
  <div class="body">
  <h3>Steel Products</h3>
  <p>Steel sheets, tubing, rebar and structural sections for construction, fabrication and industrial projects.</p>
@@ -359,7 +359,7 @@ require __DIR__ . '/includes/header.php';
 
  <div class="product-grid" id="productGrid">
  <div class="product-card reveal">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh</h3>
@@ -372,7 +372,7 @@ require __DIR__ . '/includes/header.php';
  </div>
 
  <div class="product-card reveal reveal-d1">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Game Fence</h3>

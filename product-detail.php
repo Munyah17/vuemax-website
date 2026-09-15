@@ -12,17 +12,17 @@ $PD = [
  'diamond-mesh' => ['Diamond Mesh 50x50 (2mm)', 65.00, '30m roll',
    'Versatile, durable and cost-effective fencing. 50x50mm aperture, 2mm wire, 30m rolls.',
    'Diamond mesh fencing designed for maximum strength and durability. 50x50mm aperture, 2mm wire gauge, hot-dip galvanised to resist rust and corrosion. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm and 3.15mm gauges and 30x30mm aperture.',
-   'prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   'prod-diamond-mesh', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=1200&q=80',
    [['Mesh Aperture','50 mm × 50 mm'],['Wire Gauge','2.0 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
  'diamond-mesh-50x50-2-5mm' => ['Diamond Mesh 50x50 (2.5mm)', 85.00, '30m roll',
    'Versatile, durable fencing. 50x50mm aperture, 2.5mm wire, 30m rolls.',
    'Diamond mesh fencing, 50x50mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 3.15mm gauges and 30x30mm aperture.',
-   'prod-diamond-25', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   'prod-diamond-25', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=1200&q=80',
    [['Mesh Aperture','50 mm × 50 mm'],['Wire Gauge','2.5 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
  'diamond-mesh-50x50-3-15mm' => ['Diamond Mesh 50x50 (3.15mm)', 150.00, '30m roll',
    'Heavy-duty diamond mesh. 50x50mm aperture, 3.15mm wire, 30m rolls.',
    'Heavy-duty diamond mesh fencing, 50x50mm aperture, 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 2.5mm gauges and 30x30mm aperture.',
-   'prod-diamond-315', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80',
+   'prod-diamond-315', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=1200&q=80',
    [['Mesh Aperture','50 mm × 50 mm'],['Wire Gauge','3.15 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
  'diamond-mesh-30x30-2-5mm' => ['Diamond Mesh 30x30 (2.5mm)', 110.00, '30m roll',
    'Tighter-mesh diamond fence. 30x30mm aperture, 2.5mm wire, 30m rolls.',
@@ -52,7 +52,7 @@ $PD = [
  'field-fence' => ['Field Fence', 180.00, 'roll',
    'General agricultural fencing for livestock and crop protection.',
    'Versatile field fencing designed for livestock containment and crop protection. Galvanised woven wire construction stands up to Zimbabwean conditions season after season.',
-   'prod-field-fence', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+   'prod-field-fence', 'https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=1200&q=80',
    [['Material','Galvanised woven wire'],['Roll Length','50 m']]],
  'razor-wire' => ['Razor Wire', 95.00, 'roll',
    'Enhanced perimeter security for high-risk installations.',
@@ -682,7 +682,7 @@ require __DIR__ . '/includes/header.php';
  </a>
 
  <a class="product-card reveal reveal-d3" href="product-detail.php?slug=game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Game Fence</h3>

@@ -190,7 +190,7 @@ $extraJs = <<<'JS'
  setActive(a.dataset.cat);
  }));
 
- // If URL has ?category=xxx, apply that filter on load
+ // If URL has ?category=x, apply that filter on load
  const params = new URLSearchParams(window.location.search);
  const initial = params.get('category');
  if (initial && ['fencing','steel','hardware'].includes(initial)) {
@@ -297,7 +297,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1 -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80')) ?>')">
  <span class="tag">Best Seller</span>
  </div>
  <div class="body">
@@ -313,7 +313,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1b -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-2-5mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-25', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-25', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh 50x50 (2.5mm)</h3>
@@ -327,7 +327,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1c -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-3-15mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-315', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-315', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh 50x50 (3.15mm)</h3>
@@ -341,7 +341,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1d -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh-30x30-2-5mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-30x30', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-30x30', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh 30x30 (2.5mm)</h3>
@@ -355,7 +355,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 2 -->
  <a class="product-card" href="product-detail.php?slug=game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Game Fence</h3>
@@ -397,7 +397,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 4 -->
  <a class="product-card" href="product-detail.php?slug=chicken-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-chicken-mesh', 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-chicken-mesh', 'https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Chicken Mesh</h3>
@@ -411,7 +411,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 5 -->
  <a class="product-card" href="product-detail.php?slug=field-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-field-fence', 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-field-fence', 'https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Field Fence</h3>

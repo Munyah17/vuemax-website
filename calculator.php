@@ -837,8 +837,6 @@ require __DIR__ . '/includes/header.php';
  <div class="ai-assist">
  <div class="ai-head">
  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2zm7 10l.9 2.6L22.5 15.5l-2.6.9L19 19l-.9-2.6-2.6-.9 2.6-.9L19 12zM6 14l.9 2.6L9.5 17.5l-2.6.9L6 21l-.9-2.6-2.6-.9L5.1 16.6 6 14z"/></svg>
- <strong>AI Quick-Fill</strong>
- <span class="ai-tag">Powered by AI</span>
  </div>
  <textarea id="aiText" placeholder="Describe your project in one sentence — e.g. &quot;200m barbed wire fence, 2.1m high, around my farm plot with a gate and installation&quot;"></textarea>
  <div class="ai-actions">
@@ -899,13 +897,13 @@ require __DIR__ . '/includes/header.php';
  <div class="type-cards" id="typeCards">
  <label class="type-card selected">
  <input type="radio" name="fenceType" value="diamond-mesh" checked>
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
  <strong>Diamond Mesh</strong>
  <span>Popular · durable</span>
  </label>
  <label class="type-card">
  <input type="radio" name="fenceType" value="game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
  <strong>Game Fence</strong>
  <span>Heavy-duty wildlife</span>
  </label>
@@ -917,13 +915,13 @@ require __DIR__ . '/includes/header.php';
  </label>
  <label class="type-card">
  <input type="radio" name="fenceType" value="chicken-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-chicken-mesh', 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-chicken-mesh', 'https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
  <strong>Chicken Mesh</strong>
  <span>Poultry & small animals</span>
  </label>
  <label class="type-card">
  <input type="radio" name="fenceType" value="field-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-field-fence', 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-field-fence', 'https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
  <strong>Field Fence</strong>
  <span>Agricultural</span>
  </label>

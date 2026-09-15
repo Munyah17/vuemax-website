@@ -434,14 +434,14 @@ INSERT INTO `products`
  'Versatile, durable and cost-effective fencing. 50x50mm aperture, 2mm wire, 30m rolls, heights 1.0m to 3.0m.',
  'Our diamond mesh fencing is designed for maximum strength and durability. 50x50mm aperture, 2mm wire gauge, hot-dip galvanised to resist rust and corrosion. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm and 3.15mm gauges and 30x30mm aperture.',
  'roll', 65.00, 30, 8.00, 0.80, 180.00, 3.50,
- 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80',
  'Best Seller', 4.8, 120, 1, 1),
 
 (2, 'game-fence', 'Game Fence',
  'Heavy-duty fencing for wildlife, farms and large properties.',
  'Manufactured from high-tensile galvanised wire, our game fence is built to withstand the demands of wildlife and livestock enclosures. Ideal for game reserves, large farms and perimeter security.',
  'roll', 280.00, 50, 12.00, 1.10, 220.00, 4.00,
- 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80',
  NULL, 4.7, 86, 1, 2),
 
 (3, 'barbed-wire', 'Barbed Wire 25 kg Roll',
@@ -455,14 +455,14 @@ INSERT INTO `products`
  'Lightweight, galvanised mesh for poultry runs and small animal enclosures.',
  'Fine-gauge galvanised chicken mesh ideal for poultry runs, garden enclosures and small animal protection. Lightweight yet durable, resistant to rust and easy to install.',
  'roll', 32.00, 30, 6.00, 0.50, 140.00, 2.00,
- 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=600&q=80',
  NULL, 4.6, 62, 1, 4),
 
 (5, 'field-fence', 'Field Fence',
  'General agricultural fencing for livestock and crop protection.',
  'A versatile field fence designed for livestock, crop protection and rural boundaries. Galvanised steel wire with reinforced knots for long life even under constant animal pressure.',
  'roll', 180.00, 50, 10.00, 0.90, 200.00, 3.00,
- 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=600&q=80',
  NULL, 4.7, 51, 1, 5),
 
 (6, 'razor-wire', 'Razor Wire',
@@ -748,11 +748,54 @@ INSERT INTO `projects`
 
 -- ---------- FAQS ----------
 INSERT INTO `faqs` (`category`, `question`, `answer`, `sort_order`) VALUES
-('general',    'Who is Vuemax and where are you located?', 'Vuemax Investments is a Zimbabwean supplier of quality fencing, steel and hardware products. Our main showroom and warehouse is at 103 Willowvale Road, Harare.', 1),
-('products',   'What is the best fence for a farm?', 'It depends on what you are protecting against and your livestock. Game fence for wildlife and large properties, field fence for cattle and goats, diamond mesh for crop protection.', 1),
-('delivery',   'Do you deliver nationwide?', 'Yes. We deliver to all ten provinces of Zimbabwe. Delivery cost is calculated based on distance from Harare and total order weight.', 1),
-('payment',    'What payment methods do you accept?', 'Cash (USD and ZWL), EcoCash, bank transfer, and point-of-sale card payments at our Harare showroom.', 1),
-('installation','Do you install the fence, or just supply?', 'Both. You can buy materials only and install yourself, or have us supply and install using our experienced teams.', 1);
+('general', 'Who is Vuemax and where are you located?', "Vuemax Industries is a Zimbabwean manufacturing and supply company specialising in steel, wire and fencing products. Our main showroom and warehouse is at 103 Willowvale Road, Harare. We also deliver nationwide.", 1),
+('general', 'What areas of Zimbabwe do you serve?', "We serve customers in all ten provinces of Zimbabwe:
+- Harare and Bulawayo metropolitan
+- Manicaland, Mashonaland Central, East and West
+- Masvingo, Midlands
+- Matabeleland North and South
+Delivery fees vary with distance and order size — contact us for a quote.", 2),
+('general', 'Are your products SABS compliant?', "Yes. Our fencing products including diamond mesh, game fence and barbed wire are manufactured to SABS standards, ensuring consistent quality, correct wire gauge and proper galvanisation for Zimbabwe's climate. For commercial tenders requiring SABS certification, we provide documentation.", 3),
+('products', 'What is the best fence for a farm?', "It depends on what you're protecting against and your livestock:
+- Game fence — wildlife and large properties, heavy-duty and long-lasting
+- Field fence — cattle, goats and general livestock
+- Diamond mesh — crop protection and mixed-use boundaries
+- Barbed wire — affordable perimeter addition for livestock deterrence
+Tell us your farm size and livestock type and we'll recommend the right solution.", 1),
+('products', 'How long will my fence last?', "Our galvanised fencing typically lasts 10–20 years depending on the environment, install method and maintenance. Coastal or high-rainfall areas may reduce lifespan slightly — we recommend hot-dip galvanised products for those locations. Concrete footings and proper tensioning significantly extend lifespan.", 2),
+('products', 'Do you sell fencing accessories and posts?', "Yes — we stock the complete fencing kit:
+- Fence posts (steel, timber and concrete) in multiple heights
+- Top wire (barbed or razor)
+- Binding wire and tensioning wire
+- Gates, hinges, locks and latches
+- Concrete footings and accessories", 3),
+('products', 'Can you supply steel and general hardware too?', "Absolutely. While fencing is our flagship division, we also supply:
+- Steel products — tubing, sheets, deformed bars, structural sections
+- General hardware — tools, fixings, gate hardware, fasteners
+If you need both fencing and building materials, we can consolidate your order and deliver together.", 4),
+('delivery', 'Do you deliver nationwide?', "Yes. We deliver to all ten provinces of Zimbabwe. Delivery cost is calculated based on distance from Harare and total order weight/volume. For larger orders we offer free or discounted delivery — ask us when requesting a quote.", 1),
+('delivery', 'How long does delivery take?', "Typical delivery timelines:
+- Harare metro — 1–2 business days
+- Bulawayo, Mutare, Gweru, Masvingo — 2–4 business days
+- Remote and rural areas — 3–7 business days
+We'll confirm an exact delivery date when you order.", 2),
+('payment', 'What payment methods do you accept?', "We accept:
+- Cash (USD and ZWL)
+- EcoCash
+- Bank transfer (USD and ZWL accounts)
+- Point-of-sale card payments at our Harare showroom
+For large orders we can arrange staged or deposit-based payment terms.", 1),
+('payment', 'Do you offer bulk discounts?', "Yes. We offer tiered discounts on bulk orders — typically from 5% for medium orders up to 15%+ for very large projects. Contact us with your quantities and we'll send a tailored quotation.", 2),
+('payment', 'How accurate is the online quote calculator?', "Our calculator provides a strong working estimate based on real product pricing and standard material ratios — typically accurate to within ±10% for standard rectangular sites. Final pricing is confirmed by our team after reviewing terrain, access and requirements. For unusual shapes or difficult access, we recommend a site visit.", 3),
+('installation', 'Do you install the fence, or just supply?', "Both. You can:
+- Buy materials only and install yourself (or with your own team)
+- Have us supply and install using our experienced installation crews
+Our install teams work nationwide. Pricing depends on perimeter length, terrain and access.", 1),
+('installation', 'How long does installation take?', "Installation timelines vary with site size and complexity:
+- Residential (100–200m) — 1–2 days
+- Commercial (200–500m) — 2–4 days
+- Farm perimeter (500m+) — 4–10 days
+We'll give you a firm timeline as part of your quotation.", 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -778,18 +821,18 @@ CREATE TABLE `site_images` (
 INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('logo','Site logo (header, footer, drawer)','Global','assets/img/logo.png'),
 ('home-hero','Homepage hero background','index.php','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80'),
-('cat-fencing','Category card: Fencing','index.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80'),
-('cat-steel','Category card: Steel','index.php','https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=800&q=80'),
+('cat-fencing','Category card: Fencing','index.php','https://images.unsplash.com/photo-1640538336739-ce6ee5ee853e?auto=format&fit=crop&w=800&q=80'),
+('cat-steel','Category card: Steel','index.php','assets/img/products/square-tubes.jpg'),
 ('cat-hardware','Category card: General Hardware','index.php','https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=800&q=80'),
-('prod-diamond-mesh','Product: Diamond Mesh','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80'),
-('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80'),
+('prod-diamond-mesh','Product: Diamond Mesh','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80'),
+('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80'),
 ('prod-barbed-wire','Product: Barbed Wire (25 kg roll)','products.php, product-detail.php, calculator.php','assets/img/products/barbed-wire.jpg'),
 ('prod-barbed-wire-50','Product: Barbed Wire (50 kg roll)','products.php, product-detail.php','assets/img/products/barbed-wire-50kg.jpg'),
-('prod-diamond-25','Product: Diamond Mesh 50x50 (2.5mm)','products.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80'),
-('prod-diamond-315','Product: Diamond Mesh 50x50 (3.15mm)','products.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80'),
-('prod-diamond-30x30','Product: Diamond Mesh 30x30 (2.5mm)','products.php','https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80'),
-('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=600&q=80'),
-('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80'),
+('prod-diamond-25','Product: Diamond Mesh 50x50 (2.5mm)','products.php','https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80'),
+('prod-diamond-315','Product: Diamond Mesh 50x50 (3.15mm)','products.php','https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80'),
+('prod-diamond-30x30','Product: Diamond Mesh 30x30 (2.5mm)','products.php','https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80'),
+('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=600&q=80'),
+('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=600&q=80'),
 ('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','assets/img/products/barbed-wire-50kg-2.jpg'),
 ('prod-fence-posts','Product: Fence Posts','products.php, product-detail.php','assets/img/products/round-pole-75mm.jpg'),
 ('prod-gate-locks','Product: Gate Locks & Hinges','index.php, products.php','https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80'),

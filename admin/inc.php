@@ -89,6 +89,7 @@ function admin_nav($active) {
                     <?= $link('index.php', 'fas fa-tachometer-alt', 'Dashboard', 'dash') ?>
                     <div class="sb-sidenav-menu-heading">Site</div>
                     <?= $link('images.php', 'fas fa-images', 'Image Manager', 'images') ?>
+                    <?= $link('faqs.php', 'fas fa-question-circle', 'FAQs', 'faqs') ?>
                     <div class="sb-sidenav-menu-heading">Data</div>
                     <?= $link('products.php', 'fas fa-boxes', 'Products', 'products') ?>
                     <?= $link('quotes.php', 'fas fa-file-invoice-dollar', 'Quotes', 'quotes') ?>
