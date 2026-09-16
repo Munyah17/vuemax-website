@@ -423,6 +423,10 @@ INSERT INTO `subcategories` (`category_id`, `slug`, `name`, `description`, `sort
 (3, 'fixings',       'Fixings',        'Bolts, nuts, screws',          2),
 (3, 'tools',         'Tools',          'Hand & power tools',           3);
 
+-- Extra fencing subcategory (appended so existing subcategory IDs don't shift)
+INSERT INTO `subcategories` (`category_id`, `slug`, `name`, `description`, `sort_order`) VALUES
+(1, 'welded-mesh',   'Welded Mesh',    'Galvanised welded mesh rolls', 9);
+
 -- ---------- PRODUCTS ----------
 -- Fencing products (category_id = 1)
 INSERT INTO `products`
@@ -613,20 +617,32 @@ INSERT INTO `products`
  'Versatile, durable fencing. 50x50mm aperture, 2.5mm wire, 30m rolls, heights 1.0m to 3.0m.',
  'Diamond mesh fencing, 50x50mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 3.15mm gauges and 30x30mm aperture.',
  'roll', 85.00, 30, 8.00, 0.80, 180.00, 3.50,
- 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80',
  'Best Seller', 4.8, 120, 1, 25),
 (1, 'diamond-mesh-50x50-3-15mm', 'Diamond Mesh 50x50 (3.15mm)',
  'Heavy-duty diamond mesh. 50x50mm aperture, 3.15mm wire, 30m rolls, heights 1.0m to 3.0m.',
  'Heavy-duty diamond mesh fencing, 50x50mm aperture, 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2mm and 2.5mm gauges and 30x30mm aperture.',
  'roll', 150.00, 30, 8.00, 0.80, 180.00, 3.50,
- 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80',
  NULL, 4.8, 110, 1, 26),
 (1, 'diamond-mesh-30x30-2-5mm', 'Diamond Mesh 30x30 (2.5mm)',
  'Tighter-mesh diamond fence. 30x30mm aperture, 2.5mm wire, 30m rolls, heights 1.0m to 3.0m.',
  'Diamond mesh fencing with a tighter 30x30mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 50x50mm aperture in 2mm, 2.5mm and 3.15mm gauges.',
  'roll', 110.00, 30, 8.00, 0.80, 180.00, 3.50,
- 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80',
+ 'https://images.unsplash.com/photo-1704213176120-8d38fdbe4ffe?auto=format&fit=crop&w=600&q=80',
  NULL, 4.8, 95, 1, 27);
+
+-- Welded Mesh (subcategory_id = 16) — product id 27
+INSERT INTO `products`
+(`subcategory_id`, `slug`, `name`, `short_desc`, `long_desc`, `unit`,
+ `price_usd`, `roll_metres`, `post_price`, `top_wire_rate`, `gate_price`, `install_rate`,
+ `image`, `badge`, `rating`, `reviews_count`, `is_featured`, `sort_order`) VALUES
+(16, 'welded-mesh', 'Welded Mesh',
+ 'High-quality galvanised welded mesh with evenly welded intersections for strength and long life.',
+ 'High-quality galvanised welded mesh manufactured from durable steel wire, with evenly welded intersections for strength, stability, and long-lasting performance. Ideal for fencing, security applications, construction, animal enclosures, and general fabrication projects.',
+ 'roll', NULL, 30, 8.00, 0.80, 180.00, 3.50,
+ 'assets/img/products/welded-mesh.jpg',
+ NULL, 4.7, 58, 1, 8);
 
 -- Generic 'Steel Tubing' placeholder replaced by real products — keep the row
 -- (stable IDs) but hide it from the catalog.
@@ -720,6 +736,14 @@ INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUE
 (7, 'For 3.0 m fence — 3.6 m posts', 'Corner $40 · Standard $20 · Supporter $16', 6),
 (7, 'Placement',                   'Standards every 5 m · 1 corner post per corner · 2 supporters per corner', 10),
 (7, 'Finish',                      'Galvanised',                            20);
+
+-- Welded Mesh (product_id = 27)
+INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUES
+(27, 'Material',   'Hot-dip galvanised steel wire', 1),
+(27, 'Pattern',    'Evenly welded square intersections', 2),
+(27, 'Supply',     'Rolls — various heights and apertures', 3),
+(27, 'Uses',       'Fencing, security, enclosures, construction, fabrication', 10),
+(27, 'Pricing',    'Supplied on request — contact us with your spec', 20);
 
 -- ---------- PRODUCT FEATURES (for diamond mesh) ----------
 INSERT INTO `product_features` (`product_id`, `text`, `sort_order`) VALUES
@@ -843,6 +867,7 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-square-tubes','Product: Square Tubes','products.php','assets/img/products/square-tubes.jpg'),
 ('prod-angle-irons','Product: Angle Irons','products.php','assets/img/products/angle-irons.jpg'),
 ('prod-deformed-bars','Product: Deformed Bars','products.php','assets/img/products/deformed-bars.jpg'),
+('prod-welded-mesh','Product: Welded Mesh','products.php, product-detail.php','assets/img/products/welded-mesh.jpg'),
 ('pd-gallery-2','Product gallery: image 2','product-detail.php','https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-3','Product gallery: image 3','product-detail.php','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80'),
 ('pd-gallery-4','Product gallery: image 4','product-detail.php','https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=400&q=80'),
