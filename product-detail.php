@@ -57,7 +57,7 @@ $PD = [
  'razor-wire' => ['Razor Wire', 95.00, 'roll',
    'Enhanced perimeter security for high-risk installations.',
    'Concertina razor wire for maximum perimeter security. Razor-sharp blades mounted on a galvanised core, ideal for prisons, banks, warehouses and high-risk commercial properties.',
-   'prod-razor-wire', 'assets/img/products/barbed-wire-50kg-2.jpg',
+   'prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80',
    [['Type','Concertina razor wire'],['Core','Galvanised'],['Roll Length','50 m']]],
  'fence-posts' => ['Fence Posts', 8.00, 'piece',
    'Galvanised steel posts — corner, standard and supporter posts matched to fence height.',
@@ -646,7 +646,7 @@ require __DIR__ . '/includes/header.php';
 
  <div class="product-grid">
  <a class="product-card reveal" href="product-detail.php?slug=fence-posts">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-fence-posts', 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-fence-posts', 'assets/img/products/round-pole-75mm.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Fence Posts</h3>
@@ -658,7 +658,7 @@ require __DIR__ . '/includes/header.php';
  </a>
 
  <a class="product-card reveal reveal-d1" href="product-detail.php?slug=barbed-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'assets/img/products/barbed-wire.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Barbed Wire</h3>
@@ -670,7 +670,7 @@ require __DIR__ . '/includes/header.php';
  </a>
 
  <a class="product-card reveal reveal-d2" href="product-detail.php?slug=razor-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Razor Wire</h3>

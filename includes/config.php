@@ -8,9 +8,9 @@
 
 // ---- EDIT THESE ----
 $DB_HOST = 'localhost';
-$DB_NAME = 'vuemax_db'; // your cPanel DB name (often prefixed, e.g. user_vuemax)
-$DB_USER = 'vuemax_user'; // your cPanel DB user
-$DB_PASS = 'CHANGE_ME'; // your cPanel DB password
+$DB_NAME = 'vuemax_db'; // XAMPP/phpMyAdmin: create a database named 'vuemax_db'. cPanel: often prefixed, e.g. user_vuemax
+$DB_USER = 'root';      // XAMPP default. cPanel: your DB user
+$DB_PASS = '';          // XAMPP default is blank. cPanel: your DB password
 // --------------------
 
 try {

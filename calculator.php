@@ -909,7 +909,7 @@ require __DIR__ . '/includes/header.php';
  </label>
  <label class="type-card">
  <input type="radio" name="fenceType" value="barbed-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'assets/img/products/barbed-wire.jpg')) ?>')"></div>
  <strong>Barbed Wire</strong>
  <span>High security</span>
  </label>
@@ -927,7 +927,7 @@ require __DIR__ . '/includes/header.php';
  </label>
  <label class="type-card">
  <input type="radio" name="fenceType" value="razor-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
  <strong>Razor Wire</strong>
  <span>Max security</span>
  </label>

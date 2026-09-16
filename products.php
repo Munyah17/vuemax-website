@@ -425,7 +425,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 6 -->
  <a class="product-card" href="product-detail.php?slug=razor-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'assets/img/products/barbed-wire-50kg-2.jpg')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Razor Wire</h3>
@@ -551,7 +551,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 9 -->
  <a class="product-card" href="product-detail.php?slug=gate-locks">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Hardware</span>
  <h3>Gate Locks &amp; Hinges</h3>

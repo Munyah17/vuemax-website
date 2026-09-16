@@ -20,10 +20,10 @@
 
 // ============ EDIT THESE FIVE LINES ON DEPLOY ============
 
-$DB_HOST = 'localhost'; // Usually 'localhost' on cPanel
-$DB_NAME = 'vuemax_db'; // cPanel: usually prefixed with your account name
-$DB_USER = 'vuemax_user'; // cPanel: usually prefixed with your account name
-$DB_PASS = 'CHANGE_ME_123'; // cPanel: the password you set for the DB user
+$DB_HOST = 'localhost'; // Usually 'localhost' on cPanel / XAMPP
+$DB_NAME = 'vuemax_db'; // XAMPP: 'vuemax_db'. cPanel: usually prefixed with your account name
+$DB_USER = 'root';      // XAMPP default. cPanel: your DB user
+$DB_PASS = '';          // XAMPP default is blank. cPanel: your DB password
 $DB_CHARSET = 'utf8mb4';
 
 // AI estimator (Groq, OpenAI-compatible). Free key: https://console.groq.com

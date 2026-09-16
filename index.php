@@ -398,7 +398,7 @@ require __DIR__ . '/includes/header.php';
  </div>
 
  <div class="product-card reveal reveal-d3">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
  <div class="body">
  <span class="cat">Hardware</span>
  <h3>Gate Locks &amp; Hinges</h3>
