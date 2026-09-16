@@ -897,7 +897,7 @@ require __DIR__ . '/includes/header.php';
  <div class="type-cards" id="typeCards">
  <label class="type-card selected">
  <input type="radio" name="fenceType" value="diamond-mesh" checked>
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh.jpg')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
  <strong>Diamond Mesh</strong>
  <span>Popular · durable</span>
  </label>

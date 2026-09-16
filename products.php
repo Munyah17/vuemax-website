@@ -297,7 +297,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1 -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh.jpg')) ?>')">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh-2.jpg')) ?>')">
  <span class="tag">Best Seller</span>
  </div>
  <div class="body">
@@ -313,7 +313,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1b -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-2-5mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-25', 'assets/img/products/diamond-mesh.jpg')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-25', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh 50x50 (2.5mm)</h3>
@@ -327,7 +327,7 @@ require __DIR__ . '/includes/header.php';
 
  <!-- 1c -->
  <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-3-15mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-315', 'assets/img/products/diamond-mesh.jpg')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-315', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh 50x50 (3.15mm)</h3>

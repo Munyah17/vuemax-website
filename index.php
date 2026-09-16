@@ -359,7 +359,7 @@ require __DIR__ . '/includes/header.php';
 
  <div class="product-grid" id="productGrid">
  <div class="product-card reveal">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh.jpg')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Diamond Mesh</h3>
