@@ -157,6 +157,11 @@ $img2 = null;
 if ($mainImg && strpos($mainImg, 'http') !== 0) {
     $cand = preg_replace('/\.(jpe?g|png|webp)$/i', '-2.$1', $mainImg);
     if ($cand !== $mainImg && file_exists(__DIR__ . '/' . $cand)) $img2 = $cand;
+    // if the main image IS the "-2" file, offer the base file as the second shot
+    if (!$img2 && preg_match('/-2\.(jpe?g|png|webp)$/i', $mainImg)) {
+        $base = preg_replace('/-2\.(jpe?g|png|webp)$/i', '.$1', $mainImg);
+        if (file_exists(__DIR__ . '/' . $base)) $img2 = $base;
+    }
 }
 $onRequest = ($pPrice === null);
 $sku = 'VX-' . strtoupper(preg_replace('/[^A-Z0-9]/', '', substr(md5($slug), 0, 6)));
