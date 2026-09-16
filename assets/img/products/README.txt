@@ -1,1 +1,0 @@
-Drop product photos here. Filename must match the 'image' path in the products table (sql/schema.sql).
