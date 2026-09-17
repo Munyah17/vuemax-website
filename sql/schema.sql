@@ -445,7 +445,7 @@ INSERT INTO `products`
  'Heavy-duty fencing for wildlife, farms and large properties.',
  'Manufactured from high-tensile galvanised wire, our game fence is built to withstand the demands of wildlife and livestock enclosures. Ideal for game reserves, large farms and perimeter security.',
  'roll', 280.00, 50, 12.00, 1.10, 220.00, 4.00,
- 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80',
+ 'assets/img/products/game-fence.jpg',
  NULL, 4.7, 86, 1, 2),
 
 (3, 'barbed-wire', 'Barbed Wire 25 kg Roll',
@@ -849,7 +849,7 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('cat-steel','Category card: Steel','index.php','assets/img/products/square-tubes.jpg'),
 ('cat-hardware','Category card: General Hardware','index.php','https://images.unsplash.com/photo-1581147036324-c17ac41dfa6c?auto=format&fit=crop&w=800&q=80'),
 ('prod-diamond-mesh','Product: Diamond Mesh','index.php, products.php, product-detail.php, calculator.php','assets/img/products/diamond-mesh-2.jpg'),
-('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80'),
+('prod-game-fence','Product: Game Fence','index.php, products.php, product-detail.php, calculator.php','assets/img/products/game-fence.jpg'),
 ('prod-barbed-wire','Product: Barbed Wire (25 kg roll)','products.php, product-detail.php, calculator.php','assets/img/products/barbed-wire.jpg'),
 ('prod-barbed-wire-50','Product: Barbed Wire (50 kg roll)','products.php, product-detail.php','assets/img/products/barbed-wire-50kg.jpg'),
 ('prod-diamond-25','Product: Diamond Mesh 50x50 (2.5mm)','products.php','assets/img/products/diamond-mesh-2.jpg'),

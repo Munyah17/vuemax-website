@@ -32,7 +32,7 @@ $PD = [
  'game-fence' => ['Game Fence', 280.00, 'roll',
    'Heavy-duty fencing for wildlife, farms and large properties.',
    'Manufactured from high-tensile galvanised wire, our game fence is built to withstand the demands of wildlife and livestock enclosures. Ideal for game reserves, large farms and perimeter security.',
-   'prod-game-fence', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+   'prod-game-fence', 'assets/img/products/game-fence.jpg',
    [['Material','High-tensile galvanised wire'],['Roll Length','50 m'],['Finish','Hot-dip galvanised']]],
  'barbed-wire' => ['Barbed Wire 25 kg Roll', 38.00, 'roll',
    'High-tensile, high-security barbed wire for perimeter and farm protection. 25 kg roll.',
@@ -950,7 +950,7 @@ require __DIR__ . '/includes/header.php';
  </a>
 
  <a class="product-card reveal reveal-d3" href="product-detail.php?slug=game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Game Fence</h3>

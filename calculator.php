@@ -1025,7 +1025,7 @@ require __DIR__ . '/includes/header.php';
  </label>
  <label class="type-card">
  <input type="radio" name="fenceType" value="game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=400&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')"></div>
  <strong>Game Fence</strong>
  <span>Heavy-duty wildlife</span>
  </label>

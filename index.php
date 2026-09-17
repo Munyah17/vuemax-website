@@ -372,7 +372,7 @@ require __DIR__ . '/includes/header.php';
  </div>
 
  <div class="product-card reveal reveal-d1">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')"></div>
  <div class="body">
  <span class="cat">Fencing</span>
  <h3>Game Fence</h3>
