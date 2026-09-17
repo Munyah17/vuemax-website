@@ -167,18 +167,63 @@ $onRequest = ($pPrice === null);
 $sku = 'VX-' . strtoupper(preg_replace('/[^A-Z0-9]/', '', substr(md5($slug), 0, 6)));
 
 /* ---------- Diamond-mesh variant matrix ----------
-   Aperture (hole size) × wire gauge — each combination is its own
-   product with its own per-height roll pricing, so the selectors
-   navigate between sibling slugs. */
+   Aperture (hole size) × wire gauge × height — every combination is
+   its own product/price. The configurator below switches combos
+   inline (Mandy-style), fed by MESH_DATA: per-variant height prices. */
 $MESH_VARIANTS = [
  '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
  '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
 ];
-$WIRE_GAUGES = ['2' => '2mm', '2.5' => '2.5mm', '3.15' => '3.15mm'];
+$WIRE_GAUGES = ['2' => '2.0mm', '2.5' => '2.5mm', '3.15' => '3.15mm'];
 $curAperture = null; $curWire = null;
 foreach ($MESH_VARIANTS as $ap => $wires) {
  foreach ($wires as $w => $s) {
  if ($s === $slug) { $curAperture = $ap; $curWire = $w; break 2; }
+ }
+}
+
+/* Height → roll price per variant slug (mirrors the seeded
+   product_specs; DB values override when connected). */
+$meshHeights = [
+ 'diamond-mesh' => ['1.0'=>65,'1.2'=>75,'1.5'=>90,'1.8'=>110,'2.0'=>130,'2.1'=>200,'2.4'=>220,'2.5'=>235,'3.0'=>270],
+ 'diamond-mesh-50x50-2-5mm' => ['1.0'=>85,'1.2'=>105,'1.5'=>130,'1.8'=>150,'2.0'=>168,'2.1'=>225,'2.4'=>250,'2.5'=>265,'3.0'=>300],
+ 'diamond-mesh-50x50-3-15mm' => ['1.0'=>150,'1.2'=>180,'1.5'=>230,'1.8'=>270,'2.0'=>300,'2.1'=>375,'2.4'=>420,'2.5'=>440,'3.0'=>505],
+ 'diamond-mesh-30x30-2-5mm' => ['1.0'=>110,'1.2'=>133,'1.5'=>165,'1.8'=>185,'2.0'=>205,'2.1'=>223,'2.4'=>250,'2.5'=>270,'3.0'=>350],
+];
+
+$meshData = null;
+if ($curAperture !== null) {
+ if ($pdo) {
+ try {
+ $vslugs = [];
+ foreach ($MESH_VARIANTS as $ws) $vslugs = array_merge($vslugs, array_values($ws));
+ $in = implode(',', array_fill(0, count($vslugs), '?'));
+ $st = $pdo->prepare(
+ "SELECT p.slug, s.label, s.value
+ FROM product_specs s
+ JOIN products p ON p.id = s.product_id
+ WHERE p.slug IN ($in) AND s.label LIKE 'Height %'
+ ORDER BY s.sort_order"
+ );
+ $st->execute($vslugs);
+ $live = [];
+ foreach ($st->fetchAll() as $r) {
+ if (preg_match('/([\d.]+)/', $r['label'], $hm) && preg_match('/([\d.,]+)/', $r['value'], $vm)) {
+ $live[$r['slug']][$hm[1]] = (float)str_replace(',', '', $vm[1]);
+ }
+ }
+ foreach ($live as $s => $h) $meshHeights[$s] = $h;
+ } catch (Throwable $e) { /* keep fallback heights */ }
+ }
+ $meshData = [];
+ foreach ($MESH_VARIANTS as $ap => $wires) {
+ foreach ($wires as $w => $s) {
+ $meshData[$s] = [
+ 'name' => $PD[$s][0] ?? $s,
+ 'ap' => $ap, 'wire' => $w,
+ 'heights' => $meshHeights[$s] ?? [],
+ ];
+ }
  }
 }
 
@@ -285,6 +330,51 @@ $extraCss = <<<'CSS'
 .option-pill.active{border-color:var(--navy);background:var(--navy);color:var(--white);font-weight:600;}
 .option-pill.disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through;}
 .option-pill.disabled:hover{border-color:var(--border);}
+
+/* ---------- MESH CONFIGURATOR (aperture × gauge × height) ---------- */
+.mesh-config{
+ border:1px solid var(--border);border-radius:var(--radius-input);
+ background:#fbfdff;padding:18px;margin-bottom:22px;
+}
+.mc-title{font-size:16.5px;font-weight:700;color:var(--navy);margin-bottom:14px;}
+.mc-row{display:grid;grid-template-columns:1fr;gap:0;}
+.mc-field{margin-bottom:14px;}
+.mc-field label{
+ display:block;font-size:13px;font-weight:600;
+ color:var(--navy);margin-bottom:8px;letter-spacing:.02em;
+}
+.mc-select{
+ width:100%;max-width:280px;padding:10px 14px;
+ border:1.5px solid var(--border);border-radius:var(--radius-input);
+ background:var(--white);font-size:14px;color:var(--text);
+ font-family:inherit;cursor:pointer;
+}
+.mc-heights{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:360px;}
+.mc-h{
+ border:1.5px solid var(--border);border-radius:var(--radius-input);
+ background:var(--white);padding:9px 4px;cursor:pointer;
+ text-align:center;transition:.15s;font-family:inherit;
+}
+.mc-h span{display:block;font-size:13.5px;font-weight:600;color:var(--navy);}
+.mc-h .mc-hp{font-size:11.5px;font-weight:500;color:var(--muted);margin-top:2px;}
+.mc-h:hover{border-color:var(--navy);}
+.mc-h.active{background:var(--navy);border-color:var(--navy);}
+.mc-h.active span{color:var(--white);}
+.mc-h.active .mc-hp{color:rgba(255,255,255,.8);}
+.mc-selected{
+ display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+ background:#fffbe6;border:1px solid #f0e6b8;
+ border-radius:var(--radius-input);padding:12px 14px;
+ font-size:13.5px;color:var(--text);
+}
+.mc-selected strong{color:var(--navy);font-size:15px;}
+.mc-live{
+ margin-left:auto;font-size:10.5px;color:var(--muted);
+ letter-spacing:.06em;text-transform:uppercase;
+}
+@media (min-width:640px){
+ .mc-row{grid-template-columns:1fr 1fr;gap:14px;}
+}
 
 /* Quantity + Add to quote row */
 .qty-row{
@@ -419,8 +509,7 @@ $extraCss = <<<'CSS'
 CSS;
 
 $extraJs = 'const MESH_VARIANTS = ' . json_encode($MESH_VARIANTS) . ";\n"
- . 'const CUR_SLUG = ' . json_encode($slug) . ";\n"
- . 'const CUR_WIRE = ' . json_encode($curWire) . ";\n"
+ . 'const MESH_DATA = ' . json_encode($meshData) . ";\n"
  . <<<'JS'
 /* ============================================================
  PRODUCT DETAIL INTERACTIONS
@@ -437,29 +526,66 @@ $extraJs = 'const MESH_VARIANTS = ' . json_encode($MESH_VARIANTS) . ";\n"
  });
  });
 
- /* ---- Diamond-mesh aperture / wire selectors → variant pages ---- */
+ /* ---- Diamond-mesh configurator: gauge + aperture + height → live roll price ---- */
+ window.meshSel = null;
  (function(){
- const apWrap = document.getElementById('apertureOpts');
- const wWrap = document.getElementById('wireOpts');
- if (!apWrap || !wWrap) return;
- const curAp = apWrap.querySelector('.option-pill.active');
- if (!curAp) return;
- const ap = curAp.dataset.aperture;
+ const cfg = document.getElementById('meshConfig');
+ if (!cfg || !MESH_DATA) return;
+ const apSel = document.getElementById('mcAperture');
+ const wSel = document.getElementById('mcWire');
+ const hWrap = document.getElementById('mcHeights');
+ const priceEl = document.getElementById('mcPrice');
+ const mainPrice = document.getElementById('pdPriceVal');
+ const mainLabel = document.getElementById('pdPriceLabel');
+ const nameEl = document.getElementById('productName');
+ let selH = null;
 
- function go(aperture, wire){
- const slug = (MESH_VARIANTS[aperture] || {})[wire];
- if (!slug || slug === CUR_SLUG) return;
- window.location.href = 'product-detail.php?slug=' + encodeURIComponent(slug);
+ function curSlug(){ return (MESH_VARIANTS[apSel.value] || {})[wSel.value] || null; }
+
+ // gauges not stocked for the chosen aperture get disabled in the dropdown
+ function syncWires(){
+ const wires = MESH_VARIANTS[apSel.value] || {};
+ [...wSel.options].forEach(o => { o.disabled = !wires[o.value]; });
+ if (!wires[wSel.value]) wSel.value = Object.keys(wires)[0];
  }
 
- apWrap.querySelectorAll('.option-pill').forEach(p => p.addEventListener('click', () => {
- const newAp = p.dataset.aperture;
- const wires = MESH_VARIANTS[newAp] || {};
- const wire = wires[CUR_WIRE] ? CUR_WIRE : Object.keys(wires)[0];
- go(newAp, wire);
+ function update(){
+ const s = curSlug();
+ const v = s && MESH_DATA[s];
+ const pr = v && selH !== null ? v.heights[selH] : null;
+ if (v && pr != null){
+ window.meshSel = { slug: s, name: v.name, height: selH, price: pr };
+ priceEl.textContent = '$' + pr + ' per roll';
+ if (mainPrice) mainPrice.textContent = '$' + Number(pr).toLocaleString();
+ if (mainLabel) mainLabel.textContent = 'Price';
+ if (nameEl) nameEl.textContent = v.name;
+ } else {
+ window.meshSel = null;
+ priceEl.textContent = '—';
+ }
+ }
+
+ function renderHeights(){
+ const s = curSlug();
+ const v = s && MESH_DATA[s];
+ const keys = v ? Object.keys(v.heights) : [];
+ if (!keys.length){ hWrap.innerHTML = ''; update(); return; }
+ if (selH === null || !(selH in v.heights)) selH = keys[0];
+ hWrap.innerHTML = keys.map(h =>
+ '<button type="button" class="mc-h' + (h === selH ? ' active' : '') + '" data-h="' + h + '">'
+ + '<span>' + h + 'm</span><span class="mc-hp">$' + v.heights[h] + '/roll</span></button>').join('');
+ hWrap.querySelectorAll('.mc-h').forEach(b => b.addEventListener('click', () => {
+ selH = b.dataset.h;
+ hWrap.querySelectorAll('.mc-h').forEach(x => x.classList.toggle('active', x === b));
+ update();
  }));
- wWrap.querySelectorAll('.option-pill:not(.disabled)').forEach(p =>
- p.addEventListener('click', () => go(ap, p.dataset.wire)));
+ update();
+ }
+
+ apSel.addEventListener('change', () => { syncWires(); renderHeights(); });
+ wSel.addEventListener('change', renderHeights);
+ syncWires();
+ renderHeights();
  })();
 
  /* ---- Option pill selection ---- */
@@ -492,6 +618,19 @@ $extraJs = 'const MESH_VARIANTS = ' . json_encode($MESH_VARIANTS) . ";\n"
  document.getElementById('addToQuote').addEventListener('click', function(){
  const btn = this;
  const n = Math.max(1, parseInt(qty.value || '1', 10) || 1);
+ let item;
+
+ if (window.meshSel){
+ // diamond-mesh configurator: exact variant + height + roll price
+ const m = window.meshSel;
+ item = {
+ name: m.name + ' — ' + m.height + 'm height',
+ spec: 'Per ' + (btn.dataset.unit || 'item'),
+ qty: n + ' × ' + (btn.dataset.unit || 'item'),
+ unit: m.price,
+ total: m.price === null ? null : Math.round(m.price * n * 100) / 100
+ };
+ } else {
  let unit = parseFloat(btn.dataset.price);
  if (isNaN(unit)) unit = null;
 
@@ -499,18 +638,19 @@ $extraJs = 'const MESH_VARIANTS = ' . json_encode($MESH_VARIANTS) . ";\n"
  let optLabel = '';
  const pill = document.querySelector('#heightOpts .option-pill.active, #lengthOpts .option-pill.active');
  if (pill){
- const m = pill.textContent.match(/\$([\d.,]+)\s*$/);
- if (m) unit = parseFloat(m[1].replace(/,/g, ''));
+ const pm = pill.textContent.match(/\$([\d.,]+)\s*$/);
+ if (pm) unit = parseFloat(pm[1].replace(/,/g, ''));
  optLabel = pill.textContent.replace(/\s*—\s*\$[\d.,]+\s*$/, '').trim();
  }
 
- const item = {
+ item = {
  name: btn.dataset.name + (optLabel ? ' — ' + optLabel : ''),
  spec: 'Per ' + (btn.dataset.unit || 'item'),
  qty: n + ' × ' + (btn.dataset.unit || 'item'),
  unit: unit,
  total: unit === null ? null : Math.round(unit * n * 100) / 100
  };
+ }
 
  let quote = null;
  try { quote = JSON.parse(sessionStorage.getItem('vuemax_quote') || 'null'); } catch(e){}
@@ -611,8 +751,8 @@ require __DIR__ . '/includes/header.php';
  <span class="label">Price</span>
  <span class="value">Supplied on request</span>
  <?php else: ?>
- <span class="label"><?= str_starts_with($pShort, 'Versatile') || str_contains($pShort, 'heights') ? 'From' : 'Price' ?></span>
- <span class="value"><?= usd($pPrice) ?></span>
+ <span class="label" id="pdPriceLabel"><?= str_starts_with($pShort, 'Versatile') || str_contains($pShort, 'heights') ? 'From' : 'Price' ?></span>
+ <span class="value" id="pdPriceVal"><?= usd($pPrice) ?></span>
  <?php endif; ?>
  </div>
  <div class="price-row">
@@ -628,31 +768,39 @@ require __DIR__ . '/includes/header.php';
  <div class="price-note"><?= $onRequest ? 'Contact us with your sizes and quantities for a quotation.' : 'Prices are estimates and may vary based on order volume and location.' ?></div>
  </div>
 
- <?php if ($curAperture !== null): ?>
- <!-- Aperture (hole size) — each size is a separate product/price -->
- <div class="option-group">
- <label>Aperture (hole size)</label>
- <div class="option-pills" id="apertureOpts">
+ <?php if ($meshData): ?>
+ <!-- Configure Your Diamond Mesh: gauge + aperture + height → live roll price -->
+ <div class="mesh-config" id="meshConfig">
+ <h3 class="mc-title">Configure Your Diamond Mesh</h3>
+ <div class="mc-row">
+ <div class="mc-field">
+ <label for="mcWire">Wire Gauge</label>
+ <select id="mcWire" class="mc-select">
+ <?php foreach ($WIRE_GAUGES as $w => $label): ?>
+ <option value="<?= e($w) ?>" <?= $w === $curWire ? 'selected' : '' ?>><?= e($label) ?> gauge</option>
+ <?php endforeach; ?>
+ </select>
+ </div>
+ <div class="mc-field">
+ <label for="mcAperture">Aperture Size</label>
+ <select id="mcAperture" class="mc-select">
  <?php foreach ($MESH_VARIANTS as $ap => $wires): ?>
- <button type="button" class="option-pill <?= $ap === $curAperture ? 'active' : '' ?>" data-aperture="<?= e($ap) ?>"><?= e($ap) ?> mm</button>
+ <option value="<?= e($ap) ?>" <?= $ap === $curAperture ? 'selected' : '' ?>><?= e($ap) ?>mm aperture</option>
  <?php endforeach; ?>
+ </select>
  </div>
  </div>
-
- <!-- Wire diameter — each gauge has its own roll price -->
- <div class="option-group">
- <label>Wire diameter</label>
- <div class="option-pills" id="wireOpts">
- <?php foreach ($WIRE_GAUGES as $w => $label):
- $avail = isset($MESH_VARIANTS[$curAperture][$w]); ?>
- <button type="button" class="option-pill <?= $w === $curWire ? 'active' : '' ?> <?= $avail ? '' : 'disabled' ?>"
- data-wire="<?= e($w) ?>"
- <?= $avail ? '' : 'disabled title="Not stocked in ' . e($curAperture) . ' mm aperture"' ?>><?= e($label) ?></button>
- <?php endforeach; ?>
+ <div class="mc-field">
+ <label>Select Height</label>
+ <div class="mc-heights" id="mcHeights"></div>
+ </div>
+ <div class="mc-selected">
+ <span>Selected product:</span>
+ <strong id="mcPrice">—</strong>
+ <span class="mc-live">Live pricing</span>
  </div>
  </div>
- <?php endif; ?>
-
+ <?php else: ?>
  <?php $heightSpecs = array_values(array_filter($specs, fn($s) => stripos($s[0], 'Height') === 0)); ?>
  <?php if ($heightSpecs): ?>
  <!-- Height option (priced per height) -->
@@ -664,6 +812,7 @@ require __DIR__ . '/includes/header.php';
  <?php endforeach; ?>
  </div>
  </div>
+ <?php endif; ?>
  <?php endif; ?>
 
  <!-- Qty + Add to quote -->
