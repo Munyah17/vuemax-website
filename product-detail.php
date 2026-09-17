@@ -66,7 +66,7 @@ $PD = [
    [['Type','Concertina razor wire'],['Core','Galvanised'],['Roll Length','50 m']]],
  'fence-posts' => ['Fence Posts', 8.00, 'piece',
    'Galvanised steel posts — corner, standard and supporter posts matched to fence height.',
-   'assets/img/products/diamond-mesh.jpg',
+   'Galvanised steel fence posts in lengths matched to each fence height — corner, standard and supporter posts. Sold per post; corner and supporter pricing varies by fence height.',
    'prod-fence-posts', 'assets/img/products/round-pole-75mm.jpg',
    [['For 1.2 m fence — 1.8 m posts','Corner $16 · Standard $8 · Supporter $12'],
     ['For 1.5 m fence — 2.0 m posts','Corner $13 · Standard $9 · Supporter $13'],
@@ -165,6 +165,22 @@ if ($mainImg && strpos($mainImg, 'http') !== 0) {
 }
 $onRequest = ($pPrice === null);
 $sku = 'VX-' . strtoupper(preg_replace('/[^A-Z0-9]/', '', substr(md5($slug), 0, 6)));
+
+/* ---------- Diamond-mesh variant matrix ----------
+   Aperture (hole size) × wire gauge — each combination is its own
+   product with its own per-height roll pricing, so the selectors
+   navigate between sibling slugs. */
+$MESH_VARIANTS = [
+ '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
+ '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
+];
+$WIRE_GAUGES = ['2' => '2mm', '2.5' => '2.5mm', '3.15' => '3.15mm'];
+$curAperture = null; $curWire = null;
+foreach ($MESH_VARIANTS as $ap => $wires) {
+ foreach ($wires as $w => $s) {
+ if ($s === $slug) { $curAperture = $ap; $curWire = $w; break 2; }
+ }
+}
 
 $pageTitle = $pName . ' | Vuemax';
 $pageDesc  = mb_substr(strip_tags($pShort), 0, 150);
@@ -267,6 +283,8 @@ $extraCss = <<<'CSS'
 }
 .option-pill:hover{border-color:var(--navy);}
 .option-pill.active{border-color:var(--navy);background:var(--navy);color:var(--white);font-weight:600;}
+.option-pill.disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through;}
+.option-pill.disabled:hover{border-color:var(--border);}
 
 /* Quantity + Add to quote row */
 .qty-row{
@@ -400,7 +418,10 @@ $extraCss = <<<'CSS'
 }
 CSS;
 
-$extraJs = <<<'JS'
+$extraJs = 'const MESH_VARIANTS = ' . json_encode($MESH_VARIANTS) . ";\n"
+ . 'const CUR_SLUG = ' . json_encode($slug) . ";\n"
+ . 'const CUR_WIRE = ' . json_encode($curWire) . ";\n"
+ . <<<'JS'
 /* ============================================================
  PRODUCT DETAIL INTERACTIONS
  ============================================================ */
@@ -415,6 +436,31 @@ $extraJs = <<<'JS'
  t.classList.add('active');
  });
  });
+
+ /* ---- Diamond-mesh aperture / wire selectors → variant pages ---- */
+ (function(){
+ const apWrap = document.getElementById('apertureOpts');
+ const wWrap = document.getElementById('wireOpts');
+ if (!apWrap || !wWrap) return;
+ const curAp = apWrap.querySelector('.option-pill.active');
+ if (!curAp) return;
+ const ap = curAp.dataset.aperture;
+
+ function go(aperture, wire){
+ const slug = (MESH_VARIANTS[aperture] || {})[wire];
+ if (!slug || slug === CUR_SLUG) return;
+ window.location.href = 'product-detail.php?slug=' + encodeURIComponent(slug);
+ }
+
+ apWrap.querySelectorAll('.option-pill').forEach(p => p.addEventListener('click', () => {
+ const newAp = p.dataset.aperture;
+ const wires = MESH_VARIANTS[newAp] || {};
+ const wire = wires[CUR_WIRE] ? CUR_WIRE : Object.keys(wires)[0];
+ go(newAp, wire);
+ }));
+ wWrap.querySelectorAll('.option-pill:not(.disabled)').forEach(p =>
+ p.addEventListener('click', () => go(ap, p.dataset.wire)));
+ })();
 
  /* ---- Option pill selection ---- */
  ['heightOpts','lengthOpts'].forEach(id => {
@@ -581,6 +627,31 @@ require __DIR__ . '/includes/header.php';
  <?php endforeach; ?>
  <div class="price-note"><?= $onRequest ? 'Contact us with your sizes and quantities for a quotation.' : 'Prices are estimates and may vary based on order volume and location.' ?></div>
  </div>
+
+ <?php if ($curAperture !== null): ?>
+ <!-- Aperture (hole size) — each size is a separate product/price -->
+ <div class="option-group">
+ <label>Aperture (hole size)</label>
+ <div class="option-pills" id="apertureOpts">
+ <?php foreach ($MESH_VARIANTS as $ap => $wires): ?>
+ <button type="button" class="option-pill <?= $ap === $curAperture ? 'active' : '' ?>" data-aperture="<?= e($ap) ?>"><?= e($ap) ?> mm</button>
+ <?php endforeach; ?>
+ </div>
+ </div>
+
+ <!-- Wire diameter — each gauge has its own roll price -->
+ <div class="option-group">
+ <label>Wire diameter</label>
+ <div class="option-pills" id="wireOpts">
+ <?php foreach ($WIRE_GAUGES as $w => $label):
+ $avail = isset($MESH_VARIANTS[$curAperture][$w]); ?>
+ <button type="button" class="option-pill <?= $w === $curWire ? 'active' : '' ?> <?= $avail ? '' : 'disabled' ?>"
+ data-wire="<?= e($w) ?>"
+ <?= $avail ? '' : 'disabled title="Not stocked in ' . e($curAperture) . ' mm aperture"' ?>><?= e($label) ?></button>
+ <?php endforeach; ?>
+ </div>
+ </div>
+ <?php endif; ?>
 
  <?php $heightSpecs = array_values(array_filter($specs, fn($s) => stripos($s[0], 'Height') === 0)); ?>
  <?php if ($heightSpecs): ?>

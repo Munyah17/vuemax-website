@@ -391,13 +391,40 @@ $extraCss = <<<'CSS'
  .stepper .label{font-size:11px;}
  .step .num{width:36px;height:36px;font-size:13px;}
 }
+
+/* ---------- MESH VARIANT SELECTORS (aperture + wire gauge) ---------- */
+.mesh-opts{
+ display:none;margin-top:18px;padding:18px;
+ border:1px solid var(--border);border-radius:var(--radius-input);
+ background:#f8fafc;
+}
+.mesh-opts.show{display:grid;grid-template-columns:1fr;gap:14px;}
+.mesh-opts label{
+ display:block;font-size:13px;font-weight:600;
+ color:var(--navy);margin-bottom:8px;letter-spacing:.02em;
+}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;}
+.calc-pill{
+ padding:8px 15px;border:1.5px solid var(--border);
+ border-radius:999px;background:var(--white);
+ font-size:13px;font-weight:500;color:var(--text);
+ cursor:pointer;transition:.15s;
+}
+.calc-pill:hover{border-color:var(--navy);}
+.calc-pill.active{border-color:var(--navy);background:var(--navy);color:var(--white);font-weight:600;}
+.calc-pill.disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through;}
+.calc-pill.disabled:hover{border-color:var(--border);}
+@media (min-width:720px){
+ .mesh-opts.show{grid-template-columns:1fr 1fr;}
+ .mesh-opts .mesh-note{grid-column:1/-1;}
+}
 CSS;
 
 /* Hydrate the calculator catalogue + post sets from the DB when
    available — admin price edits then flow straight into quotes.
    The literals below mirror the seeded rates as the no-DB fallback. */
 $catalogJson = <<<'JSON'
-{"diamond-mesh":{"name":"Diamond Mesh","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (25kg)","roll":38,"rollMetres":100,"topWirePerM":0.6,"gatePrice":160,"installPerM":2.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
+{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (25kg)","roll":38,"rollMetres":100,"topWirePerM":0.6,"gatePrice":160,"installPerM":2.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
 JSON;
 $postSetsJson = <<<'JSON'
 [{"h":1.2,"len":1.8,"corner":16,"standard":8,"supporter":12},{"h":1.5,"len":2,"corner":13,"standard":9,"supporter":13},{"h":2.1,"len":2.6,"corner":26,"standard":16,"supporter":13},{"h":2.4,"len":3,"corner":33,"standard":18,"supporter":15},{"h":2.5,"len":3,"corner":33,"standard":18,"supporter":15},{"h":3,"len":3.6,"corner":40,"standard":20,"supporter":16}]
@@ -406,7 +433,7 @@ JSON;
 if ($pdo) {
  try {
  // per-post concrete rates aren't a DB column — keep the per-slug statics
- $concrete = ['diamond-mesh'=>4,'game-fence'=>5,'barbed-wire'=>4,'chicken-mesh'=>3,'field-fence'=>4,'razor-wire'=>5];
+ $concrete = ['diamond-mesh'=>4,'diamond-mesh-50x50-2-5mm'=>4,'diamond-mesh-50x50-3-15mm'=>4,'diamond-mesh-30x30-2-5mm'=>4,'game-fence'=>5,'barbed-wire'=>4,'chicken-mesh'=>3,'field-fence'=>4,'razor-wire'=>5];
  $cat = [];
  $qr = $pdo->query(
  "SELECT p.slug, p.name, p.price_usd, p.roll_metres, p.top_wire_rate, p.gate_price, p.install_rate
@@ -442,8 +469,16 @@ if ($pdo) {
  } catch (Throwable $e) { /* keep fallback JSON */ }
 }
 
+/* Diamond-mesh aperture × wire-gauge matrix — each combo maps to its
+   own catalog entry (and its own roll price). */
+$meshVariants = [
+ '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
+ '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
+];
+
 $extraJs = 'const CATALOG = ' . $catalogJson . ";\n"
  . 'const POST_SETS = ' . $postSetsJson . ";\n"
+ . 'const MESH_VARIANTS = ' . json_encode($meshVariants) . ";\n"
  . <<<'JS'
 /* ============================================================
  CALCULATOR STATE + LOGIC
@@ -493,7 +528,14 @@ function readInputs(){
  const height = Math.max(0, parseFloat(document.getElementById('height').value || 0));
  const spacing = Math.max(1, parseFloat(document.getElementById('spacing').value || 2.5));
  const typeRadio = document.querySelector('input[name="fenceType"]:checked');
- const type = typeRadio ? typeRadio.value : 'diamond-mesh';
+ let type = typeRadio ? typeRadio.value : 'diamond-mesh';
+ if (type === 'diamond-mesh'){
+ const apEl = document.querySelector('#calcAperture .calc-pill.active');
+ const wrEl = document.querySelector('#calcWire .calc-pill.active');
+ const ap = apEl ? apEl.dataset.ap : '50x50';
+ const wr = wrEl ? wrEl.dataset.wire : '2';
+ type = (MESH_VARIANTS[ap] || {})[wr] || 'diamond-mesh';
+ }
 
  const opts = {
  topWire: document.getElementById('optTopWire').checked,
@@ -508,7 +550,7 @@ function readInputs(){
 /* --- Compute BOQ --- */
 function computeBOQ(){
  const v = readInputs();
- const p = CATALOG[v.type];
+ const p = CATALOG[v.type] || CATALOG['diamond-mesh'];
  if (!p || v.perimeter <= 0) return { items:[], total:0, v, p };
 
  const items = [];
@@ -631,9 +673,42 @@ document.querySelectorAll('input[name="fenceType"]').forEach(r => {
  r.addEventListener('change', () => {
  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
  if (r.checked) r.closest('.type-card').classList.add('selected');
+ document.getElementById('meshOpts').classList.toggle('show', r.checked && r.value === 'diamond-mesh');
  render();
  });
 });
+
+/* ---- Diamond-mesh aperture / wire pills ---- */
+(function(){
+ const apWrap = document.getElementById('calcAperture');
+ const wWrap = document.getElementById('calcWire');
+ if (!apWrap || !wWrap) return;
+
+ /* setMeshPills(ap, wire): activate the aperture pill, update which
+ wire gauges are stocked for it, and activate the closest wire. */
+ window.setMeshPills = function(ap, wire){
+ apWrap.querySelectorAll('.calc-pill').forEach(x =>
+ x.classList.toggle('active', x.dataset.ap === ap));
+ const wires = MESH_VARIANTS[ap] || {};
+ wWrap.querySelectorAll('.calc-pill').forEach(x =>
+ x.classList.toggle('disabled', !wires[x.dataset.wire]));
+ if (!wires[wire]) wire = Object.keys(wires)[0];
+ wWrap.querySelectorAll('.calc-pill').forEach(x =>
+ x.classList.toggle('active', x.dataset.wire === wire));
+ };
+
+ apWrap.querySelectorAll('.calc-pill').forEach(b => b.addEventListener('click', () => {
+ const curWire = wWrap.querySelector('.calc-pill.active');
+ window.setMeshPills(b.dataset.ap, curWire ? curWire.dataset.wire : '2');
+ render();
+ }));
+ wWrap.querySelectorAll('.calc-pill').forEach(b => b.addEventListener('click', () => {
+ if (b.classList.contains('disabled')) return;
+ wWrap.querySelectorAll('.calc-pill').forEach(x => x.classList.remove('active'));
+ b.classList.add('active');
+ render();
+ }));
+})();
 
 // Opt-card visual selected state
 document.querySelectorAll('.opt-card input').forEach(cb => {
@@ -678,11 +753,24 @@ document.getElementById('aiFill').addEventListener('click', async function(){
  hSel.value = hOpts.reduce((a, b) => Math.abs(b - q.height) < Math.abs(a - q.height) ? b : a);
  }
  if (q.fence_slug){
- const radio = document.querySelector(`input[name="fenceType"][value="${q.fence_slug}"]`);
+ let radio = document.querySelector(`input[name="fenceType"][value="${q.fence_slug}"]`);
+ // variant slugs (e.g. diamond-mesh-30x30-2-5mm) map onto the
+ // Diamond Mesh radio + its aperture/wire pills
+ if (!radio){
+ for (const ap in MESH_VARIANTS){
+ for (const w in MESH_VARIANTS[ap]){
+ if (MESH_VARIANTS[ap][w] === q.fence_slug){
+ radio = document.querySelector('input[name="fenceType"][value="diamond-mesh"]');
+ if (window.setMeshPills) window.setMeshPills(ap, w);
+ }
+ }
+ }
+ }
  if (radio){
  radio.checked = true;
  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
  radio.closest('.type-card').classList.add('selected');
+ document.getElementById('meshOpts').classList.toggle('show', radio.value === 'diamond-mesh');
  }
  }
  ['topWire','gate','install','concrete'].forEach(k => {
@@ -965,6 +1053,26 @@ require __DIR__ . '/includes/header.php';
  <strong>Razor Wire</strong>
  <span>Max security</span>
  </label>
+ </div>
+
+ <!-- Diamond-mesh variants: each aperture + wire gauge has its own roll price -->
+ <div class="mesh-opts show" id="meshOpts">
+ <div>
+ <label>Aperture (hole size)</label>
+ <div class="pill-row" id="calcAperture">
+ <button type="button" class="calc-pill active" data-ap="50x50">50 × 50 mm</button>
+ <button type="button" class="calc-pill" data-ap="30x30">30 × 30 mm</button>
+ </div>
+ </div>
+ <div>
+ <label>Wire diameter</label>
+ <div class="pill-row" id="calcWire">
+ <button type="button" class="calc-pill active" data-wire="2">2mm</button>
+ <button type="button" class="calc-pill" data-wire="2.5">2.5mm</button>
+ <button type="button" class="calc-pill" data-wire="3.15">3.15mm</button>
+ </div>
+ </div>
+ <span class="hint mesh-note">Each aperture and wire gauge carries its own price per 30m roll — the totals update automatically.</span>
  </div>
 
  <div class="form-grid">

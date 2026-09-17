@@ -397,8 +397,15 @@ if ($pdo) {
  } catch (Throwable $e) { /* keep fallbacks */ }
 }
 
+/* Diamond-mesh aperture × wire-gauge matrix (same map as calculator) */
+$meshVariants = [
+ '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
+ '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
+];
+
 $extraJs = 'const DB_RATES = ' . $ratesJson . ";\n"
  . 'const DB_POST_SETS = ' . $postSetsJson . ";\n"
+ . 'const MESH_VARIANTS = ' . json_encode($meshVariants) . ";\n"
  . <<<'JS'
 /* ============================================================
  AI ESTIMATOR RULES ENGINE
@@ -411,6 +418,29 @@ const CATALOG = {
  desc:'A durable and cost-effective solution for your project. Ideal for security and long-term use.',
  rollPrice: 65, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
  keywords: ['diamond', 'residential', 'home', 'house', 'plot', 'boundary', 'general', 'school'],
+ bestHeight: 1.8
+ },
+ /* Variant slugs share the family keywords but are only picked via the
+ aperture/gauge remap in detectFenceType — never by keyword score. */
+ 'diamond-mesh-50x50-2-5mm': {
+ name:'Diamond Mesh 50x50 (2.5mm)',
+ desc:'50x50mm aperture with heavier 2.5mm wire — stronger and longer-lasting.',
+ rollPrice: 85, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
+ bestHeight: 1.8
+ },
+ 'diamond-mesh-50x50-3-15mm': {
+ name:'Diamond Mesh 50x50 (3.15mm)',
+ desc:'Heavy-duty 50x50mm mesh with 3.15mm wire — maximum strength for high-security sites.',
+ rollPrice: 150, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
+ bestHeight: 2.1
+ },
+ 'diamond-mesh-30x30-2-5mm': {
+ name:'Diamond Mesh 30x30 (2.5mm)',
+ desc:'Tighter 30x30mm aperture with 2.5mm wire — harder to climb or breach.',
+ rollPrice: 110, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
  bestHeight: 1.8
  },
  'game-fence': {
@@ -521,6 +551,20 @@ function detectFenceType(text){
  }
 
  if (!best) best = 'diamond-mesh';
+
+ /* Diamond-mesh aperture / wire-gauge mentions map onto the specific
+ priced variant (e.g. "2.5mm diamond mesh" → diamond-mesh-50x50-2-5mm). */
+ if (best.indexOf('diamond-mesh') === 0){
+ const ap = /30\s*[x×]\s*30/.test(t) ? '30x30' : '50x50';
+ let wire = '2';
+ if (/3\.15\s*mm/.test(t)) wire = '3.15';
+ else if (/2\.5\s*mm/.test(t)) wire = '2.5';
+ else if (/\b2\s*mm\b/.test(t)) wire = '2';
+ const wires = MESH_VARIANTS[ap] || {};
+ const slug = wires[wire] || wires[Object.keys(wires)[0]];
+ if (slug && CATALOG[slug]) best = slug;
+ }
+
  return { key: best, product: CATALOG[best] };
 }
 
