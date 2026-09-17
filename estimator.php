@@ -355,12 +355,56 @@ $extraCss = <<<'CSS'
 }
 CSS;
 
-$extraJs = <<<'JS'
+/* Hydrate the fallback catalogue rates + post sets from the DB so
+   the offline path tracks admin price edits too. The API path
+   (api/estimate.php) is already DB-driven; this covers the
+   rules-engine fallback below. */
+$ratesJson = '[]';
+$postSetsJson = '[]';
+if ($pdo) {
+ try {
+ $rates = new stdClass();
+ $qr = $pdo->query(
+ "SELECT p.slug, p.price_usd, p.roll_metres, p.post_price, p.top_wire_rate, p.gate_price, p.install_rate
+ FROM products p
+ JOIN subcategories sc ON sc.id = p.subcategory_id
+ JOIN categories c ON c.id = sc.category_id
+ WHERE c.slug = 'fencing' AND p.is_active = 1
+ AND p.roll_metres IS NOT NULL AND p.price_usd IS NOT NULL
+ ORDER BY p.sort_order"
+ );
+ foreach ($qr as $r) {
+ $rates->{$r['slug']} = [
+ 'rollPrice' => (float)$r['price_usd'],
+ 'rollMetres' => (float)$r['roll_metres'],
+ 'postPrice' => (float)$r['post_price'],
+ 'topWirePerM' => (float)$r['top_wire_rate'],
+ 'gatePrice' => (float)$r['gate_price'],
+ 'installPerM' => (float)$r['install_rate'],
+ ];
+ }
+ if (count(get_object_vars($rates))) $ratesJson = json_encode($rates, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+ $sets = [];
+ foreach ($pdo->query('SELECT fence_height, post_length, corner_price, standard_price, supporter_price FROM post_sets ORDER BY sort_order') as $r) {
+ $sets[] = [
+ 'h' => (float)$r['fence_height'], 'len' => (float)$r['post_length'],
+ 'corner' => (float)$r['corner_price'], 'standard' => (float)$r['standard_price'],
+ 'supporter' => (float)$r['supporter_price'],
+ ];
+ }
+ if ($sets) $postSetsJson = json_encode($sets);
+ } catch (Throwable $e) { /* keep fallbacks */ }
+}
+
+$extraJs = 'const DB_RATES = ' . $ratesJson . ";\n"
+ . 'const DB_POST_SETS = ' . $postSetsJson . ";\n"
+ . <<<'JS'
 /* ============================================================
  AI ESTIMATOR RULES ENGINE
  ============================================================ */
 
-/* ---- Product catalogue (Phase 2: fetched from api/products.php) ---- */
+/* ---- Product catalogue (rates hydrated from DB when available) ---- */
 const CATALOG = {
  'diamond-mesh': {
  name:'Diamond Mesh',
@@ -407,7 +451,7 @@ const CATALOG = {
 };
 
 /* ---- Post system (client pricing model) ---- */
-const POST_SETS = [
+const POST_SETS = DB_POST_SETS.length ? DB_POST_SETS : [
  { h:1.2, len:1.8, corner:16, standard:8, supporter:12 },
  { h:1.5, len:2.0, corner:13, standard:9, supporter:13 },
  { h:2.1, len:2.6, corner:26, standard:16, supporter:13 },
@@ -415,6 +459,12 @@ const POST_SETS = [
  { h:2.5, len:3.0, corner:33, standard:18, supporter:15 },
  { h:3.0, len:3.6, corner:40, standard:20, supporter:16 }
 ];
+
+/* Overlay DB-hydrated rates onto the static fallback catalogue */
+Object.keys(DB_RATES).forEach(k => {
+ if (CATALOG[k]) Object.assign(CATALOG[k], DB_RATES[k]);
+});
+
 function postSet(height){
  const s = POST_SETS.filter(x => x.h >= height - 0.001).sort((a,b) => a.h - b.h);
  return s.length ? s[0] : POST_SETS[POST_SETS.length - 1];
@@ -684,6 +734,7 @@ function getFullQuote(){
  }
  const q = {
  ref: 'VX-AI-' + Math.floor(1000 + Math.random() * 8999),
+ source: 'estimator',
  createdAt: new Date().toISOString(),
  project: {
  perimeter: currentEstimate.perimeter,

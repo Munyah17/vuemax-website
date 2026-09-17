@@ -124,20 +124,21 @@ $extraJs = <<<'JS'
 
  var rows = '';
  var total = 0;
+ var anyPriced = false;
  quote.items.forEach(function(it){
- var line = Number(it.total || 0);
- total += line;
+ var line = (it.total === null || it.total === undefined) ? null : Number(it.total);
+ if (line !== null){ total += line; anyPriced = true; }
  rows += '<tr>'
  + '<td>' + esc(it.name) + (it.spec ? '<br><span class="qty">' + esc(it.spec) + '</span>' : '') + '</td>'
  + '<td class="qty">' + esc(it.qty) + '</td>'
- + '<td><strong>' + money(line) + '</strong></td>'
+ + '<td><strong>' + (line === null ? 'POA' : money(line)) + '</strong></td>'
  + '</tr>';
  });
 
  wrap.innerHTML =
  '<div class="qr-card">'
  + '<div class="qr-card-head">'
- + '<div class="qr-ref">Quote Reference<strong>' + esc(quote.ref || 'VX-QUOTE') + '</strong></div>'
+ + '<div class="qr-ref">Quote Reference<strong id="qrRef">' + esc(quote.ref || 'VX-QUOTE') + '</strong></div>'
  + '<div class="qr-date">' + esc(created) + '</div>'
  + '</div>'
  + '<div class="qr-body">'
@@ -150,10 +151,46 @@ $extraJs = <<<'JS'
  + '<thead><tr><th>Item</th><th>Qty</th><th>Total</th></tr></thead>'
  + '<tbody>' + rows + '</tbody>'
  + '</table>'
- + '<div class="qr-total-row"><span>Estimated Total</span><span class="amt">' + money(total) + '</span></div>'
+ + '<div class="qr-total-row"><span>Estimated Total</span><span class="amt">' + (anyPriced ? money(total) : 'Price on application') + '</span></div>'
  + '<div class="qr-note">This is an estimate based on current list prices. Final pricing is confirmed after a site assessment. Quotes are valid for 14 days.</div>'
  + '</div>'
  + '</div>';
+
+/* ---------- Persist the quote to the back office (once per quote) ---------- */
+if (!quote.saved){
+ var cust = quote.customer || {};
+ var contact = String(cust.contact || '');
+ var payload = {
+ source: quote.source || (String(quote.ref || '').indexOf('VX-AI-') === 0 ? 'estimator' : 'calculator'),
+ customer: {
+ name: cust.name || '',
+ phone: cust.phone || (contact.indexOf('@') === -1 ? contact : ''),
+ email: cust.email || (contact.indexOf('@') !== -1 ? contact : ''),
+ notes: cust.notes || ''
+ },
+ project: quote.project || {},
+ options: quote.options || {},
+ items: quote.items.map(function(it){
+ return { name: it.name, spec: it.spec || '', qty: it.qty, unit: it.unit || null, total: it.total };
+ }),
+ total: total
+ };
+ fetch('api/quote-save.php', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+ body: JSON.stringify(payload)
+ })
+ .then(function(r){ return r.json(); })
+ .then(function(d){
+ if (!d || !d.ok) return;
+ quote.saved = true;
+ if (d.ref) quote.ref = d.ref;
+ try { sessionStorage.setItem('vuemax_quote', JSON.stringify(quote)); } catch(e){}
+ var refEl = document.getElementById('qrRef');
+ if (refEl) refEl.textContent = quote.ref;
+ })
+ .catch(function(){ /* DB offline — quote stays browser-local only */ });
+}
 })();
 JS;
 

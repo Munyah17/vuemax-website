@@ -442,18 +442,52 @@ $extraJs = <<<'JS'
  qty.value = qty.value.replace(/[^0-9]/g,'').slice(0,3) || '1';
  });
 
- /* ---- Add to quote (visual feedback for now) ---- */
+ /* ---- Add to quote → builds/extends vuemax_quote → quote-results.php ---- */
  document.getElementById('addToQuote').addEventListener('click', function(){
- const original = this.innerHTML;
- this.innerHTML = '✓ Added to Quote';
+ const btn = this;
+ const n = Math.max(1, parseInt(qty.value || '1', 10) || 1);
+ let unit = parseFloat(btn.dataset.price);
+ if (isNaN(unit)) unit = null;
+
+ // an active height/size pill may carry its own price ("1.8 m — $110")
+ let optLabel = '';
+ const pill = document.querySelector('#heightOpts .option-pill.active, #lengthOpts .option-pill.active');
+ if (pill){
+ const m = pill.textContent.match(/\$([\d.,]+)\s*$/);
+ if (m) unit = parseFloat(m[1].replace(/,/g, ''));
+ optLabel = pill.textContent.replace(/\s*—\s*\$[\d.,]+\s*$/, '').trim();
+ }
+
+ const item = {
+ name: btn.dataset.name + (optLabel ? ' — ' + optLabel : ''),
+ spec: 'Per ' + (btn.dataset.unit || 'item'),
+ qty: n + ' × ' + (btn.dataset.unit || 'item'),
+ unit: unit,
+ total: unit === null ? null : Math.round(unit * n * 100) / 100
+ };
+
+ let quote = null;
+ try { quote = JSON.parse(sessionStorage.getItem('vuemax_quote') || 'null'); } catch(e){}
+ if (quote && Array.isArray(quote.items)){
+ quote.items.push(item);
+ delete quote.saved; // changed contents — save again
+ } else {
+ quote = {
+ ref: 'VX-PD-' + Math.floor(1000 + Math.random() * 8999),
+ source: 'product',
+ createdAt: new Date().toISOString(),
+ customer: {},
+ project: { type: btn.dataset.slug, typeName: btn.dataset.name },
+ options: {},
+ items: [item]
+ };
+ }
+ try { sessionStorage.setItem('vuemax_quote', JSON.stringify(quote)); } catch(e){}
+
+ this.innerHTML = '✓ Added — opening quote…';
  this.style.background = '#15803D';
  this.style.color = '#fff';
- setTimeout(() => {
- this.innerHTML = original;
- this.style.background = '';
- this.style.color = '';
- }, 1600);
- // Phase 2: POST to /api/quote-save.php
+ setTimeout(() => { window.location.href = 'quote-results.php'; }, 450);
  });
 
  /* ---- Info tabs ---- */
@@ -568,7 +602,11 @@ require __DIR__ . '/includes/header.php';
  <input type="text" id="qtyValue" value="1" inputmode="numeric">
  <button type="button" id="qtyPlus">+</button>
  </div>
- <button class="btn btn-amber" id="addToQuote">
+ <button class="btn btn-amber" id="addToQuote"
+ data-name="<?= e($pName) ?>"
+ data-slug="<?= e($slug) ?>"
+ data-unit="<?= e($pUnit) ?>"
+ data-price="<?= $pPrice === null ? '' : e($pPrice) ?>">
  Add to Quote
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </button>

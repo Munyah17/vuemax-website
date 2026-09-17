@@ -5,6 +5,54 @@ $pageTitle = 'Installations Vuemax | Fencing Projects Across Zimbabwe';
 $pageDesc = 'See real Vuemax fencing installations across Zimbabwe farms, residential, commercial and security projects.';
 $active = 'projects';
 
+/* ---------- Gallery: DB-driven with static fallback ----------
+   proj-N image slots stay positional so the admin image manager
+   still swaps card images regardless of the underlying row. */
+$PROJ_CATS = ['farms' => 'Farms', 'residential' => 'Residential', 'commercial' => 'Commercial', 'security' => 'Security'];
+$PROJ_BADGES = ['farms' => 'Farm', 'residential' => 'Residential', 'commercial' => 'Commercial', 'security' => 'Security'];
+
+$projects = [
+ ['slug'=>'game-reserve-masvingo','title'=>'Game Reserve Perimeter — Masvingo','cat'=>'farms','location'=>'Masvingo','year'=>2024,'chips'=>['5km perimeter','1.8m game fence','Steel posts'],'img'=>'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'borrowdale-residential','title'=>'Residential Boundary — Borrowdale, Harare','cat'=>'residential','location'=>'Harare','year'=>2024,'chips'=>['180m perimeter','1.8m diamond mesh','Double gate'],'img'=>'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'graniteside-warehouse','title'=>'Warehouse Site — Graniteside, Harare','cat'=>'commercial','location'=>'Harare','year'=>2023,'chips'=>['450m perimeter','2.1m mesh','Razor top'],'img'=>'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'marondera-farm','title'=>'Farm Perimeter — Marondera','cat'=>'farms','location'=>'Marondera','year'=>2024,'chips'=>['1.2km perimeter','1.5m field fence','Timber posts'],'img'=>'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'harare-prison-upgrade','title'=>'Prison Facility Upgrade — Harare','cat'=>'security','location'=>'Harare','year'=>2023,'chips'=>['1.5km perimeter','Razor wire','High-security'],'img'=>'https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'mt-pleasant-townhouses','title'=>'Townhouse Complex — Mt Pleasant, Harare','cat'=>'residential','location'=>'Harare','year'=>2024,'chips'=>['320m perimeter','1.8m mesh','Concrete posts'],'img'=>'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'chitungwiza-school','title'=>'School Perimeter — Chitungwiza','cat'=>'commercial','location'=>'Chitungwiza','year'=>2023,'chips'=>['800m perimeter','1.8m diamond mesh','Top wire'],'img'=>'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'chinhoyi-cattle','title'=>'Cattle Ranch — Chinhoyi','cat'=>'farms','location'=>'Chinhoyi','year'=>2024,'chips'=>['3.5km perimeter','Field fence','Steel posts'],'img'=>'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'bulawayo-bank','title'=>'Bank Branch Perimeter — Bulawayo','cat'=>'security','location'=>'Bulawayo','year'=>2024,'chips'=>['120m perimeter','2.1m razor','Reinforced posts'],'img'=>'https://images.unsplash.com/photo-1580129954963-a6d2dd1d6bdd?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'victoria-falls-estate','title'=>'Estate Boundary — Victoria Falls','cat'=>'residential','location'=>'Victoria Falls','year'=>2024,'chips'=>['650m perimeter','1.8m diamond mesh','2 gates'],'img'=>'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'norton-poultry','title'=>'Poultry Operation — Norton','cat'=>'farms','location'=>'Norton','year'=>2024,'chips'=>['400m perimeter','1.2m chicken mesh','Light posts'],'img'=>'https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=800&q=80'],
+ ['slug'=>'zvishavane-mining','title'=>'Mining Camp — Zvishavane','cat'=>'commercial','location'=>'Zvishavane','year'=>2023,'chips'=>['2.5km perimeter','Game fence','Razor top'],'img'=>'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'],
+];
+
+$totalProjects = count($projects);
+$catCountsProj = array_count_values(array_column($projects, 'cat'));
+
+if ($pdo) {
+ try {
+ $totalProjects = (int)$pdo->query('SELECT COUNT(*) FROM projects WHERE is_active = 1')->fetchColumn();
+ $catCountsProj = $pdo->query('SELECT category, COUNT(*) AS n FROM projects WHERE is_active = 1 GROUP BY category')->fetchAll(PDO::FETCH_KEY_PAIR);
+ $rows = $pdo->query(
+ 'SELECT slug, title, category, location, year, spec_chips, image
+ FROM projects WHERE is_active = 1
+ ORDER BY is_featured DESC, sort_order ASC, id ASC
+ LIMIT 12'
+ )->fetchAll();
+ if ($rows) {
+ $projects = array_map(function ($r) {
+ return [
+ 'slug' => $r['slug'], 'title' => $r['title'], 'cat' => $r['category'],
+ 'location' => $r['location'], 'year' => $r['year'],
+ 'chips' => $r['spec_chips'] ? (json_decode($r['spec_chips'], true) ?: []) : [],
+ 'img' => $r['image'],
+ ];
+ }, $rows);
+ }
+ } catch (Throwable $e) { /* keep static fallback */ }
+}
+$shownProjects = count($projects);
+
 $extraCss = <<<'CSS'
 /* ---------- STATS STRIP ---------- */
 .stats-strip{
@@ -174,42 +222,87 @@ $extraCss = <<<'CSS'
 }
 CSS;
 
-$extraJs = <<<'JS'
+$extraJs = 'const PROJ_BADGES = ' . json_encode($PROJ_BADGES) . ";\n" . <<<'JS'
 /* ============================================================
  INSTALLATIONS FILTER + UI
  ============================================================ */
-(function(){
- const tabs = document.querySelectorAll('.filter-tab');
- const cards = document.querySelectorAll('.project-card');
- const empty = document.getElementById('galleryEmpty');
- const countEl = document.getElementById('visibleCount');
+var curFilter = 'all';
+var lmPage = 1;
+var LM_PER_PAGE = 12;
 
- function setFilter(filter){
- tabs.forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+function escHtml(s){
+ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+ });
+}
+
+function projectCardHtml(p){
+ var chips = (p.spec_chips || []).map(function(c){
+ return '<span class="spec-chip">' + escHtml(c) + '</span>';
+ }).join('');
+ var img = p.image || 'assets/img/products/diamond-mesh.jpg';
+ return '<article class="project-card" data-category="' + escHtml(p.category) + '">'
+ + '<div class="project-thumb" style="background-image:url(\'' + escHtml(img) + '\')">'
+ + '<span class="project-cat">' + escHtml(PROJ_BADGES[p.category] || p.category) + '</span>'
+ + '<div class="view-overlay"><span class="btn-view">View Project'
+ + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>'
+ + '</span></div></div>'
+ + '<div class="project-body">'
+ + '<h3>' + escHtml(p.title) + '</h3>'
+ + '<div class="project-meta">'
+ + '<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ' + escHtml(p.location || '') + '</span>'
+ + '<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + escHtml(p.year || '') + '</span>'
+ + '</div>'
+ + '<div class="project-spec">' + chips + '</div>'
+ + '<span class="footer-link">View Project'
+ + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>'
+ + '</span>'
+ + '</div></article>';
+}
+
+function setFilter(filter){
+ curFilter = filter;
+ document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
 
  let visible = 0;
- cards.forEach(card => {
- const cat = card.dataset.category || '';
- const show = (filter === 'all') || (cat === filter);
+ document.querySelectorAll('#galleryGrid .project-card').forEach(card => {
+ const show = (filter === 'all') || (card.dataset.category === filter);
  card.style.display = show ? '' : 'none';
  if (show) visible++;
  });
 
- countEl.textContent = visible;
- empty.classList.toggle('active', visible === 0);
- }
+ document.getElementById('visibleCount').textContent = visible;
+ document.getElementById('galleryEmpty').classList.toggle('active', visible === 0);
+}
 
- tabs.forEach(t => t.addEventListener('click', () => setFilter(t.dataset.filter)));
+document.querySelectorAll('.filter-tab').forEach(t =>
+ t.addEventListener('click', () => setFilter(t.dataset.filter)));
 
- const params = new URLSearchParams(window.location.search);
- const initial = params.get('filter');
- if (initial) setFilter(initial);
-})();
+const params = new URLSearchParams(window.location.search);
+if (params.get('filter')) setFilter(params.get('filter'));
 
-/* ---- Load more ---- */
+/* ---- Load more (api/projects.php pages beyond the first 12) ---- */
 function loadMore(){
- // Phase 2: fetch('api/projects.php?offset=12') and append
- alert('More projects coming soon. Follow us on social media or contact us for the full portfolio.');
+ const btn = document.getElementById('loadMoreBtn');
+ const wrap = document.getElementById('loadMoreWrap');
+ if (!btn) return;
+ btn.disabled = true;
+ lmPage++;
+ fetch('api/projects.php?page=' + lmPage + '&per_page=' + LM_PER_PAGE)
+ .then(r => r.json())
+ .then(d => {
+ if (!d || !d.ok || !Array.isArray(d.projects)) throw new Error('bad response');
+ const grid = document.getElementById('galleryGrid');
+ d.projects.forEach(p => grid.insertAdjacentHTML('beforeend', projectCardHtml(p)));
+ setFilter(curFilter);
+ if (!d.projects.length || lmPage * LM_PER_PAGE >= d.total) wrap.style.display = 'none';
+ btn.disabled = false;
+ btn.innerHTML = 'Load More Projects';
+ })
+ .catch(() => {
+ btn.disabled = false;
+ btn.innerHTML = 'Load More Projects';
+ });
 }
 JS;
 
@@ -261,32 +354,25 @@ require __DIR__ . '/includes/header.php';
  <div class="filter-bar">
  <div class="filter-tabs" id="filterTabs">
  <button class="filter-tab active" data-filter="all">
- All Projects <span class="count">12</span>
+ All Projects <span class="count"><?= $totalProjects ?></span>
  </button>
- <button class="filter-tab" data-filter="farms">
- Farms <span class="count">4</span>
+ <?php foreach ($PROJ_CATS as $fslug => $flabel): if (empty($catCountsProj[$fslug])) continue; ?>
+ <button class="filter-tab" data-filter="<?= e($fslug) ?>">
+ <?= e($flabel) ?> <span class="count"><?= (int)$catCountsProj[$fslug] ?></span>
  </button>
- <button class="filter-tab" data-filter="residential">
- Residential <span class="count">3</span>
- </button>
- <button class="filter-tab" data-filter="commercial">
- Commercial <span class="count">3</span>
- </button>
- <button class="filter-tab" data-filter="security">
- Security <span class="count">2</span>
- </button>
+ <?php endforeach; ?>
  </div>
 
  <div class="result-count">
- Showing <strong id="visibleCount">12</strong> of <strong>12</strong> projects
+ Showing <strong id="visibleCount"><?= $shownProjects ?></strong> of <strong><?= $totalProjects ?></strong> projects
  </div>
  </div>
 
  <div class="gallery-grid" id="galleryGrid">
-
- <article class="project-card reveal" data-category="farms">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-1', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Farm</span>
+ <?php foreach ($projects as $i => $pr): ?>
+ <article class="project-card reveal<?= ['', ' reveal-d1', ' reveal-d2'][$i % 3] ?>" data-category="<?= e($pr['cat']) ?>">
+ <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-' . ($i + 1), $pr['img'] ?: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80')) ?>')">
+ <span class="project-cat"><?= e($PROJ_BADGES[$pr['cat']] ?? ucfirst($pr['cat'])) ?></span>
  <div class="view-overlay">
  <span class="btn-view">
  View Project
@@ -295,21 +381,19 @@ require __DIR__ . '/includes/header.php';
  </div>
  </div>
  <div class="project-body">
- <h3>Game Reserve Perimeter Masvingo</h3>
+ <h3><?= e($pr['title']) ?></h3>
  <div class="project-meta">
  <span>
  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Masvingo
+ <?= e($pr['location']) ?>
  </span>
  <span>
  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
+ <?= e($pr['year']) ?>
  </span>
  </div>
  <div class="project-spec">
- <span class="spec-chip">5km perimeter</span>
- <span class="spec-chip">1.8m game fence</span>
- <span class="spec-chip">Steel posts</span>
+ <?php foreach ($pr['chips'] as $chip): ?><span class="spec-chip"><?= e($chip) ?></span><?php endforeach; ?>
  </div>
  <span class="footer-link">
  View Project
@@ -317,383 +401,8 @@ require __DIR__ . '/includes/header.php';
  </span>
  </div>
  </article>
-
- <article class="project-card reveal reveal-d1" data-category="residential">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-2', 'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Residential</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
+ <?php endforeach; ?>
  </div>
- </div>
- <div class="project-body">
- <h3>Residential Boundary Borrowdale, Harare</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Harare
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">180m perimeter</span>
- <span class="spec-chip">1.8m diamond mesh</span>
- <span class="spec-chip">Double gate</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d2" data-category="commercial">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-3', 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Commercial</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Warehouse Site Graniteside, Harare</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Harare
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2023
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">450m perimeter</span>
- <span class="spec-chip">2.1m mesh</span>
- <span class="spec-chip">Razor top</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal" data-category="farms">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-4', 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Farm</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Farm Perimeter Marondera</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Marondera
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">1.2km perimeter</span>
- <span class="spec-chip">1.5m field fence</span>
- <span class="spec-chip">Timber posts</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d1" data-category="security">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-5', 'https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Security</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Prison Facility Upgrade Harare</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Harare
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2023
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">1.5km perimeter</span>
- <span class="spec-chip">Razor wire</span>
- <span class="spec-chip">High-security</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d2" data-category="residential">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-6', 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Residential</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Townhouse Complex Mt Pleasant, Harare</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Harare
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">320m perimeter</span>
- <span class="spec-chip">1.8m mesh</span>
- <span class="spec-chip">Concrete posts</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal" data-category="commercial">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-7', 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Commercial</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>School Perimeter Chitungwiza</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Chitungwiza
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2023
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">800m perimeter</span>
- <span class="spec-chip">1.8m diamond mesh</span>
- <span class="spec-chip">Top wire</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d1" data-category="farms">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-8', 'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Farm</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Cattle Ranch Chinhoyi</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Chinhoyi
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">3.5km perimeter</span>
- <span class="spec-chip">Field fence</span>
- <span class="spec-chip">Steel posts</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d2" data-category="security">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-9', 'https://images.unsplash.com/photo-1580129954963-a6d2dd1d6bdd?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Security</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Bank Branch Perimeter Bulawayo</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Bulawayo
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">120m perimeter</span>
- <span class="spec-chip">2.1m razor</span>
- <span class="spec-chip">Reinforced posts</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal" data-category="residential">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-10', 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Residential</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Estate Boundary Victoria Falls</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Victoria Falls
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">650m perimeter</span>
- <span class="spec-chip">1.8m diamond mesh</span>
- <span class="spec-chip">2 gates</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d1" data-category="farms">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-11', 'https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Farm</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Poultry Operation Norton</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Norton
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2024
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">400m perimeter</span>
- <span class="spec-chip">1.2m chicken mesh</span>
- <span class="spec-chip">Light posts</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- <article class="project-card reveal reveal-d2" data-category="commercial">
- <div class="project-thumb" style="background-image:url('<?= e(site_image('proj-12', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80')) ?>')">
- <span class="project-cat">Commercial</span>
- <div class="view-overlay">
- <span class="btn-view">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </div>
- <div class="project-body">
- <h3>Mining Camp Zvishavane</h3>
- <div class="project-meta">
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
- Zvishavane
- </span>
- <span>
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
- 2023
- </span>
- </div>
- <div class="project-spec">
- <span class="spec-chip">2.5km perimeter</span>
- <span class="spec-chip">Game fence</span>
- <span class="spec-chip">Razor top</span>
- </div>
- <span class="footer-link">
- View Project
- <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </article>
-
- </div>
-
  <!-- Empty state -->
  <div class="gallery-empty" id="galleryEmpty">
  <div class="icon">
@@ -703,13 +412,15 @@ require __DIR__ . '/includes/header.php';
  <p>Check back soon we're always adding new installations.</p>
  </div>
 
- <!-- Load more -->
- <div class="load-more-wrap">
- <button class="btn btn-outline-navy" onclick="loadMore()">
+ <!-- Load more (only when the DB has projects beyond the first page) -->
+ <?php if ($totalProjects > $shownProjects): ?>
+ <div class="load-more-wrap" id="loadMoreWrap">
+ <button class="btn btn-outline-navy" id="loadMoreBtn" onclick="loadMore()">
  Load More Projects
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/><line x1="19" y1="12" x2="19" y2="12"/></svg>
  </button>
  </div>
+ <?php endif; ?>
 
  </div>
 </section>

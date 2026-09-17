@@ -5,6 +5,84 @@ $pageTitle = 'Products Vuemax | Fencing, Steel & Hardware Solutions';
 $pageDesc = 'Browse Vuemax\'s full range of fencing, steel and general hardware products. Quality materials, nationwide delivery across Zimbabwe.';
 $active = '';
 
+/* ---------- Catalogue: DB-driven with static fallback ----------
+   Cards render identically either way; the fallback list mirrors
+   the seeded catalogue so the page works with no DB connection. */
+$CAT_LABELS = ['fencing' => 'Fencing', 'steel' => 'Steel', 'hardware' => 'Hardware'];
+$catNames = ['fencing' => 'Fencing Solutions', 'steel' => 'Steel Products', 'hardware' => 'General Hardware'];
+
+$items = [
+ ['slug'=>'diamond-mesh','name'=>'Diamond Mesh 50x50 (2mm)','cat'=>'fencing','sub'=>'diamond-mesh','price'=>65,'unit'=>'30m roll','desc'=>'50x50mm aperture, 2mm wire. 30m rolls, heights 1.0m to 3.0m.','img'=>'assets/img/products/diamond-mesh-2.jpg','badge'=>'Best Seller','featured'=>1,'reviews'=>120,'id'=>1],
+ ['slug'=>'diamond-mesh-50x50-2-5mm','name'=>'Diamond Mesh 50x50 (2.5mm)','cat'=>'fencing','sub'=>'diamond-mesh','price'=>85,'unit'=>'30m roll','desc'=>'50x50mm aperture, 2.5mm wire. 30m rolls, heights 1.0m to 3.0m.','img'=>'assets/img/products/diamond-mesh-2.jpg','badge'=>null,'featured'=>0,'reviews'=>110,'id'=>2],
+ ['slug'=>'diamond-mesh-50x50-3-15mm','name'=>'Diamond Mesh 50x50 (3.15mm)','cat'=>'fencing','sub'=>'diamond-mesh','price'=>150,'unit'=>'30m roll','desc'=>'50x50mm aperture, heavy 3.15mm wire. 30m rolls, heights 1.0m to 3.0m.','img'=>'assets/img/products/diamond-mesh-2.jpg','badge'=>null,'featured'=>0,'reviews'=>95,'id'=>3],
+ ['slug'=>'diamond-mesh-30x30-2-5mm','name'=>'Diamond Mesh 30x30 (2.5mm)','cat'=>'fencing','sub'=>'diamond-mesh','price'=>110,'unit'=>'30m roll','desc'=>'Tighter 30x30mm aperture, 2.5mm wire. 30m rolls, heights 1.0m to 3.0m.','img'=>'assets/img/products/diamond-mesh.jpg','badge'=>null,'featured'=>0,'reviews'=>60,'id'=>4],
+ ['slug'=>'game-fence','name'=>'Game Fence','cat'=>'fencing','sub'=>'game-fence','price'=>280,'unit'=>'roll','desc'=>'Heavy-duty fencing for wildlife, farms and large properties. Built for strength.','img'=>'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80','badge'=>null,'featured'=>1,'reviews'=>86,'id'=>5],
+ ['slug'=>'barbed-wire','name'=>'Barbed Wire 25 kg','cat'=>'fencing','sub'=>'barbed-wire','price'=>38,'unit'=>'roll','desc'=>'High-tensile barbed wire for perimeter security and farm protection. 25 kg roll, also available in 50 kg.','img'=>'assets/img/products/barbed-wire.jpg','badge'=>null,'featured'=>1,'reviews'=>74,'id'=>6],
+ ['slug'=>'barbed-wire-50kg','name'=>'Barbed Wire 50 kg','cat'=>'fencing','sub'=>'barbed-wire','price'=>75,'unit'=>'roll','desc'=>'High-tensile barbed wire for perimeter security and farm protection. 50 kg roll, also available in 25 kg.','img'=>'assets/img/products/barbed-wire-50kg.jpg','badge'=>null,'featured'=>0,'reviews'=>60,'id'=>7],
+ ['slug'=>'chicken-mesh','name'=>'Chicken Mesh','cat'=>'fencing','sub'=>'chicken-mesh','price'=>32,'unit'=>'roll','desc'=>'Lightweight galvanised mesh for poultry runs and small animal enclosures.','img'=>'https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=600&q=80','badge'=>null,'featured'=>1,'reviews'=>62,'id'=>8],
+ ['slug'=>'field-fence','name'=>'Field Fence','cat'=>'fencing','sub'=>'field-fence','price'=>180,'unit'=>'roll','desc'=>'General agricultural fencing for livestock and crop protection.','img'=>'https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=600&q=80','badge'=>null,'featured'=>1,'reviews'=>51,'id'=>9],
+ ['slug'=>'welded-mesh','name'=>'Welded Mesh','cat'=>'fencing','sub'=>'welded-mesh','price'=>null,'unit'=>'roll','desc'=>'Galvanised welded mesh with evenly welded intersections — for fencing, security, enclosures and fabrication.','img'=>'assets/img/products/welded-mesh.jpg','badge'=>null,'featured'=>1,'reviews'=>58,'id'=>10],
+ ['slug'=>'razor-wire','name'=>'Razor Wire','cat'=>'fencing','sub'=>'razor-wire','price'=>95,'unit'=>'roll','desc'=>'Enhanced perimeter security for high-security installations.','img'=>'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80','badge'=>null,'featured'=>0,'reviews'=>40,'id'=>11],
+ ['slug'=>'fence-posts','name'=>'Fence Posts','cat'=>'fencing','sub'=>'fence-posts','price'=>8,'unit'=>'piece','desc'=>'Wooden, steel and concrete posts available in multiple heights.','img'=>'assets/img/products/round-pole-75mm.jpg','badge'=>null,'featured'=>0,'reviews'=>38,'id'=>12],
+ ['slug'=>'checkered-plate-3mm','name'=>'Checkered Plate Galvanised 3mm','cat'=>'steel','sub'=>'steel-sheets','price'=>122,'unit'=>'sheet (2.4m x 1.2m)','desc'=>'Durable galvanised steel plate with raised checkered pattern for enhanced grip and slip resistance.','img'=>'assets/img/products/checkered-plate-3mm.jpg','badge'=>null,'featured'=>1,'reviews'=>44,'id'=>13],
+ ['slug'=>'galvanised-round-pole-75mm','name'=>'Galvanised Round Pole 75mm','cat'=>'steel','sub'=>'steel-tubing','price'=>36,'unit'=>'length (6m)','desc'=>'Heavy-duty galvanised steel round pole for fencing, structural supports and agricultural applications.','img'=>'assets/img/products/round-pole-75mm.jpg','badge'=>null,'featured'=>1,'reviews'=>41,'id'=>14],
+ ['slug'=>'galvanised-round-pole-32mm','name'=>'Galvanised Round Pole 32mm','cat'=>'steel','sub'=>'steel-tubing','price'=>25,'unit'=>'length (6m)','desc'=>'Galvanised steel round pole, 32mm x 2mm x 6m. For fencing, supports and general fabrication.','img'=>'assets/img/products/round-pole-32mm.jpg','badge'=>null,'featured'=>0,'reviews'=>33,'id'=>15],
+ ['slug'=>'galvanised-round-pole-38mm','name'=>'Galvanised Round Pole 38mm','cat'=>'steel','sub'=>'steel-tubing','price'=>28,'unit'=>'length (6m)','desc'=>'Galvanised steel round pole, 38mm x 2mm x 6m. For fencing, supports and general fabrication.','img'=>'assets/img/products/round-pole-38mm.jpg','badge'=>null,'featured'=>0,'reviews'=>31,'id'=>16],
+ ['slug'=>'square-tubes','name'=>'Square Tubes','cat'=>'steel','sub'=>'steel-tubing','price'=>null,'unit'=>'length','desc'=>'Steel square tubes for structural work, fabrication, gates, frames and roofing supports. Various sizes.','img'=>'assets/img/products/square-tubes.jpg','badge'=>null,'featured'=>0,'reviews'=>27,'id'=>17],
+ ['slug'=>'angle-irons','name'=>'Angle Irons','cat'=>'steel','sub'=>'structural','price'=>null,'unit'=>'length','desc'=>'Steel angle sections for structural support, frames, brackets and fabrication. Various sizes.','img'=>'assets/img/products/angle-irons.jpg','badge'=>null,'featured'=>0,'reviews'=>24,'id'=>18],
+ ['slug'=>'deformed-bars','name'=>'Deformed Bars','cat'=>'steel','sub'=>'rebar','price'=>null,'unit'=>'length','desc'=>'High-strength ribbed reinforcement bars for concrete slabs, columns, beams and foundations.','img'=>'assets/img/products/deformed-bars.jpg','badge'=>null,'featured'=>0,'reviews'=>29,'id'=>19],
+ ['slug'=>'gate-locks','name'=>'Gate Locks & Hinges','cat'=>'hardware','sub'=>'gate-hardware','price'=>18,'unit'=>'set','desc'=>'Heavy-duty locks, hinges and latches for gates and security doors.','img'=>'https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?auto=format&fit=crop&w=800&q=80','badge'=>null,'featured'=>1,'reviews'=>35,'id'=>20],
+];
+
+$subNames = [];
+if ($pdo) {
+ try {
+ $rows = $pdo->query(
+ "SELECT p.id, p.slug, p.name, p.short_desc, p.unit, p.price_usd, p.image,
+ p.badge, p.is_featured, p.reviews_count,
+ c.slug AS cat_slug, c.name AS cat_name, sc.slug AS sub_slug, sc.name AS sub_name
+ FROM products p
+ JOIN subcategories sc ON sc.id = p.subcategory_id
+ JOIN categories c ON c.id = sc.category_id
+ WHERE p.is_active = 1 AND sc.is_active = 1 AND c.is_active = 1
+ ORDER BY p.is_featured DESC, p.reviews_count DESC, p.sort_order ASC"
+ )->fetchAll();
+ if ($rows) {
+ $items = array_map(function ($r) {
+ return [
+ 'slug' => $r['slug'], 'name' => $r['name'],
+ 'cat' => $r['cat_slug'], 'sub' => $r['sub_slug'],
+ 'price' => $r['price_usd'] !== null ? (float)$r['price_usd'] : null,
+ 'unit' => $r['unit'] ?: 'item', 'desc' => $r['short_desc'],
+ 'img' => $r['image'], 'badge' => $r['badge'],
+ 'featured' => (int)$r['is_featured'], 'reviews' => (int)$r['reviews_count'],
+ 'id' => (int)$r['id'],
+ ];
+ }, $rows);
+ }
+ // real category + subcategory names for labels
+ $cn = [];
+ foreach ($pdo->query('SELECT slug, name FROM categories WHERE is_active = 1 ORDER BY sort_order') as $c) {
+ $cn[$c['slug']] = $c['name'];
+ }
+ if ($cn) $catNames = $cn;
+ foreach ($pdo->query('SELECT s.slug, s.name FROM subcategories s JOIN categories c ON c.id = s.category_id WHERE c.slug = \'fencing\' AND s.is_active = 1') as $s) {
+ $subNames[$s['slug']] = $s['name'];
+ }
+ } catch (Throwable $e) { /* keep static fallback */ }
+}
+
+$totalCount = count($items);
+$catCounts = array_count_values(array_column($items, 'cat'));
+$subCounts = [];
+foreach ($items as $it) {
+ if ($it['cat'] === 'fencing' && $it['sub'] !== '') {
+ $subCounts[$it['sub']] = ($subCounts[$it['sub']] ?? 0) + 1;
+ if (!isset($subNames[$it['sub']])) $subNames[$it['sub']] = ucwords(str_replace('-', ' ', $it['sub']));
+ }
+}
+arsort($subCounts);
+
 $extraCss = <<<'CSS'
 /* ---------- PAGE HERO (small) ---------- */
 .page-hero{
@@ -155,47 +233,64 @@ CSS;
 
 $extraJs = <<<'JS'
 /* ============================================================
- CATEGORY TAB + SIDEBAR SWITCHING
- (visual only for now Phase 2 will swap to fetch('/api/products.php'))
+ CATEGORY / SUBCATEGORY FILTERING + SORTING
  ============================================================ */
 (function(){
  const tabs = document.querySelectorAll('#catTabs .cat-tab');
  const sideLinks = document.querySelectorAll('#sidebarCats a');
- const cards = document.querySelectorAll('#productGrid .product-card');
+ const subLinks = document.querySelectorAll('#sidebarSubs a');
+ const grid = document.getElementById('productGrid');
+ const cards = [...grid.querySelectorAll('.product-card')];
+ const visCount = document.getElementById('visCount');
+ const sortSel = document.getElementById('sortBy');
 
- function setActive(cat){
- // Tabs
- tabs.forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
- // Sidebar
- sideLinks.forEach(a => a.classList.toggle('active', a.dataset.cat === cat));
+ let curCat = 'all';
+ let curSub = '';
 
- // Filter product cards by data-cat (fallback: show all if no match)
+ function applyFilter(){
+ let vis = 0;
  cards.forEach(card => {
- const cardCat = (card.querySelector('.cat')?.textContent || '').toLowerCase();
- if (cat === 'all') {
- card.style.display = '';
- } else {
- const show =
- (cat === 'fencing' && cardCat === 'fencing') ||
- (cat === 'steel' && cardCat === 'steel') ||
- (cat === 'hardware' && cardCat === 'hardware');
- card.style.display = show ? '' : 'none';
+ const ok = (curCat === 'all' || card.dataset.cat === curCat)
+ && (curSub === '' || card.dataset.sub === curSub);
+ card.style.display = ok ? '' : 'none';
+ if (ok) vis++;
+ });
+ if (visCount) visCount.textContent = vis;
+
+ tabs.forEach(t => t.classList.toggle('active', t.dataset.cat === curCat));
+ sideLinks.forEach(a => a.classList.toggle('active', a.dataset.cat === curCat));
+ subLinks.forEach(a => a.classList.toggle('active', a.dataset.sub === curSub && curSub !== ''));
+ }
+
+ function setCat(cat){ curCat = cat; curSub = ''; applyFilter(); }
+ function setSub(sub){ curSub = sub; if (sub) curCat = 'all'; applyFilter(); }
+
+ tabs.forEach(t => t.addEventListener('click', () => setCat(t.dataset.cat)));
+ sideLinks.forEach(a => a.addEventListener('click', e => { e.preventDefault(); setCat(a.dataset.cat); }));
+ subLinks.forEach(a => a.addEventListener('click', e => { e.preventDefault(); setSub(a.dataset.sub === curSub ? '' : a.dataset.sub); }));
+
+ /* --- Sort --- */
+ if (sortSel) sortSel.addEventListener('change', () => {
+ const mode = sortSel.value;
+ const sorted = [...cards].sort((a, b) => {
+ const pa = parseFloat(a.dataset.price), pb = parseFloat(b.dataset.price);
+ switch (mode){
+ case 'price-asc': return (isNaN(pa) ? 1e9 : pa) - (isNaN(pb) ? 1e9 : pb);
+ case 'price-desc': return (isNaN(pb) ? -1 : pb) - (isNaN(pa) ? -1 : pa);
+ case 'newest': return (b.dataset.id || 0) - (a.dataset.id || 0);
+ case 'name': return a.dataset.name.localeCompare(b.dataset.name);
+ default: // popular: featured first, then reviews
+ return (b.dataset.featured - a.dataset.featured) || (b.dataset.reviews - a.dataset.reviews);
  }
  });
- }
+ sorted.forEach(c => grid.appendChild(c));
+ });
 
- tabs.forEach(t => t.addEventListener('click', () => setActive(t.dataset.cat)));
- sideLinks.forEach(a => a.addEventListener('click', (e) => {
- e.preventDefault();
- setActive(a.dataset.cat);
- }));
-
- // If URL has ?category=x, apply that filter on load
+ // URL params: ?category=x and/or ?sub=y
  const params = new URLSearchParams(window.location.search);
- const initial = params.get('category');
- if (initial && ['fencing','steel','hardware'].includes(initial)) {
- setActive(initial);
- }
+ if (params.get('sub')) { curSub = params.get('sub'); curCat = 'all'; }
+ else if (params.get('category')) { curCat = params.get('category'); }
+ applyFilter();
 })();
 JS;
 
@@ -220,17 +315,13 @@ require __DIR__ . '/includes/header.php';
  <div class="container">
  <div class="cat-tabs-inner" id="catTabs">
  <button class="cat-tab active" data-cat="all">
- All Products <span class="count">33</span>
+ All Products <span class="count"><?= $totalCount ?></span>
  </button>
- <button class="cat-tab" data-cat="fencing">
- Fencing Solutions <span class="count">17</span>
+ <?php foreach ($catNames as $cslug => $cname): if (!isset($catCounts[$cslug])) continue; ?>
+ <button class="cat-tab" data-cat="<?= e($cslug) ?>">
+ <?= e($cname) ?> <span class="count"><?= $catCounts[$cslug] ?></span>
  </button>
- <button class="cat-tab" data-cat="steel">
- Steel Products <span class="count">11</span>
- </button>
- <button class="cat-tab" data-cat="hardware">
- General Hardware <span class="count">6</span>
- </button>
+ <?php endforeach; ?>
  </div>
  </div>
 </div>
@@ -244,25 +335,23 @@ require __DIR__ . '/includes/header.php';
  <div class="filter-block">
  <h4>Categories</h4>
  <ul class="filter-list" id="sidebarCats">
- <li><a href="#" data-cat="all" class="active">All Products <span class="count">33</span></a></li>
- <li><a href="#" data-cat="fencing">Fencing Solutions <span class="count">17</span></a></li>
- <li><a href="#" data-cat="steel">Steel Products <span class="count">11</span></a></li>
- <li><a href="#" data-cat="hardware">General Hardware <span class="count">6</span></a></li>
+ <li><a href="#" data-cat="all" class="active">All Products <span class="count"><?= $totalCount ?></span></a></li>
+ <?php foreach ($catNames as $cslug => $cname): if (!isset($catCounts[$cslug])) continue; ?>
+ <li><a href="#" data-cat="<?= e($cslug) ?>"><?= e($cname) ?> <span class="count"><?= $catCounts[$cslug] ?></span></a></li>
+ <?php endforeach; ?>
  </ul>
  </div>
 
+ <?php if ($subCounts): ?>
  <div class="filter-block">
  <h4>Fencing Types</h4>
- <ul class="filter-list">
- <li><a href="#">Diamond Mesh <span class="count">6</span></a></li>
- <li><a href="#">Game Fence <span class="count">2</span></a></li>
- <li><a href="#">Barbed Wire <span class="count">3</span></a></li>
- <li><a href="#">Chicken Mesh <span class="count">2</span></a></li>
- <li><a href="#">Field Fence <span class="count">1</span></a></li>
- <li><a href="#">Razor Wire <span class="count">1</span></a></li>
- <li><a href="#">Fence Posts <span class="count">1</span></a></li>
+ <ul class="filter-list" id="sidebarSubs">
+ <?php foreach ($subCounts as $sslug => $n): ?>
+ <li><a href="#" data-sub="<?= e($sslug) ?>"><?= e($subNames[$sslug] ?? ucwords(str_replace('-', ' ', $sslug))) ?> <span class="count"><?= $n ?></span></a></li>
+ <?php endforeach; ?>
  </ul>
  </div>
+ <?php endif; ?>
 
  <div class="filter-block">
  <h4>Need Help?</h4>
@@ -279,312 +368,42 @@ require __DIR__ . '/includes/header.php';
  <main>
  <div class="content-head">
  <div class="result-count">
- Showing <strong>1 9</strong> of <strong>24</strong> products
+ Showing <strong id="visCount"><?= $totalCount ?></strong> of <strong><?= $totalCount ?></strong> products
  </div>
  <div class="sort-wrap">
  <label for="sortBy">Sort by:</label>
  <select class="sort-select" id="sortBy">
- <option>Most Popular</option>
- <option>Price: Low to High</option>
- <option>Price: High to Low</option>
- <option>Newest First</option>
- <option>Name: A Z</option>
+ <option value="popular">Most Popular</option>
+ <option value="price-asc">Price: Low to High</option>
+ <option value="price-desc">Price: High to Low</option>
+ <option value="newest">Newest First</option>
+ <option value="name">Name: A Z</option>
  </select>
  </div>
  </div>
 
  <div class="product-grid" id="productGrid">
-
- <!-- 1 -->
- <a class="product-card" href="product-detail.php?slug=diamond-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh-2.jpg')) ?>')">
- <span class="tag">Best Seller</span>
+ <?php foreach ($items as $it): ?>
+ <a class="product-card" href="product-detail.php?slug=<?= e($it['slug']) ?>"
+ data-cat="<?= e($it['cat']) ?>" data-sub="<?= e($it['sub']) ?>"
+ data-price="<?= $it['price'] === null ? '' : e($it['price']) ?>"
+ data-name="<?= e(strtolower($it['name'])) ?>"
+ data-featured="<?= (int)$it['featured'] ?>" data-reviews="<?= (int)$it['reviews'] ?>"
+ data-id="<?= (int)$it['id'] ?>">
+ <div class="thumb" style="background-image:url('<?= e(site_image('prod-' . $it['slug'], $it['img'] ?: 'assets/img/products/diamond-mesh.jpg')) ?>')">
+ <?php if ($it['badge']): ?><span class="tag"><?= e($it['badge']) ?></span><?php endif; ?>
  </div>
  <div class="body">
- <span class="cat">Fencing</span>
- <h3>Diamond Mesh 50x50 (2mm)</h3>
- <p>50x50mm aperture, 2mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
- <div class="price">From $65 <span>/ 30m roll</span></div>
+ <span class="cat"><?= e($CAT_LABELS[$it['cat']] ?? ucfirst($it['cat'])) ?></span>
+ <h3><?= e($it['name']) ?></h3>
+ <p><?= e($it['desc']) ?></p>
+ <div class="price"><?php if ($it['price'] === null): ?>Supplied on request<?php else: ?>From $<?= e(rtrim(rtrim(number_format($it['price'], 2), '0'), '.')) ?> <span>/ <?= e($it['unit']) ?></span><?php endif; ?></div>
  <span class="more">View Details
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </span>
  </div>
  </a>
-
- <!-- 1b -->
- <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-2-5mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-25', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Diamond Mesh 50x50 (2.5mm)</h3>
- <p>50x50mm aperture, 2.5mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
- <div class="price">From $85 <span>/ 30m roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 1c -->
- <a class="product-card" href="product-detail.php?slug=diamond-mesh-50x50-3-15mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-315', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Diamond Mesh 50x50 (3.15mm)</h3>
- <p>50x50mm aperture, heavy 3.15mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
- <div class="price">From $150 <span>/ 30m roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 1d -->
- <a class="product-card" href="product-detail.php?slug=diamond-mesh-30x30-2-5mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-30x30', 'assets/img/products/diamond-mesh.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Diamond Mesh 30x30 (2.5mm)</h3>
- <p>Tighter 30x30mm aperture, 2.5mm wire. 30m rolls, heights 1.0m to 3.0m.</p>
- <div class="price">From $110 <span>/ 30m roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 2 -->
- <a class="product-card" href="product-detail.php?slug=game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'https://images.unsplash.com/photo-1702641397914-30fbd18c0d93?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Game Fence</h3>
- <p>Heavy-duty fencing for wildlife, farms and large properties. Built for strength.</p>
- <div class="price">From $280 <span>/ roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 3 -->
- <a class="product-card" href="product-detail.php?slug=barbed-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'assets/img/products/barbed-wire.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Barbed Wire 25 kg</h3>
- <p>High-tensile barbed wire for perimeter security and farm protection. 25 kg roll, also available in 50 kg.</p>
- <div class="price">$38 <span>/ roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 3b -->
- <a class="product-card" href="product-detail.php?slug=barbed-wire-50kg">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire-50', 'assets/img/products/barbed-wire-50kg.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Barbed Wire 50 kg</h3>
- <p>High-tensile barbed wire for perimeter security and farm protection. 50 kg roll, also available in 25 kg.</p>
- <div class="price">$75 <span>/ roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 4 -->
- <a class="product-card" href="product-detail.php?slug=chicken-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-chicken-mesh', 'https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Chicken Mesh</h3>
- <p>Lightweight galvanised mesh for poultry runs and small animal enclosures.</p>
- <div class="price">From $32 <span>/ roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 5 -->
- <a class="product-card" href="product-detail.php?slug=field-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-field-fence', 'https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=600&q=80')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Field Fence</h3>
- <p>General agricultural fencing for livestock and crop protection.</p>
- <div class="price">From $180 <span>/ roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 5b -->
- <a class="product-card" href="product-detail.php?slug=welded-mesh">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-welded-mesh', 'assets/img/products/welded-mesh.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Welded Mesh</h3>
- <p>Galvanised welded mesh with evenly welded intersections — for fencing, security, enclosures and fabrication.</p>
- <div class="price">Supplied on request</div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 6 -->
- <a class="product-card" href="product-detail.php?slug=razor-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Razor Wire</h3>
- <p>Enhanced perimeter security for high-security installations.</p>
- <div class="price">From $95 <span>/ roll</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 7 -->
- <a class="product-card" href="product-detail.php?slug=fence-posts">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-fence-posts', 'assets/img/products/round-pole-75mm.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Fencing</span>
- <h3>Fence Posts</h3>
- <p>Wooden, steel and concrete posts available in multiple heights.</p>
- <div class="price">From $8 <span>/ piece</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9a -->
- <a class="product-card" href="product-detail.php?slug=checkered-plate-3mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-checkered-plate', 'assets/img/products/checkered-plate-3mm.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Checkered Plate Galvanised 3mm</h3>
- <p>Durable galvanised steel plate with raised checkered pattern for enhanced grip and slip resistance.</p>
- <div class="price">$122 <span>/ sheet (2.4m x 1.2m)</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9b -->
- <a class="product-card" href="product-detail.php?slug=galvanised-round-pole-75mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-round-pole-75', 'assets/img/products/round-pole-75mm.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Galvanised Round Pole 75mm</h3>
- <p>Heavy-duty galvanised steel round pole for fencing, structural supports and agricultural applications.</p>
- <div class="price">$36 <span>/ length (6m)</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9c -->
- <a class="product-card" href="product-detail.php?slug=galvanised-round-pole-32mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-round-pole-32', 'assets/img/products/round-pole-32mm.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Galvanised Round Pole 32mm</h3>
- <p>Galvanised steel round pole, 32mm x 2mm x 6m. For fencing, supports and general fabrication.</p>
- <div class="price">$25 <span>/ length (6m)</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9d -->
- <a class="product-card" href="product-detail.php?slug=galvanised-round-pole-38mm">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-round-pole-38', 'assets/img/products/round-pole-38mm.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Galvanised Round Pole 38mm</h3>
- <p>Galvanised steel round pole, 38mm x 2mm x 6m. For fencing, supports and general fabrication.</p>
- <div class="price">$28 <span>/ length (6m)</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9e -->
- <a class="product-card" href="product-detail.php?slug=square-tubes">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-square-tubes', 'assets/img/products/square-tubes.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Square Tubes</h3>
- <p>Steel square tubes for structural work, fabrication, gates, frames and roofing supports. Various sizes.</p>
- <div class="price">Supplied on <span>request</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9f -->
- <a class="product-card" href="product-detail.php?slug=angle-irons">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-angle-irons', 'assets/img/products/angle-irons.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Angle Irons</h3>
- <p>Steel angle sections for structural support, frames, brackets and fabrication. Various sizes.</p>
- <div class="price">Supplied on <span>request</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9g -->
- <a class="product-card" href="product-detail.php?slug=deformed-bars">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-deformed-bars', 'assets/img/products/deformed-bars.jpg')) ?>')"></div>
- <div class="body">
- <span class="cat">Steel</span>
- <h3>Deformed Bars</h3>
- <p>High-strength ribbed reinforcement bars for concrete slabs, columns, beams and foundations.</p>
- <div class="price">Supplied on <span>request</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- <!-- 9 -->
- <a class="product-card" href="product-detail.php?slug=gate-locks">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
- <div class="body">
- <span class="cat">Hardware</span>
- <h3>Gate Locks &amp; Hinges</h3>
- <p>Heavy-duty locks, hinges and latches for gates and security doors.</p>
- <div class="price">From $18 <span>/ set</span></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
- </div>
- </a>
-
- </div>
-
- <!-- PAGINATION -->
- <div class="pagination">
- <a href="#" class="active">1</a>
- <a href="#">2</a>
- <a href="#">3</a>
- <a href="#">Next ›</a>
+ <?php endforeach; ?>
  </div>
  </main>
 

@@ -58,7 +58,7 @@ if (!is_array($body) || empty($body)) {
 
 /* ---------- Extract & sanitize ---------- */
 $source = clean_str(g($body, 'source', 'calculator'), 20);
-if (!in_array($source, ['calculator', 'estimator', 'admin'], true)) {
+if (!in_array($source, ['calculator', 'estimator', 'admin', 'product'], true)) {
  $source = 'calculator';
 }
 
@@ -82,9 +82,7 @@ $spacing = (float) g($project, 'spacing', 0);
 if (empty($items)) {
  json_error('Quote must include at least one line item.', 400);
 }
-if ($perimeter <= 0) {
- json_error('Project perimeter must be greater than zero.', 400);
-}
+// Perimeter is optional — product-level quotes have no fence perimeter.
 
 /* ---------- Generate reference ---------- */
 /* Format: VX-YYYY-##### (5-digit sequence within the year) */
@@ -162,11 +160,11 @@ try {
  ':cphone' => $cust_phone ?: null,
  ':cemail' => $cust_email ?: null,
  ':cnotes' => $cust_notes ?: null,
- ':perim' => $perimeter,
- ':corners' => $corners,
+ ':perim' => $perimeter > 0 ? $perimeter : null,
+ ':corners' => $corners ?: null,
  ':ftype' => $fence_type ?: null,
- ':height' => $height,
- ':spacing' => $spacing,
+ ':height' => $height > 0 ? $height : null,
+ ':spacing' => $spacing > 0 ? $spacing : null,
  ':options' => $options_json,
  ':total' => $total_usd,
  ':ip' => $ip,

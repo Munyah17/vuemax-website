@@ -393,33 +393,66 @@ $extraCss = <<<'CSS'
 }
 CSS;
 
-$extraJs = <<<'JS'
+/* Hydrate the calculator catalogue + post sets from the DB when
+   available — admin price edits then flow straight into quotes.
+   The literals below mirror the seeded rates as the no-DB fallback. */
+$catalogJson = <<<'JSON'
+{"diamond-mesh":{"name":"Diamond Mesh","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (25kg)","roll":38,"rollMetres":100,"topWirePerM":0.6,"gatePrice":160,"installPerM":2.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
+JSON;
+$postSetsJson = <<<'JSON'
+[{"h":1.2,"len":1.8,"corner":16,"standard":8,"supporter":12},{"h":1.5,"len":2,"corner":13,"standard":9,"supporter":13},{"h":2.1,"len":2.6,"corner":26,"standard":16,"supporter":13},{"h":2.4,"len":3,"corner":33,"standard":18,"supporter":15},{"h":2.5,"len":3,"corner":33,"standard":18,"supporter":15},{"h":3,"len":3.6,"corner":40,"standard":20,"supporter":16}]
+JSON;
+
+if ($pdo) {
+ try {
+ // per-post concrete rates aren't a DB column — keep the per-slug statics
+ $concrete = ['diamond-mesh'=>4,'game-fence'=>5,'barbed-wire'=>4,'chicken-mesh'=>3,'field-fence'=>4,'razor-wire'=>5];
+ $cat = [];
+ $qr = $pdo->query(
+ "SELECT p.slug, p.name, p.price_usd, p.roll_metres, p.top_wire_rate, p.gate_price, p.install_rate
+ FROM products p
+ JOIN subcategories sc ON sc.id = p.subcategory_id
+ JOIN categories c ON c.id = sc.category_id
+ WHERE c.slug = 'fencing' AND p.is_active = 1
+ AND p.roll_metres IS NOT NULL AND p.price_usd IS NOT NULL
+ ORDER BY p.sort_order"
+ );
+ foreach ($qr as $r) {
+ $cat[$r['slug']] = [
+ 'name' => $r['name'],
+ 'roll' => (float)$r['price_usd'],
+ 'rollMetres' => (float)$r['roll_metres'],
+ 'topWirePerM' => (float)$r['top_wire_rate'],
+ 'gatePrice' => (float)$r['gate_price'],
+ 'installPerM' => (float)$r['install_rate'],
+ 'concretePerPost' => $concrete[$r['slug']] ?? 4,
+ ];
+ }
+ if ($cat) $catalogJson = json_encode($cat, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+ $sets = [];
+ foreach ($pdo->query('SELECT fence_height, post_length, corner_price, standard_price, supporter_price FROM post_sets ORDER BY sort_order') as $r) {
+ $sets[] = [
+ 'h' => (float)$r['fence_height'], 'len' => (float)$r['post_length'],
+ 'corner' => (float)$r['corner_price'], 'standard' => (float)$r['standard_price'],
+ 'supporter' => (float)$r['supporter_price'],
+ ];
+ }
+ if ($sets) $postSetsJson = json_encode($sets);
+ } catch (Throwable $e) { /* keep fallback JSON */ }
+}
+
+$extraJs = 'const CATALOG = ' . $catalogJson . ";\n"
+ . 'const POST_SETS = ' . $postSetsJson . ";\n"
+ . <<<'JS'
 /* ============================================================
  CALCULATOR STATE + LOGIC
  ============================================================ */
-
-/* --- Product catalogue (Phase 2 will replace with fetch('/api/products.php')) --- */
-const CATALOG = {
- 'diamond-mesh': { name:'Diamond Mesh', roll:65, rollMetres:30, topWirePerM:0.8, gatePrice:180, installPerM:3.5, concretePerPost:4 },
- 'game-fence': { name:'Game Fence', roll:280, rollMetres:50, topWirePerM:1.1, gatePrice:220, installPerM:4.0, concretePerPost:5 },
- 'barbed-wire': { name:'Barbed Wire (25kg)', roll:38, rollMetres:100,topWirePerM:0.6, gatePrice:160, installPerM:2.5, concretePerPost:4 },
- 'chicken-mesh': { name:'Chicken Mesh', roll:32, rollMetres:30, topWirePerM:0.5, gatePrice:140, installPerM:2.0, concretePerPost:3 },
- 'field-fence': { name:'Field Fence', roll:180, rollMetres:50, topWirePerM:0.9, gatePrice:200, installPerM:3.0, concretePerPost:4 },
- 'razor-wire': { name:'Razor Wire', roll:95, rollMetres:50, topWirePerM:1.4, gatePrice:260, installPerM:4.5, concretePerPost:5 }
-};
 
 /* --- Post system (client pricing model) ---
    Each fence height uses a post set: corner posts at each corner,
    standard posts spaced along the line, and 2 supporter (stay)
    posts per corner post. */
-const POST_SETS = [
- { h:1.2, len:1.8, corner:16, standard:8, supporter:12 },
- { h:1.5, len:2.0, corner:13, standard:9, supporter:13 },
- { h:2.1, len:2.6, corner:26, standard:16, supporter:13 },
- { h:2.4, len:3.0, corner:33, standard:18, supporter:15 },
- { h:2.5, len:3.0, corner:33, standard:18, supporter:15 },
- { h:3.0, len:3.6, corner:40, standard:20, supporter:16 }
-];
 function postSet(height){
  const s = POST_SETS.filter(x => x.h >= height - 0.001).sort((a,b) => a.h - b.h);
  return s.length ? s[0] : POST_SETS[POST_SETS.length - 1];
@@ -720,6 +753,7 @@ document.getElementById('generateQuote').addEventListener('click', function(){
  const { items, total, v, p } = computeBOQ();
  const quote = {
  ref: 'VX-' + new Date().getFullYear() + '-' + Math.floor(10000 + Math.random() * 89999),
+ source: 'calculator',
  createdAt: new Date().toISOString(),
  customer: { name, contact, notes: document.getElementById('custNotes').value.trim() },
  project: {
