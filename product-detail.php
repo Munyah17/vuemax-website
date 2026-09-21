@@ -159,8 +159,8 @@ if ($mainImg && strpos($mainImg, 'http') !== 0) {
     if ($cand !== $mainImg && file_exists(__DIR__ . '/' . $cand)) $img2 = $cand;
     // if the main image IS the "-2" file, offer the base file as the second shot
     if (!$img2 && preg_match('/-2\.(jpe?g|png|webp)$/i', $mainImg)) {
-        $base = preg_replace('/-2\.(jpe?g|png|webp)$/i', '.$1', $mainImg);
-        if (file_exists(__DIR__ . '/' . $base)) $img2 = $base;
+        $imgBase = preg_replace('/-2\.(jpe?g|png|webp)$/i', '.$1', $mainImg);
+        if (file_exists(__DIR__ . '/' . $imgBase)) $img2 = $imgBase;
     }
 }
 $onRequest = ($pPrice === null);
@@ -913,53 +913,57 @@ require __DIR__ . '/includes/header.php';
  </div>
 
  <div class="product-grid">
- <a class="product-card reveal" href="product-detail.php?slug=fence-posts">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-fence-posts', 'assets/img/products/round-pole-75mm.jpg')) ?>')"></div>
+ <div class="product-card reveal">
+ <a class="thumb" href="product-detail.php?slug=fence-posts" style="background-image:url('<?= e(site_image('prod-fence-posts', 'assets/img/products/round-pole-75mm.jpg')) ?>')" aria-label="Fence Posts"></a>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Fence Posts</h3>
+ <h3><a href="product-detail.php?slug=fence-posts">Fence Posts</a></h3>
  <p>Wooden, steel and concrete posts in multiple heights.</p>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Fence Posts" data-slug="fence-posts" data-unit="piece" data-price="8">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Fence Posts" data-slug="fence-posts" data-unit="piece" data-price="8">Get Quote</button>
  </div>
- </a>
+ </div>
+ </div>
 
- <a class="product-card reveal reveal-d1" href="product-detail.php?slug=barbed-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'assets/img/products/barbed-wire.jpg')) ?>')"></div>
+ <div class="product-card reveal reveal-d1">
+ <a class="thumb" href="product-detail.php?slug=barbed-wire" style="background-image:url('<?= e(site_image('prod-barbed-wire', 'assets/img/products/barbed-wire.jpg')) ?>')" aria-label="Barbed Wire"></a>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Barbed Wire</h3>
+ <h3><a href="product-detail.php?slug=barbed-wire">Barbed Wire</a></h3>
  <p>High-tensile barbed wire for perimeter security.</p>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Barbed Wire 25 kg Roll" data-slug="barbed-wire" data-unit="roll" data-price="38">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Barbed Wire 25 kg Roll" data-slug="barbed-wire" data-unit="roll" data-price="38">Get Quote</button>
  </div>
- </a>
+ </div>
+ </div>
 
- <a class="product-card reveal reveal-d2" href="product-detail.php?slug=razor-wire">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
+ <div class="product-card reveal reveal-d2">
+ <a class="thumb" href="product-detail.php?slug=razor-wire" style="background-image:url('<?= e(site_image('prod-razor-wire', 'https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80')) ?>')" aria-label="Razor Wire"></a>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Razor Wire</h3>
+ <h3><a href="product-detail.php?slug=razor-wire">Razor Wire</a></h3>
  <p>Enhanced security for high-risk installations.</p>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Razor Wire" data-slug="razor-wire" data-unit="roll" data-price="95">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Razor Wire" data-slug="razor-wire" data-unit="roll" data-price="95">Get Quote</button>
  </div>
- </a>
+ </div>
+ </div>
 
- <a class="product-card reveal reveal-d3" href="product-detail.php?slug=game-fence">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')"></div>
+ <div class="product-card reveal reveal-d3">
+ <a class="thumb" href="product-detail.php?slug=game-fence" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')" aria-label="Game Fence"></a>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Game Fence</h3>
+ <h3><a href="product-detail.php?slug=game-fence">Game Fence</a></h3>
  <p>Heavy-duty fencing for wildlife and large properties.</p>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Game Fence" data-slug="game-fence" data-unit="roll" data-price="280">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Game Fence" data-slug="game-fence" data-unit="roll" data-price="280">Get Quote</button>
  </div>
- </a>
+ </div>
+ </div>
  </div>
  </div>
 </section>

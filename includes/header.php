@@ -73,12 +73,11 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
  <a href="<?= $b ?>installations.php"<?= navClass('projects', $active) ?>>Projects</a>
  <a href="<?= $b ?>about.php"<?= navClass('about', $active) ?>>About</a>
  <a href="<?= $b ?>contact.php"<?= navClass('contact', $active) ?>>Contact</a>
- <a href="<?= $b ?>account/index.php"<?= navClass('account', $active) ?>>Account</a>
  </nav>
 
  <div class="header-actions">
  <a href="<?= $b ?>calculator.php" class="btn btn-amber btn-pill btn-sm">
- <span class="header-cta-text">Get Quote</span>
+ <span class="header-cta-text">Get Started</span>
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
  </a>
  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -112,7 +111,6 @@ function navClass($key, $active) { return $key === $active ? ' class="active"' :
  <a href="<?= $b ?>installations.php"<?= navClass('projects', $active) ?>>Projects</a>
  <a href="<?= $b ?>about.php"<?= navClass('about', $active) ?>>About</a>
  <a href="<?= $b ?>contact.php"<?= navClass('contact', $active) ?>>Contact</a>
- <a href="<?= $b ?>account/index.php"<?= navClass('account', $active) ?>>My Account</a>
  </nav>
 
  <div class="drawer-cta">

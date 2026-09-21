@@ -449,6 +449,23 @@ body.drawer-open{overflow:hidden;}
 .product-card .more svg{transition:transform var(--dur) var(--ease);}
 .product-card:active .more svg{transform:translateX(3px);}
 
+/* Card action buttons (Buy Now / Get Quote) */
+.product-card a.thumb{display:block;}
+.product-card h3 a{color:inherit;transition:color .15s;}
+.product-card h3 a:hover{color:var(--amber-hover);}
+.card-actions{
+  display:flex;gap:8px;
+  padding-top:12px;border-top:1px solid var(--border);
+}
+.card-actions .btn{
+  flex:1;justify-content:center;
+  min-height:38px;padding:9px 8px;font-size:13px;
+}
+.js-quote.added{
+  background:var(--green-bg);border-color:var(--green-line);
+  color:var(--green-text);
+}
+
 /* ---------- QUOTE BAND ---------- */
 .quote-band{
   background:linear-gradient(150deg,var(--navy) 0%,var(--navy-deep) 100%);

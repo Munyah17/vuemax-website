@@ -895,6 +895,30 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('proj-12','Gallery project image 12','installations.php','https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80');
 
 -- ============================================================
+-- BANNERS  (homepage hero slider — managed via /admin Banner Manager)
+-- Up to 5 active slides shown in sort_order. Each slide: eyebrow
+-- label, title, amber accent line, description, background image.
+-- ============================================================
+DROP TABLE IF EXISTS `banners`;
+CREATE TABLE `banners` (
+  `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `eyebrow`     VARCHAR(120) DEFAULT NULL,
+  `title`       VARCHAR(200) NOT NULL,
+  `accent`      VARCHAR(200) DEFAULT NULL,
+  `description` TEXT         NOT NULL,
+  `image`       VARCHAR(255) NOT NULL,
+  `sort_order`  INT          NOT NULL DEFAULT 0,
+  `is_active`   TINYINT(1)   NOT NULL DEFAULT 1,
+  `created_at`  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `banners` (`eyebrow`, `title`, `accent`, `description`, `image`, `sort_order`, `is_active`) VALUES
+('Zimbabwe''s Trusted Partner', 'Smarter Fencing Quotes.', 'Faster Decisions.',
+ 'Accurate bills of quantities and cost estimates in minutes. Fencing, steel and hardware for homes, farms, businesses and security projects across Zimbabwe.',
+ 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80', 1, 1);
+
+-- ============================================================
 -- SEED: demo customer + order (remove or keep for testing)
 -- ============================================================
 -- Demo customer login:  demo@customer.com / customer123

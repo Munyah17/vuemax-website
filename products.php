@@ -384,25 +384,30 @@ require __DIR__ . '/includes/header.php';
 
  <div class="product-grid" id="productGrid">
  <?php foreach ($items as $it): ?>
- <a class="product-card" href="product-detail.php?slug=<?= e($it['slug']) ?>"
+ <div class="product-card"
  data-cat="<?= e($it['cat']) ?>" data-sub="<?= e($it['sub']) ?>"
  data-price="<?= $it['price'] === null ? '' : e($it['price']) ?>"
  data-name="<?= e(strtolower($it['name'])) ?>"
  data-featured="<?= (int)$it['featured'] ?>" data-reviews="<?= (int)$it['reviews'] ?>"
  data-id="<?= (int)$it['id'] ?>">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-' . $it['slug'], $it['img'] ?: 'assets/img/products/diamond-mesh.jpg')) ?>')">
+ <a class="thumb" href="product-detail.php?slug=<?= e($it['slug']) ?>" style="background-image:url('<?= e(site_image('prod-' . $it['slug'], $it['img'] ?: 'assets/img/products/diamond-mesh.jpg')) ?>')" aria-label="<?= e($it['name']) ?>">
  <?php if ($it['badge']): ?><span class="tag"><?= e($it['badge']) ?></span><?php endif; ?>
- </div>
+ </a>
  <div class="body">
  <span class="cat"><?= e($CAT_LABELS[$it['cat']] ?? ucfirst($it['cat'])) ?></span>
- <h3><?= e($it['name']) ?></h3>
+ <h3><a href="product-detail.php?slug=<?= e($it['slug']) ?>"><?= e($it['name']) ?></a></h3>
  <p><?= e($it['desc']) ?></p>
  <div class="price"><?php if ($it['price'] === null): ?>Supplied on request<?php else: ?>From $<?= e(rtrim(rtrim(number_format($it['price'], 2), '0'), '.')) ?> <span>/ <?= e($it['unit']) ?></span><?php endif; ?></div>
- <span class="more">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </span>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy"
+ data-name="<?= e($it['name']) ?>" data-slug="<?= e($it['slug']) ?>"
+ data-unit="<?= e($it['unit']) ?>" data-price="<?= $it['price'] === null ? '' : e($it['price']) ?>">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote"
+ data-name="<?= e($it['name']) ?>" data-slug="<?= e($it['slug']) ?>"
+ data-unit="<?= e($it['unit']) ?>" data-price="<?= $it['price'] === null ? '' : e($it['price']) ?>">Get Quote</button>
  </div>
- </a>
+ </div>
+ </div>
  <?php endforeach; ?>
  </div>
  </main>

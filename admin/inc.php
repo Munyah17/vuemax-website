@@ -62,9 +62,26 @@ function admin_nav($active) {
         $cls = $active === $key ? 'nav-link active' : 'nav-link';
         return '<a class="' . $cls . '" href="' . $href . '"><div class="sb-nav-link-icon"><i class="' . $icon . '"></i></div>' . $label . '</a>';
     };
+    // Collapsible menu group: auto-expands when a child is active.
+    $group = function($id, $icon, $label, $items) use ($active) {
+        $open = false;
+        $links = '';
+        foreach ($items as $it) {
+            [$href, $text, $key] = $it;
+            if ($active === $key) $open = true;
+            $cls = $active === $key ? 'nav-link active' : 'nav-link';
+            $links .= '<a class="' . $cls . '" href="' . $href . '">' . $text . '</a>';
+        }
+        return '<a class="nav-link' . ($open ? '' : ' collapsed') . '" href="#" data-bs-toggle="collapse" data-bs-target="#' . $id . '" aria-expanded="' . ($open ? 'true' : 'false') . '" aria-controls="' . $id . '">'
+            . '<div class="sb-nav-link-icon"><i class="' . $icon . '"></i></div>' . $label
+            . '<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>'
+            . '<div class="collapse' . ($open ? ' show' : '') . '" id="' . $id . '" data-bs-parent="#sidenavAccordion">'
+            . '<nav class="sb-sidenav-menu-nested nav">' . $links . '</nav></div>';
+    };
+    $mod = function($m) { return 'module.php?m=' . $m; };
 ?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand ps-3" href="index.php"><i class="fas fa-cube me-2"></i>Vuemax Admin</a>
+    <a class="navbar-brand ps-3" href="index.php"><i class="fas fa-cube me-2"></i>Vuemax Back Office</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
     <div class="d-none d-md-inline-block ms-auto me-3">
         <a class="btn btn-outline-light btn-sm" href="../index.php" target="_blank"><i class="fas fa-external-link-alt me-1"></i>View Site</a>
@@ -87,18 +104,59 @@ function admin_nav($active) {
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
                     <?= $link('index.php', 'fas fa-tachometer-alt', 'Dashboard', 'dash') ?>
-                    <div class="sb-sidenav-menu-heading">Site</div>
-                    <?= $link('images.php', 'fas fa-images', 'Image Manager', 'images') ?>
-                    <?= $link('faqs.php', 'fas fa-question-circle', 'FAQs', 'faqs') ?>
-                    <div class="sb-sidenav-menu-heading">Data</div>
-                    <?= $link('products.php', 'fas fa-boxes', 'Products', 'products') ?>
-                    <?= $link('quotes.php', 'fas fa-file-invoice-dollar', 'Quotes', 'quotes') ?>
-                    <?= $link('messages.php', 'fas fa-envelope', 'Messages', 'messages') ?>
-                    <div class="sb-sidenav-menu-heading">Back Office</div>
-                    <?= $link('customers.php', 'fas fa-users', 'Customers', 'customers') ?>
-                    <?= $link('orders.php', 'fas fa-truck', 'Orders &amp; Delivery', 'orders') ?>
-                    <?= $link('users.php', 'fas fa-user-shield', 'Admin Users', 'users') ?>
-                    <div class="sb-sidenav-menu-heading">Other</div>
+                    <?= $link('module.php?m=analytics', 'fas fa-chart-line', 'Visitor Analytics', 'mod-analytics') ?>
+                    <?= $link('module.php?m=tasks', 'fas fa-tasks', 'Tasks &amp; Reminders', 'mod-tasks') ?>
+                    <?= $link('module.php?m=notifications', 'fas fa-bell', 'Notifications', 'mod-notifications') ?>
+
+                    <div class="sb-sidenav-menu-heading">Sales</div>
+                    <?= $group('grpSales', 'fas fa-cash-register', 'Sales', [
+                        ['orders.php', 'Orders &amp; Delivery', 'orders'],
+                        ['quotes.php', 'Quotes', 'quotes'],
+                        [$mod('pos'), 'Point of Sale', 'mod-pos'],
+                        [$mod('invoicing'), 'Invoicing', 'mod-invoicing'],
+                        [$mod('quotations'), 'Quotations', 'mod-quotations'],
+                        [$mod('receipting'), 'Receipting &amp; Printing', 'mod-receipting'],
+                        [$mod('payments'), 'Payment Methods', 'mod-payments'],
+                    ]) ?>
+                    <?= $link('messages.php', 'fas fa-comments', 'Messages &amp; Chat', 'messages') ?>
+
+                    <div class="sb-sidenav-menu-heading">Catalog</div>
+                    <?= $group('grpCatalog', 'fas fa-boxes', 'Catalog', [
+                        ['products.php', 'Products', 'products'],
+                        [$mod('bom'), 'BOM / BOQ', 'mod-bom'],
+                        [$mod('requisitions'), 'Requisitions', 'mod-requisitions'],
+                        [$mod('purchases'), 'Purchases', 'mod-purchases'],
+                    ]) ?>
+
+                    <div class="sb-sidenav-menu-heading">People</div>
+                    <?= $group('grpPeople', 'fas fa-users', 'People', [
+                        ['customers.php', 'Customers', 'customers'],
+                        [$mod('clients'), 'Clients Database', 'mod-clients'],
+                        [$mod('staff'), 'Staff Management', 'mod-staff'],
+                        [$mod('hr'), 'HR &amp; Payroll', 'mod-hr'],
+                        ['users.php', 'Admin Users', 'users'],
+                    ]) ?>
+
+                    <div class="sb-sidenav-menu-heading">Site &amp; Marketing</div>
+                    <?= $group('grpSite', 'fas fa-globe', 'Site &amp; Marketing', [
+                        ['banners.php', 'Banner Manager', 'banners'],
+                        ['images.php', 'Image Manager', 'images'],
+                        ['faqs.php', 'FAQs', 'faqs'],
+                        [$mod('branding'), 'Branding', 'mod-branding'],
+                    ]) ?>
+
+                    <div class="sb-sidenav-menu-heading">Finance</div>
+                    <?= $group('grpFinance', 'fas fa-coins', 'Finance', [
+                        [$mod('revenue'), 'Revenue', 'mod-revenue'],
+                        [$mod('ledger'), 'Creditors &amp; Debtors', 'mod-ledger'],
+                        [$mod('reports'), 'Reports', 'mod-reports'],
+                    ]) ?>
+
+                    <div class="sb-sidenav-menu-heading">System</div>
+                    <?= $group('grpSystem', 'fas fa-cog', 'System', [
+                        [$mod('settings'), 'Settings', 'mod-settings'],
+                        [$mod('config'), 'Configurations', 'mod-config'],
+                    ]) ?>
                     <a class="nav-link" href="../index.php" target="_blank">
                         <div class="sb-nav-link-icon"><i class="fas fa-external-link-alt"></i></div>
                         View Site

@@ -43,7 +43,8 @@ admin_nav('dash');
             <div class="card-header"><i class="fas fa-bolt me-1"></i> Quick Actions</div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a class="btn btn-outline-dark" href="images.php"><i class="fas fa-images me-2"></i>Replace a site image</a>
+                    <a class="btn btn-outline-dark" href="banners.php"><i class="fas fa-images me-2"></i>Manage hero banners</a>
+                    <a class="btn btn-outline-dark" href="images.php"><i class="fas fa-image me-2"></i>Replace a site image</a>
                     <a class="btn btn-outline-dark" href="products.php"><i class="fas fa-boxes me-2"></i>Review product catalog</a>
                     <a class="btn btn-outline-dark" href="../estimator.php" target="_blank"><i class="fas fa-robot me-2"></i>Test the AI estimator</a>
                     <a class="btn btn-outline-dark" href="../index.php" target="_blank"><i class="fas fa-external-link-alt me-2"></i>Open public site</a>

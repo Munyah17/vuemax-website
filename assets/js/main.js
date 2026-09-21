@@ -73,3 +73,63 @@
     }
   }
 })();
+
+/* ============================================================
+   SHARED: add a product to the sessionStorage quote.
+   Used by product-card "Get Quote" / "Buy Now" buttons and by
+   product-detail.php. Returns the updated quote object.
+   ============================================================ */
+window.vuemaxAddToQuote = function(item, project){
+  var quote = null;
+  try { quote = JSON.parse(sessionStorage.getItem('vuemax_quote') || 'null'); } catch(e){}
+  if (quote && Array.isArray(quote.items)){
+    quote.items.push(item);
+    delete quote.saved; // contents changed — save again on quote-results
+  } else {
+    quote = {
+      ref: 'VX-PD-' + Math.floor(1000 + Math.random() * 8999),
+      source: 'product',
+      createdAt: new Date().toISOString(),
+      customer: {},
+      project: project || {},
+      options: {},
+      items: [item]
+    };
+  }
+  try { sessionStorage.setItem('vuemax_quote', JSON.stringify(quote)); } catch(e){}
+  return quote;
+};
+
+/* Product-card buttons: .js-buy (add + go to quote) and .js-quote (add + confirm) */
+(function(){
+  function cardItem(btn){
+    var unit = parseFloat(btn.getAttribute('data-price'));
+    if (isNaN(unit)) unit = null;
+    var u = btn.getAttribute('data-unit') || 'item';
+    return {
+      name: btn.getAttribute('data-name') || 'Product',
+      spec: 'Per ' + u,
+      qty: '1 × ' + u,
+      unit: unit,
+      total: unit === null ? null : Math.round(unit * 100) / 100
+    };
+  }
+  document.addEventListener('click', function(e){
+    var buy = e.target.closest('.js-buy');
+    var quo = e.target.closest('.js-quote');
+    var btn = buy || quo;
+    if (!btn) return;
+    e.preventDefault();
+    var item = cardItem(btn);
+    window.vuemaxAddToQuote(item, { type: btn.getAttribute('data-slug') || '', typeName: item.name });
+    if (buy){
+      btn.innerHTML = '✓ Added — opening quote…';
+      setTimeout(function(){ window.location.href = btn.getAttribute('data-quote-url') || 'quote-results.php'; }, 400);
+    } else {
+      var orig = btn.innerHTML;
+      btn.innerHTML = '✓ Added to quote';
+      btn.classList.add('added');
+      setTimeout(function(){ btn.innerHTML = orig; btn.classList.remove('added'); }, 1600);
+    }
+  });
+})();

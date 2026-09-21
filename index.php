@@ -4,26 +4,59 @@ require_once __DIR__ . '/includes/config.php';
 $pageTitle = 'Vuemax Fencing, Steel & Hardware Solutions | Zimbabwe';
 $pageDesc = 'Vuemax supplies quality fencing, steel and hardware products across Zimbabwe. Get an instant quote with our online calculator.';
 $active = 'home';
-$extraHead = '<link rel="preload" as="image" href="' . e(site_image('home-hero', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80')) . '" fetchpriority="high">';
+
+/* ---------- Hero slides ----------
+   Up to 5 banners managed in /admin → Banner Manager.
+   Falls back to the default hero when the table is missing/empty. */
+$heroSlides = [];
+if ($pdo) {
+    try {
+        $heroSlides = $pdo->query(
+            'SELECT eyebrow, title, accent, description, image
+             FROM banners WHERE is_active = 1 ORDER BY sort_order, id LIMIT 5'
+        )->fetchAll();
+    } catch (Throwable $e) { $heroSlides = []; }
+}
+if (!$heroSlides) {
+    $heroSlides = [[
+        'eyebrow'     => "Zimbabwe's Trusted Partner",
+        'title'       => 'Smarter Fencing Quotes.',
+        'accent'      => 'Faster Decisions.',
+        'description' => 'Accurate bills of quantities and cost estimates in minutes. Fencing, steel and hardware for homes, farms, businesses and security projects across Zimbabwe.',
+        'image'       => site_image('home-hero', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80'),
+    ]];
+}
+$extraHead = '<link rel="preload" as="image" href="' . e($heroSlides[0]['image']) . '" fetchpriority="high">';
 
 $extraCss = <<<'CSS'
-/* ---------- HERO (homepage) ---------- */
+/* ---------- HERO SLIDER (homepage) ---------- */
 .hero{
  position:relative;
- min-height:auto;
- padding:56px 0 48px;
- background:
- linear-gradient(155deg,rgba(10,29,51,.95) 0%,rgba(10,29,51,.8) 55%,rgba(14,39,69,.62) 100%),
- var(--hero-img, url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80')) center/cover no-repeat;
  color:var(--white);
  overflow:hidden;
 }
 .hero::after{
  content:"";position:absolute;left:0;right:0;bottom:0;height:80px;
  background:linear-gradient(180deg,transparent,rgba(10,29,51,.35));
- pointer-events:none;
+ pointer-events:none;z-index:2;
 }
-.hero-inner{position:relative;z-index:1;max-width:640px;}
+.hero-slides{display:grid;}
+.hero-slide{
+ grid-area:1/1;
+ padding:56px 0 48px;
+ background:
+ linear-gradient(155deg,rgba(10,29,51,.95) 0%,rgba(10,29,51,.8) 55%,rgba(14,39,69,.62) 100%),
+ var(--hero-img) center/cover no-repeat;
+ opacity:0;visibility:hidden;
+ transition:opacity .7s var(--ease), visibility .7s;
+ display:flex;align-items:center;
+}
+.hero-slide.active{opacity:1;visibility:visible;z-index:1;}
+.hero-inner{
+ position:relative;z-index:1;
+ max-width:680px;margin:0 auto;
+ text-align:center;
+}
 .hero .eyebrow{
  display:inline-block;
  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
@@ -44,13 +77,36 @@ $extraCss = <<<'CSS'
  font-size:15px;line-height:1.65;
  color:rgba(255,255,255,.88);
  margin-bottom:26px;
- max-width:520px;
+ max-width:560px;margin-left:auto;margin-right:auto;
 }
-.hero-cta{display:flex;flex-direction:column;gap:10px;}
+.hero-cta{display:flex;flex-direction:column;gap:10px;align-items:center;}
 .hero-cta .btn{width:100%;}
+
+/* Slider controls */
+.hero-dots{
+ position:absolute;left:0;right:0;bottom:22px;z-index:3;
+ display:flex;justify-content:center;gap:8px;
+}
+.hero-dot{
+ width:9px;height:9px;border-radius:999px;
+ background:rgba(255,255,255,.35);border:none;cursor:pointer;
+ transition:background .2s,width .25s var(--ease);padding:0;
+}
+.hero-dot.active{background:var(--amber);width:26px;}
+.hero-arrow{
+ position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+ width:42px;height:42px;border-radius:50%;
+ background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+ color:var(--white);display:none;align-items:center;justify-content:center;
+ cursor:pointer;transition:background .2s;
+ -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.hero-arrow:hover{background:rgba(245,183,49,.85);color:var(--navy);border-color:transparent;}
+.hero-arrow.prev{left:18px;}
+.hero-arrow.next{right:18px;}
 .hero-script{
  display:none;
- position:absolute;right:40px;bottom:40px;z-index:1;
+ position:absolute;right:40px;bottom:52px;z-index:3;
  font-family:'Caveat',cursive;font-size:34px;
  color:var(--amber);opacity:.9;line-height:1;
  text-align:right;transform:rotate(-4deg);
@@ -58,25 +114,55 @@ $extraCss = <<<'CSS'
 }
 
 @media (min-width:640px){
- .hero{padding:70px 0 60px;}
- .hero-cta{flex-direction:row;flex-wrap:wrap;}
+ .hero-slide{padding:70px 0 64px;}
+ .hero-cta{flex-direction:row;flex-wrap:wrap;justify-content:center;}
  .hero-cta .btn{width:auto;}
 }
 @media (min-width:900px){
  .hero-script{display:block;}
+ .hero-arrow{display:flex;}
 }
 @media (min-width:1024px){
- .hero{padding:96px 0 84px;min-height:540px;display:flex;align-items:center;}
+ .hero-slide{padding:96px 0 88px;min-height:540px;}
  .hero h1{font-size:clamp(36px,4.4vw,56px);}
  .hero p{font-size:17px;margin-bottom:34px;}
 }
 @media (min-width:1280px){
- .hero{padding:110px 0 92px;}
- .hero-script{right:60px;bottom:60px;font-size:40px;}
+ .hero-slide{padding:110px 0 96px;}
+ .hero-script{right:60px;bottom:64px;font-size:40px;}
 }
 CSS;
 
 $extraJs = <<<'JS'
+/* ---------- Hero slider ---------- */
+(function(){
+ var hero = document.getElementById('heroSlider');
+ if (!hero) return;
+ var slides = hero.querySelectorAll('.hero-slide');
+ if (slides.length < 2) return;
+ var dots = hero.querySelectorAll('.hero-dot');
+ var cur = 0, timer = null;
+
+ function go(n){
+ cur = (n + slides.length) % slides.length;
+ slides.forEach(function(s, i){ s.classList.toggle('active', i === cur); });
+ dots.forEach(function(d, i){ d.classList.toggle('active', i === cur); });
+ }
+ function play(){ timer = setInterval(function(){ go(cur + 1); }, 6000); }
+ function stop(){ if (timer) clearInterval(timer); timer = null; }
+
+ var prev = document.getElementById('heroPrev');
+ var next = document.getElementById('heroNext');
+ if (prev) prev.addEventListener('click', function(){ go(cur - 1); stop(); play(); });
+ if (next) next.addEventListener('click', function(){ go(cur + 1); stop(); play(); });
+ dots.forEach(function(d){
+ d.addEventListener('click', function(){ go(parseInt(d.dataset.slide, 10)); stop(); play(); });
+ });
+ hero.addEventListener('mouseenter', stop);
+ hero.addEventListener('mouseleave', play);
+ play();
+})();
+
 /* ---------- Homepage: API-driven categories + featured products ---------- */
 (function(){
  var isHTTP = location.protocol === 'http:' || location.protocol === 'https:';
@@ -154,13 +240,19 @@ $extraJs = <<<'JS'
  var price = (p.price_usd != null)
  ? '<div class="price">From $' + Number(p.price_usd).toLocaleString('en-US') + ' <span>/ ' + esc(p.unit || '') + '</span></div>'
  : '';
+ var attrs = ' data-name="' + esc(p.name) + '" data-slug="' + esc(p.slug) + '"'
+ + ' data-unit="' + esc(p.unit || 'item') + '"'
+ + ' data-price="' + (p.price_usd != null ? esc(p.price_usd) : '') + '"';
  html += '<div class="product-card">'
- + '<div class="thumb" style="background-image:url(\'' + esc(p.image || '') + '\')"></div>'
+ + '<a class="thumb" href="product-detail.php?slug=' + esc(p.slug) + '" style="background-image:url(\'' + esc(p.image || '') + '\')"></a>'
  + '<div class="body"><span class="cat">' + esc(catLabel) + '</span>'
- + '<h3>' + esc(p.name) + '</h3>'
+ + '<h3><a href="product-detail.php?slug=' + esc(p.slug) + '">' + esc(p.name) + '</a></h3>'
  + '<p>' + esc(p.short_desc || '') + '</p>'
  + price
- + '<a class="more card-cover" href="product-detail.php?slug=' + esc(p.slug) + '">View Details' + arrow + '</a>'
+ + '<div class="card-actions">'
+ + '<button type="button" class="btn btn-navy btn-sm js-buy"' + attrs + '>Buy Now</button>'
+ + '<button type="button" class="btn btn-outline-navy btn-sm js-quote"' + attrs + '>Get Quote</button>'
+ + '</div>'
  + '</div></div>';
  });
  if (html) grid.innerHTML = html;
@@ -172,16 +264,19 @@ JS;
 require __DIR__ . '/includes/header.php';
 ?>
 
-<!-- ===================== HERO ===================== -->
-<section class="hero" style="--hero-img:url('<?= e(site_image('home-hero', 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80')) ?>')">
+<!-- ===================== HERO SLIDER ===================== -->
+<section class="hero" id="heroSlider">
+ <div class="hero-slides">
+ <?php foreach ($heroSlides as $i => $s): ?>
+ <div class="hero-slide<?= $i === 0 ? ' active' : '' ?>" style="--hero-img:url('<?= e($s['image']) ?>')">
  <div class="container">
  <div class="hero-inner">
- <span class="eyebrow">Zimbabwe's Trusted Partner</span>
+ <?php if (!empty($s['eyebrow'])): ?><span class="eyebrow"><?= e($s['eyebrow']) ?></span><?php endif; ?>
  <h1>
- Smarter Fencing Quotes.
- <span class="accent">Faster Decisions.</span>
+ <?= e($s['title']) ?>
+ <?php if (!empty($s['accent'])): ?><span class="accent"><?= e($s['accent']) ?></span><?php endif; ?>
  </h1>
- <p>Accurate bills of quantities and cost estimates in minutes. Fencing, steel and hardware for homes, farms, businesses and security projects across Zimbabwe.</p>
+ <p><?= e($s['description']) ?></p>
  <div class="hero-cta">
  <a href="calculator.php" class="btn btn-amber">
  Get Instant Quote
@@ -191,6 +286,24 @@ require __DIR__ . '/includes/header.php';
  </div>
  </div>
  </div>
+ </div>
+ <?php endforeach; ?>
+ </div>
+
+ <?php if (count($heroSlides) > 1): ?>
+ <button class="hero-arrow prev" id="heroPrev" aria-label="Previous slide">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+ </button>
+ <button class="hero-arrow next" id="heroNext" aria-label="Next slide">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+ </button>
+ <div class="hero-dots" id="heroDots">
+ <?php foreach ($heroSlides as $i => $s): ?>
+ <button class="hero-dot<?= $i === 0 ? ' active' : '' ?>" data-slide="<?= $i ?>" aria-label="Slide <?= $i + 1 ?>"></button>
+ <?php endforeach; ?>
+ </div>
+ <?php endif; ?>
+
  <div class="hero-script">Built<br>for a Stronger<br>Zimbabwe</div>
 </section>
 
@@ -359,54 +472,58 @@ require __DIR__ . '/includes/header.php';
 
  <div class="product-grid" id="productGrid">
  <div class="product-card reveal">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh-2.jpg')) ?>')"></div>
+ <a class="thumb" href="product-detail.php?slug=diamond-mesh" style="background-image:url('<?= e(site_image('prod-diamond-mesh', 'assets/img/products/diamond-mesh-2.jpg')) ?>')" aria-label="Diamond Mesh"></a>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Diamond Mesh</h3>
+ <h3><a href="product-detail.php?slug=diamond-mesh">Diamond Mesh</a></h3>
  <p>Versatile, durable fencing for homes, farms and businesses.</p>
- <div class="price">From $120 <span>/ roll</span></div>
- <a class="more card-cover" href="product-detail.php?slug=diamond-mesh">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </a>
+ <div class="price">From $65 <span>/ roll</span></div>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Diamond Mesh 50x50 (2mm)" data-slug="diamond-mesh" data-unit="30m roll" data-price="65">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Diamond Mesh 50x50 (2mm)" data-slug="diamond-mesh" data-unit="30m roll" data-price="65">Get Quote</button>
+ </div>
  </div>
  </div>
 
  <div class="product-card reveal reveal-d1">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')"></div>
+ <a class="thumb" href="product-detail.php?slug=game-fence" style="background-image:url('<?= e(site_image('prod-game-fence', 'assets/img/products/game-fence.jpg')) ?>')" aria-label="Game Fence"></a>
  <div class="body">
  <span class="cat">Fencing</span>
- <h3>Game Fence</h3>
+ <h3><a href="product-detail.php?slug=game-fence">Game Fence</a></h3>
  <p>Heavy-duty fencing for wildlife, farms and large properties.</p>
  <div class="price">From $280 <span>/ roll</span></div>
- <a class="more card-cover" href="product-detail.php?slug=game-fence">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </a>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Game Fence" data-slug="game-fence" data-unit="roll" data-price="280">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Game Fence" data-slug="game-fence" data-unit="roll" data-price="280">Get Quote</button>
+ </div>
  </div>
  </div>
 
  <div class="product-card reveal reveal-d2">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-square-tubes', 'assets/img/products/square-tubes.jpg')) ?>')"></div>
+ <a class="thumb" href="product-detail.php?slug=square-tubes" style="background-image:url('<?= e(site_image('prod-square-tubes', 'assets/img/products/square-tubes.jpg')) ?>')" aria-label="Square Tubes"></a>
  <div class="body">
  <span class="cat">Steel</span>
- <h3>Square Tubes</h3>
+ <h3><a href="product-detail.php?slug=square-tubes">Square Tubes</a></h3>
  <p>Steel square tubes for gates, frames, structural work and fabrication.</p>
  <div class="price">Supplied on <span>request</span></div>
- <a class="more card-cover" href="product-detail.php?slug=square-tubes">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </a>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Square Tubes" data-slug="square-tubes" data-unit="length" data-price="">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Square Tubes" data-slug="square-tubes" data-unit="length" data-price="">Get Quote</button>
+ </div>
  </div>
  </div>
 
  <div class="product-card reveal reveal-d3">
- <div class="thumb" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?auto=format&fit=crop&w=800&q=80')) ?>')"></div>
+ <a class="thumb" href="product-detail.php?slug=gate-locks" style="background-image:url('<?= e(site_image('prod-gate-locks', 'https://images.unsplash.com/photo-1554863885-e3a33dd1bc82?auto=format&fit=crop&w=800&q=80')) ?>')" aria-label="Gate Locks and Hinges"></a>
  <div class="body">
  <span class="cat">Hardware</span>
- <h3>Gate Locks &amp; Hinges</h3>
+ <h3><a href="product-detail.php?slug=gate-locks">Gate Locks &amp; Hinges</a></h3>
  <p>Heavy-duty locks, hinges and latches for gates and security doors.</p>
  <div class="price">From $18 <span>/ set</span></div>
- <a class="more card-cover" href="product-detail.php?slug=gate-locks">View Details
- <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
- </a>
+ <div class="card-actions">
+ <button type="button" class="btn btn-navy btn-sm js-buy" data-name="Gate Locks & Hinges" data-slug="gate-locks" data-unit="set" data-price="18">Buy Now</button>
+ <button type="button" class="btn btn-outline-navy btn-sm js-quote" data-name="Gate Locks & Hinges" data-slug="gate-locks" data-unit="set" data-price="18">Get Quote</button>
+ </div>
  </div>
  </div>
  </div>
