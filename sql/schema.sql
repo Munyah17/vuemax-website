@@ -451,7 +451,7 @@ INSERT INTO `products`
 (3, 'barbed-wire', 'Barbed Wire 25 kg Roll',
  'High-tensile, high-security barbed wire for perimeter and farm protection. 25 kg roll.',
  'Hot-dip galvanised barbed wire with 3-strand twist, supplied in a 25 kg roll. Also available in a 50 kg roll. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
- 'roll', 38.00, 100, 8.00, 0.60, 160.00, 2.50,
+ 'roll', 38.00, 100, 8.00, 0.60, 160.00, 1.50,
  'assets/img/products/barbed-wire.jpg',
  NULL, 4.6, 74, 1, 3),
 
@@ -604,7 +604,7 @@ INSERT INTO `products`
 (3, 'barbed-wire-50kg', 'Barbed Wire 50 kg Roll',
  'High-tensile, high-security barbed wire for perimeter and farm protection. 50 kg roll.',
  'Hot-dip galvanised barbed wire with 3-strand twist, supplied in a 50 kg roll. Also available in a 25 kg roll. Perfect for farm perimeter security, commercial sites and any application requiring a low-cost but effective deterrent.',
- 'roll', 75.00, 100, 8.00, 0.60, 160.00, 2.50,
+ 'roll', 75.00, 700, 8.00, 0.60, 160.00, 1.50,
  'assets/img/products/barbed-wire-50kg.jpg',
  NULL, 4.6, 74, 1, 24);
 

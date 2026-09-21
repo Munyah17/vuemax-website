@@ -414,6 +414,7 @@ $extraCss = <<<'CSS'
 .calc-pill.active{border-color:var(--navy);background:var(--navy);color:var(--white);font-weight:600;}
 .calc-pill.disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through;}
 .calc-pill.disabled:hover{border-color:var(--border);}
+.opt-card.disabled{opacity:.45;pointer-events:none;}
 @media (min-width:720px){
  .mesh-opts.show{grid-template-columns:1fr 1fr;}
  .mesh-opts .mesh-note{grid-column:1/-1;}
@@ -424,7 +425,7 @@ CSS;
    available — admin price edits then flow straight into quotes.
    The literals below mirror the seeded rates as the no-DB fallback. */
 $catalogJson = <<<'JSON'
-{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-2-5mm":{"name":"Diamond Mesh 70x70 (2.5mm)","roll":70,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-3-15mm":{"name":"Diamond Mesh 70x70 (3.15mm)","roll":125,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-2-5mm":{"name":"Diamond Mesh 80x80 (2.5mm)","roll":62,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-3-15mm":{"name":"Diamond Mesh 80x80 (3.15mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (25kg)","roll":38,"rollMetres":100,"topWirePerM":0.6,"gatePrice":160,"installPerM":2.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
+{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-2-5mm":{"name":"Diamond Mesh 70x70 (2.5mm)","roll":70,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-3-15mm":{"name":"Diamond Mesh 70x70 (3.15mm)","roll":125,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-2-5mm":{"name":"Diamond Mesh 80x80 (2.5mm)","roll":62,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-3-15mm":{"name":"Diamond Mesh 80x80 (3.15mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (50kg roll)","roll":75,"rollMetres":700,"topWirePerM":0.6,"gatePrice":160,"installPerM":1.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
 JSON;
 $postSetsJson = <<<'JSON'
 [{"h":1.2,"len":1.8,"corner":16,"standard":8,"supporter":12},{"h":1.5,"len":2,"corner":13,"standard":9,"supporter":13},{"h":2.1,"len":2.6,"corner":26,"standard":16,"supporter":13},{"h":2.4,"len":3,"corner":33,"standard":18,"supporter":15},{"h":2.5,"len":3,"corner":33,"standard":18,"supporter":15},{"h":3,"len":3.6,"corner":40,"standard":20,"supporter":16}]
@@ -455,6 +456,8 @@ if ($pdo) {
  'concretePerPost' => $concrete[$r['slug']] ?? 4,
  ];
  }
+ // Barbed-wire quotes use the standard 50kg roll (700m)
+ if (isset($cat['barbed-wire-50kg'])) $cat['barbed-wire'] = $cat['barbed-wire-50kg'];
  if ($cat) $catalogJson = json_encode($cat, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
  $sets = [];
@@ -539,14 +542,18 @@ function readInputs(){
  type = (MESH_VARIANTS[ap] || {})[wr] || 'diamond-mesh';
  }
 
+ const linesEl = document.querySelector('#calcLines .calc-pill.active');
+ const lines = Math.max(1, parseInt(linesEl ? linesEl.dataset.lines : '5', 10) || 5);
+
  const opts = {
- topWire: document.getElementById('optTopWire').checked,
+ // barbed wire is already barbed — no top-wire add-on
+ topWire: document.getElementById('optTopWire').checked && type !== 'barbed-wire',
  gate: document.getElementById('optGate').checked,
  install: document.getElementById('optInstall').checked,
  concrete: document.getElementById('optConcrete').checked
  };
 
- return { perimeter, corners, height, spacing, type, opts };
+ return { perimeter, corners, height, spacing, type, lines, opts };
 }
 
 /* --- Compute BOQ --- */
@@ -557,13 +564,18 @@ function computeBOQ(){
 
  const items = [];
 
- // Fence rolls
- const rollArea = p.rollMetres; // linear metres coverage per roll (approx)
- const rolls = Math.ceil(v.perimeter / rollArea);
+ // Fence rolls — barbed wire is quoted per line (strand):
+ // total wire = perimeter × lines, sold in 50kg rolls (~700m),
+ // rounded up to the nearest half roll.
+ const isBarbed = v.type === 'barbed-wire';
+ const wireLen = isBarbed ? v.perimeter * v.lines : v.perimeter;
+ const rolls = isBarbed
+ ? Math.ceil(wireLen / p.rollMetres * 2) / 2
+ : Math.ceil(wireLen / p.rollMetres);
  const rollCost = rolls * p.roll;
  items.push({
- name: p.name + ' (' + v.height.toFixed(1) + 'm)',
- qty: rolls + ' roll' + (rolls>1?'s':''),
+ name: p.name + (isBarbed ? ' — ' + v.lines + ' lines' : ' (' + v.height.toFixed(1) + 'm)'),
+ qty: rolls + ' roll' + (rolls>1?'s':'') + (isBarbed ? ' (' + wireLen.toLocaleString() + 'm wire)' : ''),
  price: rollCost
  });
 
@@ -671,14 +683,48 @@ function render(){
  if (el) el.addEventListener('input', render);
 });
 
+/* syncTypeUI: show the right variant controls per fence type —
+ diamond mesh gets aperture/wire pills, barbed wire gets the
+ lines selector, and barbed wire disables the top-wire option
+ (the wire is already barbed). */
+function syncTypeUI(){
+ const r = document.querySelector('input[name="fenceType"]:checked');
+ const val = r ? r.value : 'diamond-mesh';
+ document.getElementById('meshOpts').classList.toggle('show', val === 'diamond-mesh');
+ const barb = document.getElementById('barbOpts');
+ if (barb) barb.classList.toggle('show', val === 'barbed-wire');
+ const tw = document.getElementById('optTopWire');
+ if (tw){
+ const card = tw.closest('.opt-card');
+ if (val === 'barbed-wire'){
+ tw.checked = false; tw.disabled = true;
+ if (card){ card.classList.remove('selected'); card.classList.add('disabled'); }
+ } else {
+ tw.disabled = false;
+ if (card) card.classList.remove('disabled');
+ }
+ }
+}
+
 document.querySelectorAll('input[name="fenceType"]').forEach(r => {
  r.addEventListener('change', () => {
  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
  if (r.checked) r.closest('.type-card').classList.add('selected');
- document.getElementById('meshOpts').classList.toggle('show', r.checked && r.value === 'diamond-mesh');
+ syncTypeUI();
  render();
  });
 });
+
+/* ---- Barbed-wire lines (strands) pills ---- */
+(function(){
+ const lWrap = document.getElementById('calcLines');
+ if (!lWrap) return;
+ lWrap.querySelectorAll('.calc-pill').forEach(b => b.addEventListener('click', () => {
+ lWrap.querySelectorAll('.calc-pill').forEach(x => x.classList.remove('active'));
+ b.classList.add('active');
+ render();
+ }));
+})();
 
 /* ---- Diamond-mesh aperture / wire pills ---- */
 (function(){
@@ -772,7 +818,7 @@ document.getElementById('aiFill').addEventListener('click', async function(){
  radio.checked = true;
  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
  radio.closest('.type-card').classList.add('selected');
- document.getElementById('meshOpts').classList.toggle('show', radio.value === 'diamond-mesh');
+ syncTypeUI();
  }
  }
  ['topWire','gate','install','concrete'].forEach(k => {
@@ -848,7 +894,8 @@ document.getElementById('generateQuote').addEventListener('click', function(){
  customer: { name, contact, notes: document.getElementById('custNotes').value.trim() },
  project: {
  perimeter: v.perimeter, corners: v.corners, height: v.height,
- spacing: v.spacing, type: v.type, typeName: p ? p.name : 'Fencing'
+ spacing: v.spacing, type: v.type, typeName: p ? p.name : 'Fencing',
+ lines: v.type === 'barbed-wire' ? v.lines : null
  },
  options: v.opts,
  items: items.map(it => ({
@@ -1077,6 +1124,21 @@ require __DIR__ . '/includes/header.php';
  </div>
  </div>
  <span class="hint mesh-note">Each aperture and wire gauge carries its own price per 30m roll — the totals update automatically.</span>
+ </div>
+
+ <!-- Barbed wire: number of lines (strands) multiplies the wire length -->
+ <div class="mesh-opts" id="barbOpts">
+ <div>
+ <label>Number of lines (strands)</label>
+ <div class="pill-row" id="calcLines">
+ <button type="button" class="calc-pill" data-lines="3">3 lines</button>
+ <button type="button" class="calc-pill" data-lines="4">4 lines</button>
+ <button type="button" class="calc-pill active" data-lines="5">5 lines</button>
+ <button type="button" class="calc-pill" data-lines="6">6 lines</button>
+ <button type="button" class="calc-pill" data-lines="8">8 lines</button>
+ </div>
+ </div>
+ <span class="hint mesh-note">Rolls needed = perimeter × lines ÷ 700m per 50kg roll (rounded up to the nearest half roll).</span>
  </div>
 
  <div class="form-grid">

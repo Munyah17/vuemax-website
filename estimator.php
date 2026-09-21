@@ -383,6 +383,8 @@ if ($pdo) {
  'installPerM' => (float)$r['install_rate'],
  ];
  }
+ // Barbed-wire quotes use the standard 50kg roll (700m)
+ if (isset($rates->{'barbed-wire-50kg'})) $rates->{'barbed-wire'} = $rates->{'barbed-wire-50kg'};
  if (count(get_object_vars($rates))) $ratesJson = json_encode($rates, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
  $sets = [];
@@ -481,9 +483,9 @@ const CATALOG = {
  bestHeight: 1.8
  },
  'barbed-wire': {
- name:'Barbed Wire',
- desc:'High-tensile barbed wire great for perimeter and farm protection at a low cost per metre.',
- rollPrice: 38, rollMetres: 100, postPrice: 8, topWirePerM: 0.6, gatePrice: 160, installPerM: 2.5,
+ name:'Barbed Wire (50kg roll)',
+ desc:'High-tensile barbed wire great for perimeter and farm protection at a low cost per metre. Standard 50kg roll (~700m), priced per line.',
+ rollPrice: 75, rollMetres: 700, postPrice: 8, topWirePerM: 0.6, gatePrice: 160, installPerM: 1.5,
  keywords: ['barbed', 'perimeter', 'farm', 'security', 'cheap', 'budget'],
  bestHeight: 1.5
  },
@@ -716,11 +718,23 @@ function computeEstimate(text){
 
  const items = [];
 
- const rolls = Math.ceil(perimeter / product.rollMetres);
+ /* Barbed wire is quoted per line (strand): total wire =
+ perimeter × lines, sold in 50kg rolls (~700m), rounded up
+ to the nearest half roll. */
+ const isBarbed = key === 'barbed-wire';
+ let strands = 5;
+ if (isBarbed){
+ const sm = (text || '').toLowerCase().match(/(\d+)\s*(?:lines?|strands?)/);
+ if (sm) strands = Math.max(1, parseInt(sm[1], 10));
+ }
+ const wireLen = isBarbed ? perimeter * strands : perimeter;
+ const rolls = isBarbed
+ ? Math.ceil(wireLen / product.rollMetres * 2) / 2
+ : Math.ceil(wireLen / product.rollMetres);
  const rollCost = rolls * product.rollPrice;
  items.push({
- name: product.name + ' (' + height.toFixed(1) + 'm)',
- qty: rolls + ' roll' + (rolls > 1 ? 's' : ''),
+ name: product.name + (isBarbed ? ' — ' + strands + ' lines' : ' (' + height.toFixed(1) + 'm)'),
+ qty: rolls + ' roll' + (rolls > 1 ? 's' : '') + (isBarbed ? ' (' + wireLen.toLocaleString() + 'm wire)' : ''),
  cost: rollCost
  });
 
@@ -732,7 +746,8 @@ function computeEstimate(text){
  items.push({ name: `Corner Posts (${ps.len}m)`, qty: '4 pcs', cost: 4 * ps.corner });
  items.push({ name: `Supporter Posts (${ps.len}m)`, qty: supporters + ' pcs', cost: supporters * ps.supporter });
 
- if (opts.topWire){
+ // barbed wire is already barbed — no top-wire add-on
+ if (opts.topWire && !isBarbed){
  const twCost = Math.round(perimeter * product.topWirePerM * 100) / 100;
  items.push({
  name: 'Top Wire (Razor/Barbed)',
