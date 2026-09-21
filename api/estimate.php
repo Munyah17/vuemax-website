@@ -508,6 +508,7 @@ json_response([
  'corners' => $corners,
  'height' => $height,
  'spacing' => $spacing,
+ 'lines' => $is_barbed ? $strands : null,
  ],
  'options' => $options,
  'items' => $items,

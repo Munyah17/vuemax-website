@@ -230,6 +230,7 @@ $extraCss = <<<'CSS'
 }
 .mini-boq .name{color:var(--navy);font-weight:500;}
 .mini-boq .qty{color:var(--muted);font-size:12px;white-space:nowrap;padding-left:8px;}
+.mini-boq .cost{color:var(--navy);font-weight:600;font-size:12.5px;white-space:nowrap;padding-left:10px;}
 
 .price-range{
  background:var(--navy);color:var(--white);
@@ -706,7 +707,8 @@ function mapApiEstimate(est){
  items: est.items.map(it => ({ name: it.name, qty: it.qty, cost: it.total })),
  total: est.total,
  low: est.range.low,
- high: est.range.high
+ high: est.range.high,
+ lines: est.project.lines || null
  };
 }
 
@@ -786,7 +788,8 @@ function computeEstimate(text){
  return {
  fenceKey: key,
  product, perimeter, height, opts, items,
- total, low, high
+ total, low, high,
+ lines: isBarbed ? strands : null
  };
 }
 
@@ -802,11 +805,12 @@ function renderEstimate(result){
  <li>
  <div class="desc"><span class="dot"></span><span class="name">${it.name}</span></div>
  <span class="qty">${it.qty}</span>
+ <span class="cost">$${Number(it.cost || 0).toLocaleString('en-US', {maximumFractionDigits: 0})}</span>
  </li>
  `).join('');
 
  document.getElementById('resPriceRange').textContent =
- '$' + result.low.toLocaleString() + ' $' + result.high.toLocaleString();
+ '$' + result.low.toLocaleString() + ' – $' + result.high.toLocaleString();
 
  document.getElementById('resultBody').classList.add('active');
  document.getElementById('resultStatus').textContent = 'Generated';
@@ -834,7 +838,8 @@ function getFullQuote(){
  height: currentEstimate.height,
  spacing: 2.5,
  type: currentEstimate.fenceKey,
- typeName: currentEstimate.product.name
+ typeName: currentEstimate.product.name,
+ lines: currentEstimate.lines || null
  },
  options: currentEstimate.opts,
  items: currentEstimate.items.map(it => ({
@@ -1010,7 +1015,7 @@ require __DIR__ . '/includes/header.php';
 
  <div class="price-range">
  <div class="lbl">Estimated Budget Range</div>
- <div class="val" id="resPriceRange">$0 $0</div>
+ <div class="val" id="resPriceRange">$0 – $0</div>
  <div class="sub">Estimated total (ZWL equivalent available)</div>
  </div>
 

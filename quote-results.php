@@ -121,6 +121,7 @@ $extraJs = <<<'JS'
  if (proj.perimeter) projBits.push(esc(proj.perimeter) + ' m perimeter');
  if (proj.height) projBits.push(esc(proj.height) + ' m high');
  if (proj.typeName) projBits.push(esc(proj.typeName));
+ if (proj.lines) projBits.push(esc(proj.lines) + ' lines');
 
  var rows = '';
  var total = 0;
