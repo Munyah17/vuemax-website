@@ -644,6 +644,36 @@ INSERT INTO `products`
  'assets/img/products/welded-mesh.jpg',
  NULL, 4.7, 58, 1, 8);
 
+-- Diamond mesh wide-aperture variants — ids 28, 29, 30, 31
+INSERT INTO `products`
+(`subcategory_id`, `slug`, `name`, `short_desc`, `long_desc`, `unit`,
+ `price_usd`, `roll_metres`, `post_price`, `top_wire_rate`, `gate_price`, `install_rate`,
+ `image`, `badge`, `rating`, `reviews_count`, `is_featured`, `sort_order`) VALUES
+(1, 'diamond-mesh-70x70-2-5mm', 'Diamond Mesh 70x70 (2.5mm)',
+ 'Wider-aperture diamond mesh. 70x70mm aperture, 2.5mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Diamond mesh fencing with a wider 70x70mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. A lighter, economical option for boundary and farm fencing. Also stocked in 3.15mm gauge.',
+ 'roll', 70.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'assets/img/products/diamond-mesh.jpg',
+ NULL, 4.7, 0, 0, 28),
+(1, 'diamond-mesh-70x70-3-15mm', 'Diamond Mesh 70x70 (3.15mm)',
+ 'Heavy-duty wide-aperture mesh. 70x70mm aperture, 3.15mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Diamond mesh fencing with a wider 70x70mm aperture and heavy 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm gauge.',
+ 'roll', 125.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'assets/img/products/diamond-mesh.jpg',
+ NULL, 4.7, 0, 0, 29),
+(1, 'diamond-mesh-80x80-2-5mm', 'Diamond Mesh 80x80 (2.5mm)',
+ 'Economy wide-aperture mesh. 80x80mm aperture, 2.5mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Diamond mesh fencing with a wide 80x80mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. The most economical diamond mesh option — ideal for large boundary and farm fences. Also stocked in 3.15mm gauge.',
+ 'roll', 62.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'assets/img/products/diamond-mesh.jpg',
+ NULL, 4.7, 0, 0, 30),
+(1, 'diamond-mesh-80x80-3-15mm', 'Diamond Mesh 80x80 (3.15mm)',
+ 'Heavy-duty wide-aperture mesh. 80x80mm aperture, 3.15mm wire, 30m rolls, heights 1.0m to 3.0m.',
+ 'Diamond mesh fencing with a wide 80x80mm aperture and heavy 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm gauge.',
+ 'roll', 110.00, 30, 8.00, 0.80, 180.00, 3.50,
+ 'assets/img/products/diamond-mesh.jpg',
+ NULL, 4.7, 0, 0, 31);
+
 -- Generic 'Steel Tubing' placeholder replaced by real products — keep the row
 -- (stable IDs) but hide it from the catalog.
 UPDATE `products` SET `is_active` = 0 WHERE `slug` = 'steel-tubing';
@@ -744,6 +774,71 @@ INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUE
 (27, 'Supply',     'Rolls — various heights and apertures', 3),
 (27, 'Uses',       'Fencing, security, enclosures, construction, fabrication', 10),
 (27, 'Pricing',    'Supplied on request — contact us with your spec', 20);
+
+-- Diamond mesh 70x70 2.5mm (product_id = 28)
+INSERT INTO `product_specs` (`product_id`, `label`, `value`, `sort_order`) VALUES
+(28, 'Material',          'Hot-dip galvanised steel wire', 1),
+(28, 'Mesh Aperture',     '70 mm × 70 mm',                 2),
+(28, 'Wire Gauge',        '2.5 mm',                        3),
+(28, 'Roll Length',       '30 m',                          4),
+(28, 'Height 1.0 m',      '$70',                           10),
+(28, 'Height 1.2 m',      '$85',                           11),
+(28, 'Height 1.5 m',      '$105',                          12),
+(28, 'Height 1.8 m',      '$125',                          13),
+(28, 'Height 2.0 m',      '$140',                          14),
+(28, 'Height 2.1 m',      '$185',                          15),
+(28, 'Height 2.4 m',      '$205',                          16),
+(28, 'Height 2.5 m',      '$220',                          17),
+(28, 'Height 3.0 m',      '$250',                          18),
+(28, 'Finish',            'Hot-dip galvanised',            20),
+
+-- Diamond mesh 70x70 3.15mm (product_id = 29)
+(29, 'Material',          'Hot-dip galvanised steel wire', 1),
+(29, 'Mesh Aperture',     '70 mm × 70 mm',                 2),
+(29, 'Wire Gauge',        '3.15 mm',                       3),
+(29, 'Roll Length',       '30 m',                          4),
+(29, 'Height 1.0 m',      '$125',                          10),
+(29, 'Height 1.2 m',      '$150',                          11),
+(29, 'Height 1.5 m',      '$190',                          12),
+(29, 'Height 1.8 m',      '$225',                          13),
+(29, 'Height 2.0 m',      '$250',                          14),
+(29, 'Height 2.1 m',      '$330',                          15),
+(29, 'Height 2.4 m',      '$365',                          16),
+(29, 'Height 2.5 m',      '$390',                          17),
+(29, 'Height 3.0 m',      '$440',                          18),
+(29, 'Finish',            'Hot-dip galvanised',            20),
+
+-- Diamond mesh 80x80 2.5mm (product_id = 30)
+(30, 'Material',          'Hot-dip galvanised steel wire', 1),
+(30, 'Mesh Aperture',     '80 mm × 80 mm',                 2),
+(30, 'Wire Gauge',        '2.5 mm',                        3),
+(30, 'Roll Length',       '30 m',                          4),
+(30, 'Height 1.0 m',      '$62',                           10),
+(30, 'Height 1.2 m',      '$75',                           11),
+(30, 'Height 1.5 m',      '$95',                           12),
+(30, 'Height 1.8 m',      '$110',                          13),
+(30, 'Height 2.0 m',      '$125',                          14),
+(30, 'Height 2.1 m',      '$165',                          15),
+(30, 'Height 2.4 m',      '$185',                          16),
+(30, 'Height 2.5 m',      '$195',                          17),
+(30, 'Height 3.0 m',      '$220',                          18),
+(30, 'Finish',            'Hot-dip galvanised',            20),
+
+-- Diamond mesh 80x80 3.15mm (product_id = 31)
+(31, 'Material',          'Hot-dip galvanised steel wire', 1),
+(31, 'Mesh Aperture',     '80 mm × 80 mm',                 2),
+(31, 'Wire Gauge',        '3.15 mm',                       3),
+(31, 'Roll Length',       '30 m',                          4),
+(31, 'Height 1.0 m',      '$110',                          10),
+(31, 'Height 1.2 m',      '$135',                          11),
+(31, 'Height 1.5 m',      '$170',                          12),
+(31, 'Height 1.8 m',      '$195',                          13),
+(31, 'Height 2.0 m',      '$220',                          14),
+(31, 'Height 2.1 m',      '$290',                          15),
+(31, 'Height 2.4 m',      '$325',                          16),
+(31, 'Height 2.5 m',      '$345',                          17),
+(31, 'Height 3.0 m',      '$390',                          18),
+(31, 'Finish',            'Hot-dip galvanised',            20);
 
 -- ---------- PRODUCT FEATURES (for diamond mesh) ----------
 INSERT INTO `product_features` (`product_id`, `text`, `sort_order`) VALUES
@@ -855,6 +950,8 @@ INSERT INTO `site_images` (`img_key`, `label`, `page`, `path`) VALUES
 ('prod-diamond-25','Product: Diamond Mesh 50x50 (2.5mm)','products.php','assets/img/products/diamond-mesh-2.jpg'),
 ('prod-diamond-315','Product: Diamond Mesh 50x50 (3.15mm)','products.php','assets/img/products/diamond-mesh-2.jpg'),
 ('prod-diamond-30x30','Product: Diamond Mesh 30x30 (2.5mm)','products.php','assets/img/products/diamond-mesh.jpg'),
+('prod-diamond-70x70','Product: Diamond Mesh 70x70','products.php, product-detail.php','assets/img/products/diamond-mesh.jpg'),
+('prod-diamond-80x80','Product: Diamond Mesh 80x80','products.php, product-detail.php','assets/img/products/diamond-mesh.jpg'),
 ('prod-chicken-mesh','Product: Chicken Mesh','products.php, calculator.php','https://images.unsplash.com/photo-1767416171650-4bff1da861fe?auto=format&fit=crop&w=600&q=80'),
 ('prod-field-fence','Product: Field Fence','products.php, calculator.php','https://images.unsplash.com/photo-1566780856910-f0cc7a8fb0c1?auto=format&fit=crop&w=600&q=80'),
 ('prod-razor-wire','Product: Razor Wire','products.php, product-detail.php, calculator.php','https://images.unsplash.com/photo-1759614539716-01f836befe88?auto=format&fit=crop&w=800&q=80'),

@@ -401,6 +401,8 @@ if ($pdo) {
 $meshVariants = [
  '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
  '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
+ '70x70' => ['2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
+ '80x80' => ['2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
 ];
 
 $extraJs = 'const DB_RATES = ' . $ratesJson . ";\n"
@@ -439,6 +441,34 @@ const CATALOG = {
  'diamond-mesh-30x30-2-5mm': {
  name:'Diamond Mesh 30x30 (2.5mm)',
  desc:'Tighter 30x30mm aperture with 2.5mm wire — harder to climb or breach.',
+ rollPrice: 110, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
+ bestHeight: 1.8
+ },
+ 'diamond-mesh-70x70-2-5mm': {
+ name:'Diamond Mesh 70x70 (2.5mm)',
+ desc:'Wider 70x70mm aperture with 2.5mm wire — economical for boundary and farm fences.',
+ rollPrice: 70, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
+ bestHeight: 1.8
+ },
+ 'diamond-mesh-70x70-3-15mm': {
+ name:'Diamond Mesh 70x70 (3.15mm)',
+ desc:'Wider 70x70mm aperture with heavy 3.15mm wire — strong yet economical.',
+ rollPrice: 125, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
+ bestHeight: 2.1
+ },
+ 'diamond-mesh-80x80-2-5mm': {
+ name:'Diamond Mesh 80x80 (2.5mm)',
+ desc:'Wide 80x80mm aperture with 2.5mm wire — the most economical diamond mesh option.',
+ rollPrice: 62, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ keywords: [],
+ bestHeight: 1.8
+ },
+ 'diamond-mesh-80x80-3-15mm': {
+ name:'Diamond Mesh 80x80 (3.15mm)',
+ desc:'Wide 80x80mm aperture with heavy 3.15mm wire — for large boundary fences.',
  rollPrice: 110, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
  keywords: [],
  bestHeight: 1.8
@@ -555,7 +585,10 @@ function detectFenceType(text){
  /* Diamond-mesh aperture / wire-gauge mentions map onto the specific
  priced variant (e.g. "2.5mm diamond mesh" → diamond-mesh-50x50-2-5mm). */
  if (best.indexOf('diamond-mesh') === 0){
- const ap = /30\s*[x×]\s*30/.test(t) ? '30x30' : '50x50';
+ let ap = '50x50';
+ if (/30\s*[x×]\s*30/.test(t)) ap = '30x30';
+ else if (/70\s*[x×]\s*70/.test(t)) ap = '70x70';
+ else if (/80\s*[x×]\s*80/.test(t)) ap = '80x80';
  let wire = '2';
  if (/3\.15\s*mm/.test(t)) wire = '3.15';
  else if (/2\.5\s*mm/.test(t)) wire = '2.5';

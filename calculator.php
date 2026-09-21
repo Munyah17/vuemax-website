@@ -424,7 +424,7 @@ CSS;
    available — admin price edits then flow straight into quotes.
    The literals below mirror the seeded rates as the no-DB fallback. */
 $catalogJson = <<<'JSON'
-{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (25kg)","roll":38,"rollMetres":100,"topWirePerM":0.6,"gatePrice":160,"installPerM":2.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
+{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-2-5mm":{"name":"Diamond Mesh 70x70 (2.5mm)","roll":70,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-3-15mm":{"name":"Diamond Mesh 70x70 (3.15mm)","roll":125,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-2-5mm":{"name":"Diamond Mesh 80x80 (2.5mm)","roll":62,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-3-15mm":{"name":"Diamond Mesh 80x80 (3.15mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (25kg)","roll":38,"rollMetres":100,"topWirePerM":0.6,"gatePrice":160,"installPerM":2.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
 JSON;
 $postSetsJson = <<<'JSON'
 [{"h":1.2,"len":1.8,"corner":16,"standard":8,"supporter":12},{"h":1.5,"len":2,"corner":13,"standard":9,"supporter":13},{"h":2.1,"len":2.6,"corner":26,"standard":16,"supporter":13},{"h":2.4,"len":3,"corner":33,"standard":18,"supporter":15},{"h":2.5,"len":3,"corner":33,"standard":18,"supporter":15},{"h":3,"len":3.6,"corner":40,"standard":20,"supporter":16}]
@@ -433,7 +433,7 @@ JSON;
 if ($pdo) {
  try {
  // per-post concrete rates aren't a DB column — keep the per-slug statics
- $concrete = ['diamond-mesh'=>4,'diamond-mesh-50x50-2-5mm'=>4,'diamond-mesh-50x50-3-15mm'=>4,'diamond-mesh-30x30-2-5mm'=>4,'game-fence'=>5,'barbed-wire'=>4,'chicken-mesh'=>3,'field-fence'=>4,'razor-wire'=>5];
+ $concrete = ['diamond-mesh'=>4,'diamond-mesh-50x50-2-5mm'=>4,'diamond-mesh-50x50-3-15mm'=>4,'diamond-mesh-30x30-2-5mm'=>4,'diamond-mesh-70x70-2-5mm'=>4,'diamond-mesh-70x70-3-15mm'=>4,'diamond-mesh-80x80-2-5mm'=>4,'diamond-mesh-80x80-3-15mm'=>4,'game-fence'=>5,'barbed-wire'=>4,'chicken-mesh'=>3,'field-fence'=>4,'razor-wire'=>5];
  $cat = [];
  $qr = $pdo->query(
  "SELECT p.slug, p.name, p.price_usd, p.roll_metres, p.top_wire_rate, p.gate_price, p.install_rate
@@ -474,6 +474,8 @@ if ($pdo) {
 $meshVariants = [
  '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
  '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
+ '70x70' => ['2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
+ '80x80' => ['2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
 ];
 
 $extraJs = 'const CATALOG = ' . $catalogJson . ";\n"
@@ -1062,6 +1064,8 @@ require __DIR__ . '/includes/header.php';
  <div class="pill-row" id="calcAperture">
  <button type="button" class="calc-pill active" data-ap="50x50">50 × 50 mm</button>
  <button type="button" class="calc-pill" data-ap="30x30">30 × 30 mm</button>
+ <button type="button" class="calc-pill" data-ap="70x70">70 × 70 mm</button>
+ <button type="button" class="calc-pill" data-ap="80x80">80 × 80 mm</button>
  </div>
  </div>
  <div>

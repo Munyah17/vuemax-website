@@ -29,6 +29,26 @@ $PD = [
    'Diamond mesh fencing with a tighter 30x30mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 50x50mm aperture in 2mm, 2.5mm and 3.15mm gauges.',
    'prod-diamond-30x30', 'assets/img/products/diamond-mesh.jpg',
    [['Mesh Aperture','30 mm × 30 mm'],['Wire Gauge','2.5 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-70x70-2-5mm' => ['Diamond Mesh 70x70 (2.5mm)', 70.00, '30m roll',
+   'Wider-aperture diamond mesh. 70x70mm aperture, 2.5mm wire, 30m rolls.',
+   'Diamond mesh fencing with a wider 70x70mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. A lighter, economical option for boundary and farm fencing. Also stocked in 3.15mm gauge.',
+   'prod-diamond-70x70', 'assets/img/products/diamond-mesh.jpg',
+   [['Mesh Aperture','70 mm × 70 mm'],['Wire Gauge','2.5 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-70x70-3-15mm' => ['Diamond Mesh 70x70 (3.15mm)', 125.00, '30m roll',
+   'Heavy-duty wide-aperture mesh. 70x70mm aperture, 3.15mm wire, 30m rolls.',
+   'Diamond mesh fencing with a wider 70x70mm aperture and heavy 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm gauge.',
+   'prod-diamond-70x70', 'assets/img/products/diamond-mesh.jpg',
+   [['Mesh Aperture','70 mm × 70 mm'],['Wire Gauge','3.15 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-80x80-2-5mm' => ['Diamond Mesh 80x80 (2.5mm)', 62.00, '30m roll',
+   'Economy wide-aperture mesh. 80x80mm aperture, 2.5mm wire, 30m rolls.',
+   'Diamond mesh fencing with a wide 80x80mm aperture, 2.5mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. The most economical diamond mesh option — ideal for large boundary and farm fences. Also stocked in 3.15mm gauge.',
+   'prod-diamond-80x80', 'assets/img/products/diamond-mesh.jpg',
+   [['Mesh Aperture','80 mm × 80 mm'],['Wire Gauge','2.5 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
+ 'diamond-mesh-80x80-3-15mm' => ['Diamond Mesh 80x80 (3.15mm)', 110.00, '30m roll',
+   'Heavy-duty wide-aperture mesh. 80x80mm aperture, 3.15mm wire, 30m rolls.',
+   'Diamond mesh fencing with a wide 80x80mm aperture and heavy 3.15mm wire gauge, hot-dip galvanised. Each roll is 30m long, available in heights from 1.0m to 3.0m. Also stocked in 2.5mm gauge.',
+   'prod-diamond-80x80', 'assets/img/products/diamond-mesh.jpg',
+   [['Mesh Aperture','80 mm × 80 mm'],['Wire Gauge','3.15 mm'],['Roll Length','30 m'],['Heights','1.0 m – 3.0 m'],['Finish','Hot-dip galvanised']]],
  'game-fence' => ['Game Fence', 280.00, 'roll',
    'Heavy-duty fencing for wildlife, farms and large properties.',
    'Manufactured from high-tensile galvanised wire, our game fence is built to withstand the demands of wildlife and livestock enclosures. Ideal for game reserves, large farms and perimeter security.',
@@ -173,6 +193,8 @@ $sku = 'VX-' . strtoupper(preg_replace('/[^A-Z0-9]/', '', substr(md5($slug), 0, 
 $MESH_VARIANTS = [
  '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
  '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
+ '70x70' => ['2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
+ '80x80' => ['2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
 ];
 $WIRE_GAUGES = ['2' => '2.0mm', '2.5' => '2.5mm', '3.15' => '3.15mm'];
 $curAperture = null; $curWire = null;
@@ -189,6 +211,10 @@ $meshHeights = [
  'diamond-mesh-50x50-2-5mm' => ['1.0'=>85,'1.2'=>105,'1.5'=>130,'1.8'=>150,'2.0'=>168,'2.1'=>225,'2.4'=>250,'2.5'=>265,'3.0'=>300],
  'diamond-mesh-50x50-3-15mm' => ['1.0'=>150,'1.2'=>180,'1.5'=>230,'1.8'=>270,'2.0'=>300,'2.1'=>375,'2.4'=>420,'2.5'=>440,'3.0'=>505],
  'diamond-mesh-30x30-2-5mm' => ['1.0'=>110,'1.2'=>133,'1.5'=>165,'1.8'=>185,'2.0'=>205,'2.1'=>223,'2.4'=>250,'2.5'=>270,'3.0'=>350],
+ 'diamond-mesh-70x70-2-5mm' => ['1.0'=>70,'1.2'=>85,'1.5'=>105,'1.8'=>125,'2.0'=>140,'2.1'=>185,'2.4'=>205,'2.5'=>220,'3.0'=>250],
+ 'diamond-mesh-70x70-3-15mm' => ['1.0'=>125,'1.2'=>150,'1.5'=>190,'1.8'=>225,'2.0'=>250,'2.1'=>330,'2.4'=>365,'2.5'=>390,'3.0'=>440],
+ 'diamond-mesh-80x80-2-5mm' => ['1.0'=>62,'1.2'=>75,'1.5'=>95,'1.8'=>110,'2.0'=>125,'2.1'=>165,'2.4'=>185,'2.5'=>195,'3.0'=>220],
+ 'diamond-mesh-80x80-3-15mm' => ['1.0'=>110,'1.2'=>135,'1.5'=>170,'1.8'=>195,'2.0'=>220,'2.1'=>290,'2.4'=>325,'2.5'=>345,'3.0'=>390],
 ];
 
 $meshData = null;
