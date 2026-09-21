@@ -11241,3 +11241,23 @@ body {
   font-size: 0.75rem;
   border-radius: 0.375rem !important;
 }
+/* ============================================================
+   VUEMAX ADMIN — table spacing overrides
+   The stock .table-sm padding (0.25rem) cramped wide catalogs.
+   ============================================================ */
+.table > :not(caption) > * > *,
+.datatable-table > :not(caption) > * > *,
+.table-sm > :not(caption) > * > * {
+  padding: 0.7rem 0.9rem;
+  vertical-align: middle;
+}
+
+/* Keep header labels and badge/button cells on one line */
+.table thead th,
+.datatable-table thead th {
+  white-space: nowrap;
+}
+.datatable-table td:last-child,
+.table td:last-child {
+  white-space: nowrap;
+}
