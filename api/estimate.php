@@ -96,7 +96,7 @@ if (empty($fencing_products)) {
  $fencing_products = [
  ['slug'=>'diamond-mesh','name'=>'Diamond Mesh 50x50 (2mm)','short_desc'=>'Versatile, durable fencing for homes, farms and businesses.','price_usd'=>65.00,'roll_metres'=>30,'post_price'=>8.00,'top_wire_rate'=>0.80,'gate_price'=>180.00,'install_rate'=>3.50],
  ['slug'=>'game-fence','name'=>'Game Fence','short_desc'=>'Heavy-duty fencing for wildlife, farms and large properties.','price_usd'=>280.00,'roll_metres'=>50,'post_price'=>12.00,'top_wire_rate'=>1.10,'gate_price'=>220.00,'install_rate'=>4.00],
- ['slug'=>'barbed-wire','name'=>'Barbed Wire 25 kg','short_desc'=>'High-tensile barbed wire for perimeter and farm protection.','price_usd'=>38.00,'roll_metres'=>100,'post_price'=>8.00,'top_wire_rate'=>0.60,'gate_price'=>160.00,'install_rate'=>2.50],
+ ['slug'=>'barbed-wire','name'=>'Barbed Wire 50 kg Roll','short_desc'=>'High-tensile barbed wire for perimeter and farm protection.','price_usd'=>75.00,'roll_metres'=>700,'post_price'=>8.00,'top_wire_rate'=>0.60,'gate_price'=>160.00,'install_rate'=>1.50],
  ['slug'=>'chicken-mesh','name'=>'Chicken Mesh','short_desc'=>'Lightweight galvanised mesh for poultry runs and small enclosures.','price_usd'=>32.00,'roll_metres'=>30,'post_price'=>6.00,'top_wire_rate'=>0.50,'gate_price'=>140.00,'install_rate'=>2.00],
  ['slug'=>'field-fence','name'=>'Field Fence','short_desc'=>'General agricultural fencing for livestock and crop protection.','price_usd'=>180.00,'roll_metres'=>50,'post_price'=>10.00,'top_wire_rate'=>0.90,'gate_price'=>200.00,'install_rate'=>3.00],
  ['slug'=>'razor-wire','name'=>'Razor Wire','short_desc'=>'Maximum-security installation for high-risk properties.','price_usd'=>95.00,'roll_metres'=>50,'post_price'=>14.00,'top_wire_rate'=>1.40,'gate_price'=>260.00,'install_rate'=>4.50],
@@ -291,6 +291,20 @@ function detect_options($text) {
 
 $options = $ai ? $ai['options'] : detect_options($text);
 
+/* Barbed wire is already barbed — never add a top-wire line,
+   whichever engine detected the options. */
+$is_barbed = in_array($best_product['slug'], ['barbed-wire', 'barbed-wire-50kg'], true);
+if ($is_barbed) $options['topWire'] = false;
+
+/* Barbed-wire quotes use the standard 50kg roll (700m) — keep the
+   detected slug for assist mode, but price off the 50kg product. */
+$price_product = $best_product;
+if ($best_product['slug'] === 'barbed-wire') {
+ foreach ($fencing_products as $fp) {
+ if ($fp['slug'] === 'barbed-wire-50kg') { $price_product = $fp; break; }
+ }
+}
+
 $spacing = 5.0; // Client rule: standard posts every 5 m
 $corners = 4; // Assume rectangular site
 
@@ -318,16 +332,25 @@ if (!empty($body['assist'])) {
 
 $items = [];
 
-/* Fence rolls */
-$roll_metres = (float) $best_product['roll_metres'];
-$rolls = $roll_metres > 0 ? (int) ceil($perimeter / $roll_metres) : 0;
-$roll_cost = $rolls * (float) $best_product['price_usd'];
+/* Fence rolls — barbed wire is quoted per line (strand):
+   total wire = perimeter × lines, sold in 50kg rolls (~700m),
+   rounded up to the nearest half roll. */
+$strands = 5;
+if ($is_barbed && preg_match('/(\d+)\s*(?:lines?|strands?)/', $t, $sm)) {
+ $strands = max(1, (int) $sm[1]);
+}
+$wire_len = $is_barbed ? $perimeter * $strands : $perimeter;
+$roll_metres = (float) $price_product['roll_metres'];
+$rolls = $roll_metres > 0
+ ? ($is_barbed ? ceil($wire_len / $roll_metres * 2) / 2 : (int) ceil($wire_len / $roll_metres))
+ : 0;
+$roll_cost = $rolls * (float) $price_product['price_usd'];
 if ($rolls > 0) {
  $items[] = [
- 'name' => $best_product['name'] . ' (' . number_format($height, 1) . 'm)',
+ 'name' => $price_product['name'] . ($is_barbed ? ' — ' . $strands . ' lines' : ' (' . number_format($height, 1) . 'm)'),
  'spec' => number_format($roll_metres, 0) . ' m rolls · galvanised',
- 'qty' => $rolls . ' roll' . ($rolls > 1 ? 's' : ''),
- 'unit' => (float) $best_product['price_usd'],
+ 'qty' => $rolls . ' roll' . ($rolls > 1 ? 's' : '') . ($is_barbed ? ' (' . number_format($wire_len) . 'm wire)' : ''),
+ 'unit' => (float) $price_product['price_usd'],
  'total' => round($roll_cost, 2),
  ];
 }
@@ -380,7 +403,7 @@ if ($supporters > 0) {
 
 /* Top wire */
 if ($options['topWire']) {
- $tw_rate = (float) ($best_product['top_wire_rate'] ?? 0);
+ $tw_rate = (float) ($price_product['top_wire_rate'] ?? 0);
  $tw_total = round($perimeter * $tw_rate, 2);
  if ($tw_total > 0) {
  $items[] = [
@@ -395,7 +418,7 @@ if ($options['topWire']) {
 
 /* Gate */
 if ($options['gate']) {
- $gate_price = (float) ($best_product['gate_price'] ?? 0);
+ $gate_price = (float) ($price_product['gate_price'] ?? 0);
  if ($gate_price > 0) {
  $items[] = [
  'name' => 'Access Gate (4m)',
@@ -422,7 +445,7 @@ if ($options['concrete'] && $posts > 0) {
 
 /* Installation */
 if ($options['install']) {
- $ins_rate = (float) ($best_product['install_rate'] ?? 0);
+ $ins_rate = (float) ($price_product['install_rate'] ?? 0);
  $ins_total = round($perimeter * $ins_rate, 2);
  if ($ins_total > 0) {
  $items[] = [
@@ -470,15 +493,15 @@ json_response([
  'estimate' => [
  'fence_key' => $best_product['slug'],
  'product' => [
- 'slug' => $best_product['slug'],
- 'name' => $best_product['name'],
- 'desc' => $descriptions[$best_product['slug']] ?? $best_product['short_desc'],
- 'roll_metres' => (float) $best_product['roll_metres'],
- 'price_usd' => (float) $best_product['price_usd'],
- 'post_price' => (float) $best_product['post_price'],
- 'top_wire_rate' => (float) $best_product['top_wire_rate'],
- 'gate_price' => (float) $best_product['gate_price'],
- 'install_rate' => (float) $best_product['install_rate'],
+ 'slug' => $price_product['slug'],
+ 'name' => $price_product['name'],
+ 'desc' => $descriptions[$best_product['slug']] ?? $price_product['short_desc'],
+ 'roll_metres' => (float) $price_product['roll_metres'],
+ 'price_usd' => (float) $price_product['price_usd'],
+ 'post_price' => (float) $price_product['post_price'],
+ 'top_wire_rate' => (float) $price_product['top_wire_rate'],
+ 'gate_price' => (float) $price_product['gate_price'],
+ 'install_rate' => (float) $price_product['install_rate'],
  ],
  'project' => [
  'perimeter' => $perimeter,
