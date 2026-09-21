@@ -681,6 +681,8 @@ body.drawer-open{overflow:hidden;}
   .nav-desktop a:hover::after{right:0;}
   .nav-desktop a.active{color:var(--navy);font-weight:600;}
   .nav-desktop a.active::after{right:0;}
+  /* nav's auto margin absorbs all free space — links + CTA sit flush right */
+  .header-actions{margin-left:0;}
   .hamburger{display:none;}
   .header-cta-text{display:inline;}
 
