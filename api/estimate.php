@@ -85,6 +85,26 @@ if ($pdo) {
  ORDER BY p.sort_order ASC
  ");
  $fencing_products = $stmt->fetchAll();
+
+ // Per-height roll prices for diamond-mesh variants
+ // (product_specs "Height X m" rows).
+ $hst = $pdo->query(
+ "SELECT p.slug, s.label, s.value
+ FROM product_specs s
+ JOIN products p ON p.id = s.product_id
+ WHERE s.label LIKE 'Height %'"
+ );
+ $heights_by_slug = [];
+ foreach ($hst as $r) {
+ if (preg_match('/([\d.]+)/', $r['label'], $hm)
+ && preg_match('/([\d.,]+)/', $r['value'], $vm)) {
+ $heights_by_slug[$r['slug']][number_format((float) $hm[1], 1)] = (float) str_replace(',', '', $vm[1]);
+ }
+ }
+ foreach ($fencing_products as &$fp) {
+ if (isset($heights_by_slug[$fp['slug']])) $fp['heights'] = $heights_by_slug[$fp['slug']];
+ }
+ unset($fp);
  } catch (Throwable $e) {
  $fencing_products = [];
  }
@@ -94,7 +114,7 @@ if ($pdo) {
  estimator still works when MySQL is not connected. */
 if (empty($fencing_products)) {
  $fencing_products = [
- ['slug'=>'diamond-mesh','name'=>'Diamond Mesh 50x50 (2mm)','short_desc'=>'Versatile, durable fencing for homes, farms and businesses.','price_usd'=>65.00,'roll_metres'=>30,'post_price'=>8.00,'top_wire_rate'=>0.80,'gate_price'=>180.00,'install_rate'=>3.50],
+ ['slug'=>'diamond-mesh','name'=>'Diamond Mesh 50x50 (2mm)','short_desc'=>'Versatile, durable fencing for homes, farms and businesses.','price_usd'=>65.00,'roll_metres'=>30,'post_price'=>8.00,'top_wire_rate'=>0.80,'gate_price'=>180.00,'install_rate'=>3.50,'heights'=>['1.0'=>65,'1.2'=>75,'1.5'=>90,'1.8'=>110,'2.0'=>130,'2.1'=>200,'2.4'=>220,'2.5'=>235,'3.0'=>270]],
  ['slug'=>'game-fence','name'=>'Game Fence','short_desc'=>'Heavy-duty fencing for wildlife, farms and large properties.','price_usd'=>280.00,'roll_metres'=>50,'post_price'=>12.00,'top_wire_rate'=>1.10,'gate_price'=>220.00,'install_rate'=>4.00],
  ['slug'=>'barbed-wire','name'=>'Barbed Wire 50 kg Roll','short_desc'=>'High-tensile barbed wire for perimeter and farm protection.','price_usd'=>75.00,'roll_metres'=>700,'post_price'=>8.00,'top_wire_rate'=>0.60,'gate_price'=>160.00,'install_rate'=>1.50],
  ['slug'=>'chicken-mesh','name'=>'Chicken Mesh','short_desc'=>'Lightweight galvanised mesh for poultry runs and small enclosures.','price_usd'=>32.00,'roll_metres'=>30,'post_price'=>6.00,'top_wire_rate'=>0.50,'gate_price'=>140.00,'install_rate'=>2.00],
@@ -344,13 +364,28 @@ $roll_metres = (float) $price_product['roll_metres'];
 $rolls = $roll_metres > 0
  ? ($is_barbed ? ceil($wire_len / $roll_metres * 2) / 2 : (int) ceil($wire_len / $roll_metres))
  : 0;
-$roll_cost = $rolls * (float) $price_product['price_usd'];
+
+/* Diamond mesh rolls are priced per height — pick the nearest
+   stocked height at or above the requested one. */
+$roll_price = (float) $price_product['price_usd'];
+if (!empty($price_product['heights']) && is_array($price_product['heights'])) {
+ $hkeys = array_map('floatval', array_keys($price_product['heights']));
+ sort($hkeys);
+ $chosen = null;
+ foreach ($hkeys as $hk) { if ($hk >= $height - 0.001) { $chosen = $hk; break; } }
+ if ($chosen === null) $chosen = end($hkeys);
+ if ($chosen !== null) {
+ $roll_price = (float) $price_product['heights'][number_format($chosen, 1)];
+ }
+}
+
+$roll_cost = $rolls * $roll_price;
 if ($rolls > 0) {
  $items[] = [
  'name' => $price_product['name'] . ($is_barbed ? ' — ' . $strands . ' lines' : ' (' . number_format($height, 1) . 'm)'),
  'spec' => number_format($roll_metres, 0) . ' m rolls · galvanised',
- 'qty' => $rolls . ' roll' . ($rolls > 1 ? 's' : '') . ($is_barbed ? ' (' . number_format($wire_len) . 'm wire)' : ''),
- 'unit' => (float) $price_product['price_usd'],
+ 'qty' => $rolls . ' roll' . ($rolls > 1 ? 's' : '') . ' @ $' . number_format($roll_price, 0) . ($is_barbed ? ' (' . number_format($wire_len) . 'm wire)' : ''),
+ 'unit' => $roll_price,
  'total' => round($roll_cost, 2),
  ];
 }

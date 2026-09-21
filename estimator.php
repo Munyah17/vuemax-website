@@ -384,6 +384,20 @@ if ($pdo) {
  'installPerM' => (float)$r['install_rate'],
  ];
  }
+ // Per-height roll prices for diamond-mesh variants (product_specs "Height X m")
+ $hst = $pdo->query(
+ "SELECT p.slug, s.label, s.value
+ FROM product_specs s
+ JOIN products p ON p.id = s.product_id
+ WHERE s.label LIKE 'Height %'"
+ );
+ foreach ($hst as $r) {
+ if (isset($rates->{$r['slug']})
+ && preg_match('/([\d.]+)/', $r['label'], $hm)
+ && preg_match('/([\d.,]+)/', $r['value'], $vm)) {
+ $rates->{$r['slug']}['heights'][number_format((float) $hm[1], 1)] = (float) str_replace(',', '', $vm[1]);
+ }
+ }
  // Barbed-wire quotes use the standard 50kg roll (700m)
  if (isset($rates->{'barbed-wire-50kg'})) $rates->{'barbed-wire'} = $rates->{'barbed-wire-50kg'};
  if (count(get_object_vars($rates))) $ratesJson = json_encode($rates, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -404,8 +418,8 @@ if ($pdo) {
 $meshVariants = [
  '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
  '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
- '70x70' => ['2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
- '80x80' => ['2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
+ '70x70' => ['2' => 'diamond-mesh-70x70-2mm', '2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
+ '80x80' => ['2' => 'diamond-mesh-80x80-2mm', '2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
 ];
 
 $extraJs = 'const DB_RATES = ' . $ratesJson . ";\n"
@@ -422,6 +436,7 @@ const CATALOG = {
  name:'Diamond Mesh',
  desc:'A durable and cost-effective solution for your project. Ideal for security and long-term use.',
  rollPrice: 65, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':65,'1.2':75,'1.5':90,'1.8':110,'2.0':130,'2.1':200,'2.4':220,'2.5':235,'3.0':270},
  keywords: ['diamond', 'residential', 'home', 'house', 'plot', 'boundary', 'general', 'school'],
  bestHeight: 1.8
  },
@@ -431,6 +446,7 @@ const CATALOG = {
  name:'Diamond Mesh 50x50 (2.5mm)',
  desc:'50x50mm aperture with heavier 2.5mm wire — stronger and longer-lasting.',
  rollPrice: 85, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':85,'1.2':105,'1.5':130,'1.8':150,'2.0':168,'2.1':225,'2.4':250,'2.5':265,'3.0':300},
  keywords: [],
  bestHeight: 1.8
  },
@@ -438,6 +454,7 @@ const CATALOG = {
  name:'Diamond Mesh 50x50 (3.15mm)',
  desc:'Heavy-duty 50x50mm mesh with 3.15mm wire — maximum strength for high-security sites.',
  rollPrice: 150, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':150,'1.2':180,'1.5':230,'1.8':270,'2.0':300,'2.1':375,'2.4':420,'2.5':440,'3.0':505},
  keywords: [],
  bestHeight: 2.1
  },
@@ -445,34 +462,55 @@ const CATALOG = {
  name:'Diamond Mesh 30x30 (2.5mm)',
  desc:'Tighter 30x30mm aperture with 2.5mm wire — harder to climb or breach.',
  rollPrice: 110, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':110,'1.2':133,'1.5':165,'1.8':185,'2.0':205,'2.1':223,'2.4':250,'2.5':270,'3.0':350},
+ keywords: [],
+ bestHeight: 1.8
+ },
+ 'diamond-mesh-70x70-2mm': {
+ name:'Diamond Mesh 70x70 (2mm)',
+ desc:'Wider 70x70mm aperture with 2mm wire — economical for boundary and farm fences.',
+ rollPrice: 60, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':60,'1.2':65,'1.5':70,'1.8':80,'2.0':90,'2.1':95,'2.4':110,'2.5':115,'3.0':135},
  keywords: [],
  bestHeight: 1.8
  },
  'diamond-mesh-70x70-2-5mm': {
  name:'Diamond Mesh 70x70 (2.5mm)',
  desc:'Wider 70x70mm aperture with 2.5mm wire — economical for boundary and farm fences.',
- rollPrice: 70, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ rollPrice: 55, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':55,'1.2':72,'1.5':90,'1.8':105,'2.0':110,'2.1':120,'2.4':135,'2.5':140,'3.0':190},
  keywords: [],
  bestHeight: 1.8
  },
  'diamond-mesh-70x70-3-15mm': {
  name:'Diamond Mesh 70x70 (3.15mm)',
  desc:'Wider 70x70mm aperture with heavy 3.15mm wire — strong yet economical.',
- rollPrice: 125, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ rollPrice: 124, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':124,'1.2':140,'1.5':180,'1.8':220,'2.0':250,'2.1':270,'2.4':300,'2.5':320,'3.0':400},
  keywords: [],
  bestHeight: 2.1
+ },
+ 'diamond-mesh-80x80-2mm': {
+ name:'Diamond Mesh 80x80 (2mm)',
+ desc:'Wide 80x80mm aperture with 2mm wire — the most economical diamond mesh option.',
+ rollPrice: 40, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':40,'1.2':45,'1.5':56,'1.8':70,'2.0':83,'2.1':88,'2.4':95,'2.5':100,'3.0':145},
+ keywords: [],
+ bestHeight: 1.8
  },
  'diamond-mesh-80x80-2-5mm': {
  name:'Diamond Mesh 80x80 (2.5mm)',
  desc:'Wide 80x80mm aperture with 2.5mm wire — the most economical diamond mesh option.',
- rollPrice: 62, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ rollPrice: 55, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':55,'1.2':65,'1.5':80,'1.8':93,'2.0':100,'2.1':105,'2.4':130,'2.5':130,'3.0':170},
  keywords: [],
  bestHeight: 1.8
  },
  'diamond-mesh-80x80-3-15mm': {
  name:'Diamond Mesh 80x80 (3.15mm)',
  desc:'Wide 80x80mm aperture with heavy 3.15mm wire — for large boundary fences.',
- rollPrice: 110, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ rollPrice: 100, rollMetres: 30, postPrice: 8, topWirePerM: 0.8, gatePrice: 180, installPerM: 3.5,
+ heights: {'1.0':100,'1.2':140,'1.5':160,'1.8':180,'2.0':210,'2.1':240,'2.4':260,'2.5':270,'3.0':350},
  keywords: [],
  bestHeight: 1.8
  },
@@ -733,10 +771,18 @@ function computeEstimate(text){
  const rolls = isBarbed
  ? Math.ceil(wireLen / product.rollMetres * 2) / 2
  : Math.ceil(wireLen / product.rollMetres);
- const rollCost = rolls * product.rollPrice;
+ // Diamond mesh rolls are priced per height — pick the nearest
+ // stocked height at or above the requested one.
+ let rollPrice = product.rollPrice;
+ if (product.heights){
+ const hk = Object.keys(product.heights).map(Number).sort((a, b) => a - b);
+ const chosen = hk.find(h => h >= height - 0.001) || hk[hk.length - 1];
+ if (chosen != null) rollPrice = product.heights[chosen.toFixed(1)];
+ }
+ const rollCost = rolls * rollPrice;
  items.push({
  name: product.name + (isBarbed ? ' — ' + strands + ' lines' : ' (' + height.toFixed(1) + 'm)'),
- qty: rolls + ' roll' + (rolls > 1 ? 's' : '') + (isBarbed ? ' (' + wireLen.toLocaleString() + 'm wire)' : ''),
+ qty: rolls + ' roll' + (rolls > 1 ? 's' : '') + ' @ $' + rollPrice + (isBarbed ? ' (' + wireLen.toLocaleString() + 'm wire)' : ''),
  cost: rollCost
  });
 

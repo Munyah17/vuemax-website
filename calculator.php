@@ -425,7 +425,7 @@ CSS;
    available — admin price edits then flow straight into quotes.
    The literals below mirror the seeded rates as the no-DB fallback. */
 $catalogJson = <<<'JSON'
-{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-2-5mm":{"name":"Diamond Mesh 70x70 (2.5mm)","roll":70,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-70x70-3-15mm":{"name":"Diamond Mesh 70x70 (3.15mm)","roll":125,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-2-5mm":{"name":"Diamond Mesh 80x80 (2.5mm)","roll":62,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"diamond-mesh-80x80-3-15mm":{"name":"Diamond Mesh 80x80 (3.15mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (50kg roll)","roll":75,"rollMetres":700,"topWirePerM":0.6,"gatePrice":160,"installPerM":1.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
+{"diamond-mesh":{"name":"Diamond Mesh 50x50 (2mm)","roll":65,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":65,"1.2":75,"1.5":90,"1.8":110,"2.0":130,"2.1":200,"2.4":220,"2.5":235,"3.0":270}},"diamond-mesh-50x50-2-5mm":{"name":"Diamond Mesh 50x50 (2.5mm)","roll":85,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":85,"1.2":105,"1.5":130,"1.8":150,"2.0":168,"2.1":225,"2.4":250,"2.5":265,"3.0":300}},"diamond-mesh-50x50-3-15mm":{"name":"Diamond Mesh 50x50 (3.15mm)","roll":150,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":150,"1.2":180,"1.5":230,"1.8":270,"2.0":300,"2.1":375,"2.4":420,"2.5":440,"3.0":505}},"diamond-mesh-30x30-2-5mm":{"name":"Diamond Mesh 30x30 (2.5mm)","roll":110,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":110,"1.2":133,"1.5":165,"1.8":185,"2.0":205,"2.1":223,"2.4":250,"2.5":270,"3.0":350}},"diamond-mesh-70x70-2mm":{"name":"Diamond Mesh 70x70 (2mm)","roll":60,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":60,"1.2":65,"1.5":70,"1.8":80,"2.0":90,"2.1":95,"2.4":110,"2.5":115,"3.0":135}},"diamond-mesh-70x70-2-5mm":{"name":"Diamond Mesh 70x70 (2.5mm)","roll":55,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":55,"1.2":72,"1.5":90,"1.8":105,"2.0":110,"2.1":120,"2.4":135,"2.5":140,"3.0":190}},"diamond-mesh-70x70-3-15mm":{"name":"Diamond Mesh 70x70 (3.15mm)","roll":124,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":124,"1.2":140,"1.5":180,"1.8":220,"2.0":250,"2.1":270,"2.4":300,"2.5":320,"3.0":400}},"diamond-mesh-80x80-2mm":{"name":"Diamond Mesh 80x80 (2mm)","roll":40,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":40,"1.2":45,"1.5":56,"1.8":70,"2.0":83,"2.1":88,"2.4":95,"2.5":100,"3.0":145}},"diamond-mesh-80x80-2-5mm":{"name":"Diamond Mesh 80x80 (2.5mm)","roll":55,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":55,"1.2":65,"1.5":80,"1.8":93,"2.0":100,"2.1":105,"2.4":130,"2.5":130,"3.0":170}},"diamond-mesh-80x80-3-15mm":{"name":"Diamond Mesh 80x80 (3.15mm)","roll":100,"rollMetres":30,"topWirePerM":0.8,"gatePrice":180,"installPerM":3.5,"concretePerPost":4,"heights":{"1.0":100,"1.2":140,"1.5":160,"1.8":180,"2.0":210,"2.1":240,"2.4":260,"2.5":270,"3.0":350}},"game-fence":{"name":"Game Fence","roll":280,"rollMetres":50,"topWirePerM":1.1,"gatePrice":220,"installPerM":4,"concretePerPost":5},"barbed-wire":{"name":"Barbed Wire (50kg roll)","roll":75,"rollMetres":700,"topWirePerM":0.6,"gatePrice":160,"installPerM":1.5,"concretePerPost":4},"chicken-mesh":{"name":"Chicken Mesh","roll":32,"rollMetres":30,"topWirePerM":0.5,"gatePrice":140,"installPerM":2,"concretePerPost":3},"field-fence":{"name":"Field Fence","roll":180,"rollMetres":50,"topWirePerM":0.9,"gatePrice":200,"installPerM":3,"concretePerPost":4},"razor-wire":{"name":"Razor Wire","roll":95,"rollMetres":50,"topWirePerM":1.4,"gatePrice":260,"installPerM":4.5,"concretePerPost":5}}
 JSON;
 $postSetsJson = <<<'JSON'
 [{"h":1.2,"len":1.8,"corner":16,"standard":8,"supporter":12},{"h":1.5,"len":2,"corner":13,"standard":9,"supporter":13},{"h":2.1,"len":2.6,"corner":26,"standard":16,"supporter":13},{"h":2.4,"len":3,"corner":33,"standard":18,"supporter":15},{"h":2.5,"len":3,"corner":33,"standard":18,"supporter":15},{"h":3,"len":3.6,"corner":40,"standard":20,"supporter":16}]
@@ -456,6 +456,20 @@ if ($pdo) {
  'concretePerPost' => $concrete[$r['slug']] ?? 4,
  ];
  }
+ // Per-height roll prices for diamond-mesh variants (product_specs "Height X m")
+ $hst = $pdo->query(
+ "SELECT p.slug, s.label, s.value
+ FROM product_specs s
+ JOIN products p ON p.id = s.product_id
+ WHERE s.label LIKE 'Height %'"
+ );
+ foreach ($hst as $r) {
+ if (isset($cat[$r['slug']])
+ && preg_match('/([\d.]+)/', $r['label'], $hm)
+ && preg_match('/([\d.,]+)/', $r['value'], $vm)) {
+ $cat[$r['slug']]['heights'][number_format((float) $hm[1], 1)] = (float) str_replace(',', '', $vm[1]);
+ }
+ }
  // Barbed-wire quotes use the standard 50kg roll (700m)
  if (isset($cat['barbed-wire-50kg'])) $cat['barbed-wire'] = $cat['barbed-wire-50kg'];
  if ($cat) $catalogJson = json_encode($cat, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -477,8 +491,8 @@ if ($pdo) {
 $meshVariants = [
  '50x50' => ['2' => 'diamond-mesh', '2.5' => 'diamond-mesh-50x50-2-5mm', '3.15' => 'diamond-mesh-50x50-3-15mm'],
  '30x30' => ['2.5' => 'diamond-mesh-30x30-2-5mm'],
- '70x70' => ['2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
- '80x80' => ['2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
+ '70x70' => ['2' => 'diamond-mesh-70x70-2mm', '2.5' => 'diamond-mesh-70x70-2-5mm', '3.15' => 'diamond-mesh-70x70-3-15mm'],
+ '80x80' => ['2' => 'diamond-mesh-80x80-2mm', '2.5' => 'diamond-mesh-80x80-2-5mm', '3.15' => 'diamond-mesh-80x80-3-15mm'],
 ];
 
 $extraJs = 'const CATALOG = ' . $catalogJson . ";\n"
@@ -572,10 +586,15 @@ function computeBOQ(){
  const rolls = isBarbed
  ? Math.ceil(wireLen / p.rollMetres * 2) / 2
  : Math.ceil(wireLen / p.rollMetres);
- const rollCost = rolls * p.roll;
+ // Diamond mesh rolls are priced per height — e.g. 50x50 2.5mm at
+ // 2.1m is $225/roll, not the $85 base (1.0m) price.
+ const rollPrice = (p.heights && p.heights[v.height.toFixed(1)] != null)
+ ? p.heights[v.height.toFixed(1)]
+ : p.roll;
+ const rollCost = rolls * rollPrice;
  items.push({
  name: p.name + (isBarbed ? ' — ' + v.lines + ' lines' : ' (' + v.height.toFixed(1) + 'm)'),
- qty: rolls + ' roll' + (rolls>1?'s':'') + (isBarbed ? ' (' + wireLen.toLocaleString() + 'm wire)' : ''),
+ qty: rolls + ' roll' + (rolls>1?'s':'') + ' @ $' + rollPrice + (isBarbed ? ' (' + wireLen.toLocaleString() + 'm wire)' : ''),
  price: rollCost
  });
 
