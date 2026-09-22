@@ -30,9 +30,18 @@ $extraCss = <<<'CSS'
  color:var(--white);padding:22px 26px;
  display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
 }
+.qr-brand{display:flex;align-items:center;gap:10px;}
+.qr-brand .logo-img{height:40px;width:auto;background:#fff;border-radius:8px;padding:4px 8px;}
+.qr-brand .logo-mark{
+ width:40px;height:40px;border-radius:8px;background:var(--amber);color:var(--navy);
+ display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;
+}
+.qr-brand-text strong{display:block;color:#fff;font-size:15px;letter-spacing:.08em;}
+.qr-brand-text span{font-size:10.5px;color:rgba(255,255,255,.6);letter-spacing:.04em;}
+.qr-head-right{text-align:right;}
 .qr-ref{font-size:13px;color:rgba(255,255,255,.75);}
 .qr-ref strong{display:block;font-size:19px;color:var(--amber);letter-spacing:.04em;font-family:'Playfair Display',serif;}
-.qr-date{font-size:12.5px;color:rgba(255,255,255,.65);text-align:right;}
+.qr-date{font-size:12.5px;color:rgba(255,255,255,.65);}
 .qr-body{padding:24px 26px;}
 .qr-meta{
  display:grid;grid-template-columns:1fr;gap:14px;
@@ -103,6 +112,9 @@ $extraJs = <<<'JS'
  var wrap = document.getElementById('qrWrap');
  if (!wrap) return;
 
+ var logoSrc = document.getElementById('qrLogoSrc');
+ var logoHtml = logoSrc ? logoSrc.innerHTML : '';
+
  if (!quote || !Array.isArray(quote.items) || !quote.items.length){
  wrap.innerHTML =
  '<div class="qr-empty">'
@@ -139,8 +151,11 @@ $extraJs = <<<'JS'
  wrap.innerHTML =
  '<div class="qr-card">'
  + '<div class="qr-card-head">'
+ + '<div class="qr-brand">' + logoHtml + '<div class="qr-brand-text"><strong>VUEMAX</strong><span>Fencing · Steel · Hardware</span></div></div>'
+ + '<div class="qr-head-right">'
  + '<div class="qr-ref">Quote Reference<strong id="qrRef">' + esc(quote.ref || 'VX-QUOTE') + '</strong></div>'
  + '<div class="qr-date">' + esc(created) + '</div>'
+ + '</div>'
  + '</div>'
  + '<div class="qr-body">'
  + '<div class="qr-meta">'
@@ -205,6 +220,8 @@ require __DIR__ . '/includes/header.php';
  <h1>Your Fencing Quote</h1>
  <p>Review your bill of quantities below. Save or print it, or send it to our team to confirm.</p>
  </div>
+
+ <div id="qrLogoSrc" hidden><?= logo_mark_html() ?></div>
 
  <div id="qrWrap">
  <div class="qr-empty">
