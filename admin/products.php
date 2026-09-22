@@ -44,7 +44,7 @@ admin_nav('products');
         <a href="product-edit.php?new=1" class="btn btn-sm btn-dark float-end"><i class="fas fa-plus"></i> New product</a></div>
     <div class="card-body">
         <table id="datatablesSimple" class="table table-striped table-sm">
-            <thead><tr><th>#</th><th>Product</th><th>Category</th><th>Subcategory</th><th>Unit</th><th class="text-end">Price (USD)</th><th>Status</th><th></th></tr></thead>
+            <thead><tr><th style="width:1%">#</th><th>Product</th><th>Category</th><th>Subcategory</th><th style="width:1%" class="text-nowrap">Unit</th><th class="text-end text-nowrap" style="width:1%">Price (USD)</th><th style="width:1%">Status</th><th style="width:1%"></th></tr></thead>
             <tbody>
             <?php foreach ($rows as $r): ?>
                 <tr class="<?= $r['is_active'] ? '' : 'table-secondary text-muted' ?>">
@@ -52,9 +52,9 @@ admin_nav('products');
                     <td><?= e($r['name']) ?><?= $r['is_featured'] ? ' <span class="badge bg-warning text-dark">featured</span>' : '' ?></td>
                     <td><?= e($r['cat']) ?></td>
                     <td><?= e($r['subcat']) ?></td>
-                    <td><?= e($r['unit']) ?></td>
-                    <td class="text-end"><?= $r['price_usd'] !== null ? usd($r['price_usd']) : '<em>on request</em>' ?></td>
-                    <td><?= $r['is_active'] ? '<span class="badge bg-success">active</span>' : '<span class="badge bg-secondary">hidden</span>' ?></td>
+                    <td class="text-nowrap"><?= e($r['unit']) ?></td>
+                    <td class="text-end text-nowrap"><?= $r['price_usd'] !== null ? usd($r['price_usd']) : '<em>on request</em>' ?></td>
+                    <td class="text-nowrap"><?= $r['is_active'] ? '<span class="badge bg-success">active</span>' : '<span class="badge bg-secondary">hidden</span>' ?></td>
                     <td class="text-nowrap">
                         <a class="btn btn-sm btn-outline-dark" href="product-edit.php?id=<?= (int)$r['id'] ?>" title="Edit"><i class="fas fa-edit"></i></a>
                         <form method="post" class="d-inline">

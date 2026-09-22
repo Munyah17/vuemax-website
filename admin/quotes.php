@@ -30,18 +30,23 @@ admin_nav('quotes');
             <p class="text-muted mb-0">No quotes saved yet.</p>
         <?php else: ?>
         <table id="datatablesSimple" class="table table-striped table-sm">
-            <thead><tr><th>Ref</th><th>Source</th><th>Customer</th><th>Phone</th><th>Fence</th><th class="text-end">Perim.</th><th class="text-end">Total</th><th>Date</th></tr></thead>
+            <thead><tr><th>Ref</th><th>Source</th><th>Customer</th><th>Fence</th><th class="text-end">Perim.</th><th class="text-end">Total</th><th>Status</th><th>Date</th><th></th></tr></thead>
             <tbody>
             <?php foreach ($rows as $q): ?>
                 <tr>
                     <td><code><?= e($q['ref']) ?></code></td>
                     <td><span class="badge bg-<?= $q['source'] === 'estimator' ? 'info' : 'secondary' ?>"><?= e($q['source']) ?></span></td>
-                    <td><?= e($q['customer_name'] ?: '—') ?></td>
-                    <td><?= e($q['customer_phone'] ?: '—') ?></td>
+                    <td>
+                        <?= e($q['customer_name'] ?: '—') ?>
+                        <?php if ($q['customer_phone']): ?><br><span class="small text-muted"><i class="fas fa-phone fa-xs me-1"></i><?= e($q['customer_phone']) ?></span><?php endif; ?>
+                        <?php if ($q['customer_email']): ?><br><span class="small text-muted"><i class="fas fa-envelope fa-xs me-1"></i><?= e($q['customer_email']) ?></span><?php endif; ?>
+                    </td>
                     <td><?= e($q['fence_type'] ?: '—') ?></td>
                     <td class="text-end"><?= $q['perimeter'] !== null ? (float)$q['perimeter'] . ' m' : '—' ?></td>
                     <td class="text-end"><?= $q['total_usd'] !== null ? usd($q['total_usd']) : '—' ?></td>
-                    <td><?= e(substr($q['created_at'], 0, 10)) ?></td>
+                    <td><span class="badge bg-<?= $statusBadge[$q['status']] ?? 'secondary' ?>"><?= e($q['status']) ?></span></td>
+                    <td class="small"><?= e(substr($q['created_at'], 0, 10)) ?></td>
+                    <td><a class="btn btn-sm btn-dark" href="quote-view.php?id=<?= (int)$q['id'] ?>">View</a></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

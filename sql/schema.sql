@@ -1080,3 +1080,23 @@ INSERT INTO `order_events` (`order_id`, `status`, `note`, `is_public`) VALUES
 
 SET FOREIGN_KEY_CHECKS = 1;
 
+
+-- ============================================================
+-- PAGE VIEWS  (visitor analytics — feeds /admin/module.php?m=analytics)
+-- ============================================================
+DROP TABLE IF EXISTS `page_views`;
+CREATE TABLE `page_views` (
+  `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path`         VARCHAR(255) NOT NULL,
+  `title`        VARCHAR(200) DEFAULT NULL,
+  `referrer`     VARCHAR(255) DEFAULT NULL,
+  `product_slug` VARCHAR(120) DEFAULT NULL,
+  `device`       VARCHAR(20)  NOT NULL DEFAULT 'desktop',
+  `visitor`      CHAR(64)     NOT NULL,
+  `user_agent`   VARCHAR(255) DEFAULT NULL,
+  `created_at`   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_pv_created` (`created_at`),
+  KEY `idx_pv_path` (`path`),
+  KEY `idx_pv_visitor` (`visitor`, `created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -77,6 +77,22 @@ $b = isset($base) ? $base : '';
 </footer>
 
 <script src="<?= $b ?>assets/js/main.js" defer></script>
+<script>
+/* Lightweight visitor analytics — fires a beacon to api/track.php.
+   No cookies, no IP stored server-side (daily-rotating hash). */
+(function(){
+ try{
+ if(!navigator.sendBeacon) return;
+ var d = new FormData();
+ d.append('path', location.pathname + location.search);
+ d.append('title', document.title || '');
+ d.append('ref', document.referrer || '');
+ var m = location.search.match(/[?&]slug=([^&]+)/);
+ if (m) d.append('slug', decodeURIComponent(m[1]));
+ navigator.sendBeacon('<?= $b ?>api/track.php', d);
+ }catch(e){}
+})();
+</script>
 <?php if (!empty($extraJs)): ?>
 <script>
 <?= $extraJs ?>

@@ -124,8 +124,6 @@ function admin_nav($active) {
                     <?= $group('grpCatalog', 'fas fa-boxes', 'Catalog', [
                         ['products.php', 'Products', 'products'],
                         [$mod('bom'), 'BOM / BOQ', 'mod-bom'],
-                        [$mod('requisitions'), 'Requisitions', 'mod-requisitions'],
-                        [$mod('purchases'), 'Purchases', 'mod-purchases'],
                     ]) ?>
 
                     <div class="sb-sidenav-menu-heading">People</div>
@@ -149,6 +147,8 @@ function admin_nav($active) {
                     <?= $group('grpFinance', 'fas fa-coins', 'Finance', [
                         [$mod('revenue'), 'Revenue', 'mod-revenue'],
                         [$mod('ledger'), 'Creditors &amp; Debtors', 'mod-ledger'],
+                        [$mod('requisitions'), 'Requisitions', 'mod-requisitions'],
+                        [$mod('purchases'), 'Purchases', 'mod-purchases'],
                         [$mod('reports'), 'Reports', 'mod-reports'],
                     ]) ?>
 
