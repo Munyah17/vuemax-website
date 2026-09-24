@@ -172,6 +172,29 @@ $extraJs = <<<'JS'
  + '</div>'
  + '</div>';
 
+/* ---- Wire 'Send to Vuemax' to WhatsApp with the quote prefilled ---- */
+var waBtn = document.getElementById('qrSendBtn');
+if (waBtn){
+ var waLines = [];
+ waLines.push('Hello Vuemax, I generated a quote on your website.');
+ waLines.push('');
+ waLines.push('Quote ref: ' + (quote.ref || 'VX-QUOTE'));
+ if (quote.customer && quote.customer.name) waLines.push('Name: ' + quote.customer.name);
+ if (quote.customer && quote.customer.contact) waLines.push('Contact: ' + quote.customer.contact);
+ if (projBits.length) waLines.push('Project: ' + projBits.join(', '));
+ waLines.push('');
+ quote.items.slice(0, 12).forEach(function(it){
+ var line = (it.total === null || it.total === undefined) ? 'POA' : money(it.total);
+ waLines.push('- ' + it.name + ' x' + it.qty + ' — ' + line);
+ });
+ if (quote.items.length > 12) waLines.push('... +' + (quote.items.length - 12) + ' more items');
+ waLines.push('');
+ waLines.push('Estimated total: ' + (anyPriced ? money(total) : 'POA'));
+ waBtn.href = 'https://wa.me/263784689857?text=' + encodeURIComponent(waLines.join('\n'));
+ waBtn.target = '_blank';
+ waBtn.rel = 'noopener';
+}
+
 /* ---------- Persist the quote to the back office (once per quote) ---------- */
 if (!quote.saved){
  var cust = quote.customer || {};
@@ -234,7 +257,7 @@ require __DIR__ . '/includes/header.php';
  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
  Print / Save PDF
  </button>
- <a href="contact.php" class="btn btn-amber">Send to Vuemax</a>
+ <a href="contact.php" class="btn btn-amber" id="qrSendBtn">Send to Vuemax</a>
  <a href="calculator.php" class="btn btn-outline-navy">New Quote</a>
  </div>
  </div>

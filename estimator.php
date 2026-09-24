@@ -354,6 +354,26 @@ $extraCss = <<<'CSS'
  .quick-chips{grid-template-columns:repeat(5,1fr);}
  .why-grid{grid-template-columns:1fr 1fr;gap:56px;}
 }
+
+/* ---------- CUSTOMER CAPTURE (before full quote) ---------- */
+.cust-capture{
+ border-top:1px dashed var(--border);padding-top:16px;margin-top:4px;
+}
+.cust-capture .cc-label{
+ font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ color:var(--muted);margin-bottom:10px;
+}
+.cust-capture input{
+ width:100%;padding:11px 13px;margin-bottom:10px;
+ border:1.5px solid var(--border);border-radius:var(--radius-input);
+ font-size:14px;color:var(--navy);background:var(--white);
+ transition:.15s;font-family:inherit;
+}
+.cust-capture input:focus{
+ outline:none;border-color:var(--navy);
+ box-shadow:0 0 0 3px rgba(14,39,69,.08);
+}
+.cust-capture input.cc-error{border-color:#DC2626;}
 CSS;
 
 /* Hydrate the fallback catalogue rates + post sets from the DB so
@@ -874,10 +894,28 @@ function getFullQuote(){
  promptEl.focus();
  return;
  }
+ const nameEl = document.getElementById('estCustName');
+ const contactEl = document.getElementById('estCustContact');
+ const name = nameEl.value.trim();
+ const contact = contactEl.value.trim();
+ nameEl.classList.toggle('cc-error', !name);
+ contactEl.classList.toggle('cc-error', !contact);
+ if (!name || !contact){
+ (!name ? nameEl : contactEl).focus();
+ return;
+ }
+ const isEmail = contact.indexOf('@') !== -1;
  const q = {
  ref: 'VX-AI-' + Math.floor(1000 + Math.random() * 8999),
  source: 'estimator',
  createdAt: new Date().toISOString(),
+ customer: {
+ name: name,
+ contact: contact,
+ phone: isEmail ? '' : contact,
+ email: isEmail ? contact : '',
+ notes: document.getElementById('estCustNotes').value.trim()
+ },
  project: {
  perimeter: currentEstimate.perimeter,
  corners: 4,
@@ -1075,6 +1113,14 @@ require __DIR__ . '/includes/header.php';
  </ol>
  </div>
 
+ </div>
+
+ <!-- Customer capture — required so the team can follow up -->
+ <div class="cust-capture" id="custCapture">
+ <div class="cc-label">Your details — so we can confirm this quote</div>
+ <input type="text" id="estCustName" placeholder="Your name" autocomplete="name">
+ <input type="text" id="estCustContact" placeholder="Phone or email" autocomplete="tel">
+ <input type="text" id="estCustNotes" placeholder="Notes (optional — location, timeframe...)">
  </div>
 
  <!-- Result CTAs -->

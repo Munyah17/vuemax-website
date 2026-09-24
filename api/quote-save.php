@@ -204,6 +204,43 @@ try {
  json_error('Failed to save quote.', 500, DEBUG ? ['detail' => $e->getMessage()] : []);
 }
 
+/* ---------- Notify sales team ----------
+ A quote only helps if someone sees it — email sales@ with the
+ full details. Failures are swallowed so the API still responds. */
+try {
+    $lines = [];
+    $lines[] = "New quote submitted on vuemax.co.zw";
+    $lines[] = "";
+    $lines[] = "Reference : {$ref}";
+    $lines[] = "Source    : {$source}";
+    $lines[] = "Customer  : " . ($cust_name ?: '—');
+    $lines[] = "Phone     : " . ($cust_phone ?: '—');
+    $lines[] = "Email     : " . ($cust_email ?: '—');
+    if ($cust_notes) $lines[] = "Notes     : {$cust_notes}";
+    $lines[] = "";
+    $lines[] = "Project   : " . ($fence_type ?: '—')
+             . ($perimeter > 0 ? " · {$perimeter}m perimeter" : '')
+             . ($height > 0 ? " · {$height}m high" : '');
+    $lines[] = "";
+    $lines[] = "Items:";
+    foreach ($items as $it) {
+        if (!is_array($it) || empty($it['name'])) continue;
+        $lines[] = " - {$it['name']} x" . ($it['qty'] ?? '?')
+                 . " — " . (isset($it['total']) ? '$' . number_format((float)$it['total'], 2) : 'POA');
+    }
+    $lines[] = "";
+    $lines[] = "Estimated total: $" . number_format($total_usd, 2);
+    $lines[] = "";
+    $lines[] = "View in admin: https://vuemax.co.zw/admin/quote-view.php?id={$quote_id}";
+
+    @mail(
+        'sales@vuemax.co.zw',
+        "New website quote {$ref} — " . ($cust_name ?: 'customer'),
+        implode("\r\n", $lines),
+        "From: Vuemax Website <noreply@vuemax.co.zw>\r\n"
+    );
+} catch (Throwable $e) { /* mail unavailable — quote is still in the DB */ }
+
 /* ---------- Optionally store token in a lightweight lookup table ----------
  For now we derive the token from quote id via a hash so we don't need
  an extra table. quote-get.php will accept either ?ref= or ?token=. */
