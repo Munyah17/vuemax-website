@@ -493,7 +493,20 @@ if ($options['install']) {
  }
 }
 
-/* Accessories (flat) */
+/* Accessories — high strain wire: 3x perimeter in length, sold
+   per kg (1kg = 30m) at $2/kg. e.g. 200m fence = 600m = 20kg = $40 */
+$strain_m  = $perimeter * 3;
+$strain_kg = (int) ceil($strain_m / 30);
+if ($strain_kg > 0) {
+ $items[] = [
+ 'name' => 'High Strain Wire',
+ 'spec' => '3x perimeter · galvanised',
+ 'qty' => $strain_kg . ' kg (' . number_format($strain_m) . 'm)',
+ 'unit' => 2.00,
+ 'total' => round($strain_kg * 2.0, 2),
+ ];
+}
+
 $items[] = [
  'name' => 'Binding Wire & Accessories',
  'spec' => 'Wire · clamps · tensioners',

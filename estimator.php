@@ -841,6 +841,17 @@ function computeEstimate(text){
  });
  }
 
+ /* High strain wire — 3x the perimeter, sold per kg (30m/kg) at $2/kg */
+ const strainM = perimeter * 3;
+ const strainKg = Math.ceil(strainM / 30);
+ if (strainKg > 0){
+ items.push({
+ name: 'High Strain Wire',
+ qty: strainKg + ' kg (' + strainM.toLocaleString() + 'm)',
+ cost: strainKg * 2
+ });
+ }
+
  items.push({
  name: 'Binding Wire & Accessories',
  qty: '1 lot',

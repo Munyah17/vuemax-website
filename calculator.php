@@ -627,6 +627,18 @@ function computeBOQ(){
  });
  }
 
+ // High strain wire — client rule: 3x the perimeter in length,
+ // sold per kg (1kg = 30m) at $2/kg. e.g. 200m fence = 600m = 20kg = $40
+ const strainM = v.perimeter * 3;
+ const strainKg = Math.ceil(strainM / 30);
+ if (strainKg > 0){
+ items.push({
+ name: 'High Strain Wire',
+ qty: strainKg + ' kg @ $2 (' + strainM.toLocaleString() + 'm)',
+ price: strainKg * 2
+ });
+ }
+
  // Top wire
  if (v.opts.topWire){
  const twCost = Math.round(v.perimeter * p.topWirePerM * 100) / 100;
