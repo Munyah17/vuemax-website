@@ -639,6 +639,29 @@ function computeBOQ(){
  });
  }
 
+ // Bolts & nuts — 2 per corner post @ $0.20 each
+ const bolts = v.corners * 2;
+ if (bolts > 0){
+ items.push({
+ name: 'Bolts & Nuts (corner posts)',
+ qty: bolts + ' pcs @ $0.20',
+ price: bolts * 0.20
+ });
+ }
+
+ // Tying wire — applies to all diamond meshes: 8kg per 100m
+ // of perimeter @ $2/kg. e.g. 200m fence = 16kg = $32
+ if (v.type === 'diamond-mesh'){
+ const tieKg = Math.ceil(v.perimeter * 8 / 100);
+ if (tieKg > 0){
+ items.push({
+ name: 'Tying Wire',
+ qty: tieKg + ' kg @ $2',
+ price: tieKg * 2
+ });
+ }
+ }
+
  // Top wire
  if (v.opts.topWire){
  const twCost = Math.round(v.perimeter * p.topWirePerM * 100) / 100;

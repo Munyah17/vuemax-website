@@ -852,6 +852,25 @@ function computeEstimate(text){
  });
  }
 
+ /* Bolts & nuts — 2 per corner post @ $0.20 each (4 corners) */
+ items.push({
+ name: 'Bolts & Nuts (corner posts)',
+ qty: '8 pcs',
+ cost: 8 * 0.20
+ });
+
+ /* Tying wire — all diamond meshes: 8kg per 100m @ $2/kg */
+ if (key.indexOf('diamond-mesh') === 0){
+ const tieKg = Math.ceil(perimeter * 8 / 100);
+ if (tieKg > 0){
+ items.push({
+ name: 'Tying Wire',
+ qty: tieKg + ' kg',
+ cost: tieKg * 2
+ });
+ }
+ }
+
  items.push({
  name: 'Binding Wire & Accessories',
  qty: '1 lot',

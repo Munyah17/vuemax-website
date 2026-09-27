@@ -507,6 +507,33 @@ if ($strain_kg > 0) {
  ];
 }
 
+/* Bolts & nuts — 2 per corner post @ $0.20 each */
+$bolts = $corners * 2;
+if ($bolts > 0) {
+ $items[] = [
+ 'name' => 'Bolts & Nuts (corner posts)',
+ 'spec' => 'M12 · galvanised',
+ 'qty' => $bolts . ' pcs',
+ 'unit' => 0.20,
+ 'total' => round($bolts * 0.20, 2),
+ ];
+}
+
+/* Tying wire — applies to all diamond meshes: 8kg per 100m of
+   perimeter @ $2/kg. e.g. 200m fence = 16kg = $32 */
+if (strpos($best_product['slug'], 'diamond-mesh') === 0) {
+ $tie_kg = (int) ceil($perimeter * 8 / 100);
+ if ($tie_kg > 0) {
+ $items[] = [
+ 'name' => 'Tying Wire',
+ 'spec' => '8kg per 100m · galvanised',
+ 'qty' => $tie_kg . ' kg',
+ 'unit' => 2.00,
+ 'total' => round($tie_kg * 2.0, 2),
+ ];
+ }
+}
+
 $items[] = [
  'name' => 'Binding Wire & Accessories',
  'spec' => 'Wire · clamps · tensioners',
