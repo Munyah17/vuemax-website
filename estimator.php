@@ -814,13 +814,16 @@ function computeEstimate(text){
  items.push({ name: `Corner Posts (${ps.len}m)`, qty: '4 pcs', cost: 4 * ps.corner });
  items.push({ name: `Supporter Posts (${ps.len}m)`, qty: supporters + ' pcs', cost: supporters * ps.supporter });
 
- // barbed wire is already barbed — no top-wire add-on
+ // barbed wire is already barbed — no top-wire add-on.
+ // Otherwise charged by weight off the barbed roll: 50kg ≈ 700m.
  if (opts.topWire && !isBarbed){
- const twCost = Math.round(perimeter * product.topWirePerM * 100) / 100;
+ const bw = CATALOG['barbed-wire'] || { rollPrice:75, rollMetres:700 };
+ const twRate = Math.round((bw.rollPrice / 50) * 100) / 100;
+ const twKg = Math.ceil(perimeter / (bw.rollMetres / 50));
  items.push({
- name: 'Top Wire (Razor/Barbed)',
- qty: perimeter + ' m',
- cost: twCost
+ name: 'Top Wire (barbed)',
+ qty: twKg + ' kg (' + perimeter + 'm)',
+ cost: Math.round(twKg * twRate * 100) / 100
  });
  }
 

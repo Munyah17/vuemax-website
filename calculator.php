@@ -415,6 +415,18 @@ $extraCss = <<<'CSS'
 .calc-pill.disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through;}
 .calc-pill.disabled:hover{border-color:var(--border);}
 .opt-card.disabled{opacity:.45;pointer-events:none;}
+.transport-km{
+ display:none;align-items:center;gap:10px;margin-top:4px;
+}
+.transport-km.show{display:flex;}
+.transport-km label{font-size:13px;font-weight:600;color:var(--navy);white-space:nowrap;}
+.transport-km input{
+ width:110px;padding:9px 12px;border:1.5px solid var(--border);
+ border-radius:var(--radius-input);font-size:14px;color:var(--navy);
+ font-family:inherit;transition:.15s;
+}
+.transport-km input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(14,39,69,.08);}
+.transport-km .hint{font-size:12px;color:var(--muted);}
 @media (min-width:720px){
  .mesh-opts.show{grid-template-columns:1fr 1fr;}
  .mesh-opts .mesh-note{grid-column:1/-1;}
@@ -564,7 +576,10 @@ function readInputs(){
  topWire: document.getElementById('optTopWire').checked && type !== 'barbed-wire',
  gate: document.getElementById('optGate').checked,
  install: document.getElementById('optInstall').checked,
- concrete: document.getElementById('optConcrete').checked
+ concrete: document.getElementById('optConcrete').checked,
+ transportKm: document.getElementById('optTransport').checked
+ ? Math.max(0, parseFloat(document.getElementById('transportKm').value || 0))
+ : 0
  };
 
  return { perimeter, corners, height, spacing, type, lines, opts };
@@ -662,13 +677,16 @@ function computeBOQ(){
  }
  }
 
- // Top wire
+ // Top wire — charged as barbed wire by weight: a 50kg roll covers
+ // ~700m → 14m per kg, at roll_price/50 per kg. 800m ≈ 58kg ≈ $87
  if (v.opts.topWire){
- const twCost = Math.round(v.perimeter * p.topWirePerM * 100) / 100;
+ const bw = CATALOG['barbed-wire'] || { roll:75, rollMetres:700 };
+ const twRate = Math.round((bw.roll / 50) * 100) / 100;
+ const twKg = Math.ceil(v.perimeter / (bw.rollMetres / 50));
  items.push({
  name: 'Top Wire (barbed)',
- qty: v.perimeter + ' m',
- price: twCost
+ qty: twKg + ' kg @ $' + twRate.toFixed(2) + ' (' + v.perimeter + 'm)',
+ price: Math.round(twKg * twRate * 100) / 100
  });
  }
 
@@ -694,6 +712,15 @@ function computeBOQ(){
  name:'Installation (labour)',
  qty: v.perimeter + ' m',
  price: insCost
+ });
+ }
+
+ // Delivery / transport — $2 per km
+ if (v.opts.transportKm > 0){
+ items.push({
+ name:'Delivery / Transport',
+ qty: v.opts.transportKm + ' km @ $2',
+ price: v.opts.transportKm * 2
  });
  }
 
@@ -732,7 +759,8 @@ function render(){
 
 /* --- Live listeners --- */
 ['perimeter','corners','height','spacing',
- 'optTopWire','optGate','optInstall','optConcrete'].forEach(id => {
+ 'optTopWire','optGate','optInstall','optConcrete',
+ 'optTransport','transportKm'].forEach(id => {
  const el = document.getElementById(id);
  if (el) el.addEventListener('input', render);
 });
@@ -817,6 +845,13 @@ document.querySelectorAll('.opt-card input').forEach(cb => {
  cb.addEventListener('change', () => {
  cb.closest('.opt-card').classList.toggle('selected', cb.checked);
  });
+});
+
+// Show the km field only when delivery is ticked
+document.getElementById('optTransport').addEventListener('change', function(){
+ const row = document.getElementById('transportKmRow');
+ row.classList.toggle('show', this.checked);
+ if (this.checked) document.getElementById('transportKm').focus();
 });
 
 /* --- AI Quick-Fill: parse free text into form fields (Groq, rules fallback) --- */
@@ -1290,6 +1325,23 @@ require __DIR__ . '/includes/header.php';
  <span>Cement footings for every post extra durability.</span>
  </div>
  </label>
+
+ <label class="opt-card">
+ <input type="checkbox" id="optTransport">
+ <span class="chk">
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+ </span>
+ <div>
+ <strong>Delivery / transport</strong>
+ <span>We deliver to your site — charged at $2 per km.</span>
+ </div>
+ </label>
+ </div>
+
+ <div class="transport-km" id="transportKmRow">
+ <label for="transportKm">Delivery distance</label>
+ <input type="number" id="transportKm" min="0" step="1" value="0" placeholder="e.g. 25">
+ <span class="hint">km &times; $2</span>
  </div>
 
  <div class="form-footer">

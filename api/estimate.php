@@ -436,17 +436,26 @@ if ($supporters > 0) {
  ];
 }
 
-/* Top wire */
+/* Top wire — charged as barbed wire by weight: a 50kg roll covers
+   ~700m → ~14m per kg, at roll_price/50 per kg. 800m ≈ 58kg ≈ $87 */
 if ($options['topWire']) {
- $tw_rate = (float) ($price_product['top_wire_rate'] ?? 0);
- $tw_total = round($perimeter * $tw_rate, 2);
- if ($tw_total > 0) {
+ $bw_price = 75.00;
+ $bw_m = 700;
+ foreach ($fencing_products as $fp) {
+ if ($fp['slug'] === 'barbed-wire-50kg' || $fp['slug'] === 'barbed-wire') {
+ if ((float) $fp['price_usd'] > 0) $bw_price = (float) $fp['price_usd'];
+ if ((float) $fp['roll_metres'] > 0) $bw_m = (float) $fp['roll_metres'];
+ }
+ }
+ $tw_rate = round($bw_price / 50, 2);
+ $tw_kg = (int) ceil($perimeter / ($bw_m / 50));
+ if ($tw_kg > 0) {
  $items[] = [
  'name' => 'Top Wire (barbed)',
- 'spec' => '3 strands · galvanised',
- 'qty' => $perimeter . ' m',
+ 'spec' => number_format($bw_m / 50, 0) . 'm per kg · galvanised',
+ 'qty' => $tw_kg . ' kg (' . number_format($perimeter) . 'm)',
  'unit' => $tw_rate,
- 'total' => $tw_total,
+ 'total' => round($tw_kg * $tw_rate, 2),
  ];
  }
 }

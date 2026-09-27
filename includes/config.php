@@ -58,7 +58,14 @@ function site_image($key, $fallback = '') {
  } catch (Throwable $e) { /* table missing use fallbacks */ }
  }
  }
- return $map[$key] ?? $fallback;
+ $img = $map[$key] ?? '';
+ // A DB path pointing to a local file that doesn't exist on this
+ // server renders blank — fall back to the bundled default instead.
+ if ($img !== '' && strpos($img, 'http') !== 0
+ && !is_file(__DIR__ . '/../' . ltrim($img, '/'))) {
+ $img = '';
+ }
+ return $img !== '' ? $img : $fallback;
 }
 
 /**
